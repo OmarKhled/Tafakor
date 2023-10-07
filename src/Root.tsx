@@ -1,43 +1,62 @@
 import {Composition} from 'remotion';
-import {HelloWorld, myCompSchema} from './HelloWorld';
-import {Logo, myCompSchema2} from './HelloWorld/Logo';
-
-// Each <Composition> is an entry in the sidebar!
+import {Quran} from './Quran';
+import {getVerse} from './fetchVerse';
+import {Videos, createClient} from 'pexels';
 
 export const RemotionRoot: React.FC = () => {
+	const FPS = 30;
 	return (
 		<>
 			<Composition
-				// You can take the "id" to render a video:
-				// npx remotion render src/index.ts <id> out/video.mp4
-				id="HelloWorld"
-				component={HelloWorld}
-				durationInFrames={150}
-				fps={30}
-				width={1920}
-				height={1080}
-				// You can override these props for each render:
-				// https://www.remotion.dev/docs/parametrized-rendering
-				schema={myCompSchema}
+				id="quran"
+				component={Quran}
+				durationInFrames={15 * FPS}
+				fps={FPS}
+				width={1000}
+				height={1000}
 				defaultProps={{
-					titleText: 'Welcome to Remotion',
-					titleColor: '#000000',
-					logoColor1: '#91EAE4',
-					logoColor2: '#86A8E7',
+					url: '',
+					from: 1,
+					to: 2,
+					videoUrl: '',
+					verse: '',
+					segments: [],
+					surahNumber: '',
 				}}
-			/>
-			{/* Mount any React component to make it show up in the sidebar and work on it individually! */}
-			<Composition
-				id="OnlyLogo"
-				component={Logo}
-				durationInFrames={150}
-				fps={30}
-				width={1920}
-				height={1080}
-				schema={myCompSchema2}
-				defaultProps={{
-					logoColor1: '#91dAE2' as const,
-					logoColor2: '#86A8E7' as const,
+				calculateMetadata={async () => {
+					const client = createClient(
+						'nvPRX0Fsxoq9YJyb4F6UaqA9BkQWYTraTFosgXnFpxSxLJ9BqjPtNrM6'
+					);
+					const query = 'trees';
+					const res = (await client.videos.search({
+						query,
+						per_page: 15,
+					})) as Videos;
+
+					console.log(res);
+
+					const videoUrl = res.videos[
+						Math.floor(Math.random() * 15)
+					].video_files.find((video) => video.quality === 'hd')?.link;
+
+					console.log('object1');
+					const verse = await getVerse();
+					console.log(verse);
+					console.log('object');
+					return {
+						durationInFrames: Math.ceil(verse.durationInMins * FPS * 60),
+						props: {
+							videoUrl: videoUrl
+								? videoUrl
+								: 'https://player.vimeo.com/external/337026530.hd.mp4?s=f3a7a73d796fc248234666202804de2e3d075c91&profile_id=172&oauth2_token_id=57447761',
+							url: verse.url,
+							from: verse.start,
+							to: verse.to,
+							verse: verse.verse,
+							segments: verse.segments,
+							surahNumber: ('00' + verse.surahNumber).slice(-3),
+						},
+					};
 				}}
 			/>
 		</>
