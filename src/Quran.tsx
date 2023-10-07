@@ -52,10 +52,6 @@ export const Quran: React.FC<z.infer<typeof myCompSchema>> = ({
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 
 	useEffect(() => {
-		// const currentSementIndex = segments.findIndex(
-		// 	(segment) => min < segment[2]
-		// );
-		// const currentSegment = segments[currentSementIndex];
 		const words = verse.split(' ');
 		const indexs = Array.from({length: words.length}, (_, i) => i + 1);
 
@@ -64,41 +60,20 @@ export const Quran: React.FC<z.infer<typeof myCompSchema>> = ({
 			() => indexs.splice(0, NUM_OF_WORDS)
 		);
 
-		// // console.log(wordsMap);
-		// const toBeIndex =
-		// 	Math.floor(
-		// 		segments.findIndex((segment) => min < segment[2]) / NUM_OF_WORDS
-		// 	) + 1;
-
-		// console.log(toBeIndex, wordsMap[toBeIndex], currentSegment);
-
-		// if (wordsMap[toBeIndex - 1]?.includes(currentSegment[0])) {
-		// 	setCurrentVerseIndex(toBeIndex);
-		// }
-
 		try {
 			const newSection =
 				wordsMap.findIndex((section) =>
-					section.includes(segments.find((segment) => min < segment[2])[0])
+					section.includes(
+						(segments.find((segment) => min < segment[2]) as number[])[0]
+					)
 				) + 1;
 			setCurrentVerseIndex(newSection > 0 ? newSection : 1);
 
-			// console.log(newSection);
-			// console.log(verse.split(' '));
 			console.log(
-				// verse.split(' ')[
-				// wordsMap.findIndex((section) =>
-				// section.includes(
-				// (
-				// 	segments[
-				segments.find((segment) => min < segment[2])[0] - 1
-				// ] as number[]
-				// )[0] - 1
-				// )
-				// )
-				// ],
-				// min,
-				// segments.findIndex((segment) => min < segment[2])
+				(segments.find((segment) => min < segment[2]) as number[])[0],
+				segments.find((segment) => min < segment[2]),
+				min,
+				null
 			);
 		} catch (error) {
 			console.log(error);
@@ -118,8 +93,9 @@ export const Quran: React.FC<z.infer<typeof myCompSchema>> = ({
 			{/* https://player.vimeo.com/external/291648067.hd.mp4?s=94998971682c6a3267e4cbd19d16a7b6c720f345&profile_id=175&oauth2_token_id=57447761#t=0.2,31.63 */}
 			<Video
 				src={
-					staticFile('1106060002.mp4')
-					// 'https://player.vimeo.com/external/291648067.hd.mp4?s=94998971682c6a3267e4cbd19d16a7b6c720f345&profile_id=175&oauth2_token_id=57447761#t=0.2,31.63'
+					// staticFile('output.webm')
+					'https://vod-progressive.akamaized.net/exp=1696727035~acl=%2Fvimeo-prod-skyfire-std-us%2F01%2F1439%2F14%2F357195613%2F1458022594.mp4~hmac=020512d1d053ca96b1c03a2c50320415f1c23a6240bbab8eba01b1544c188041/vimeo-prod-skyfire-std-us/01/1439/14/357195613/1458022594.mp4'
+					// videoUrl
 				}
 				// startFrom={6}
 				style={{scale: '2', width: '1000px', height: '1000px'}}

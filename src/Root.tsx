@@ -1,6 +1,6 @@
 import {Composition} from 'remotion';
 import {Quran} from './Quran';
-import {getVerse} from './fetchVerse';
+import {getVerse} from './fetchByVerseNumber';
 import {Videos, createClient} from 'pexels';
 
 export const RemotionRoot: React.FC = () => {
@@ -27,7 +27,9 @@ export const RemotionRoot: React.FC = () => {
 					const client = createClient(
 						'nvPRX0Fsxoq9YJyb4F6UaqA9BkQWYTraTFosgXnFpxSxLJ9BqjPtNrM6'
 					);
-					const query = 'trees';
+
+					const query = 'rain';
+
 					const res = (await client.videos.search({
 						query,
 						per_page: 15,

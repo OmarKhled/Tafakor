@@ -9,8 +9,8 @@ const getVerse = async () => {
 
 	console.log(res);
 	// const postIndex = Math.ceil(Math.random() * res.posts.length);
-	// const postIndex = 16; // Ghafer
-	const postIndex = 8;
+	const postIndex = 16; // Ghafer
+	// const postIndex = 8;
 
 	const post = res.posts[postIndex];
 
@@ -38,7 +38,7 @@ const getVerse = async () => {
 				(segment[1] - verse.segments[0][1]) / 1000 / 60 + lastVerseTiming,
 				(segment[2] - verse.segments[0][1]) / 1000 / 60 + lastVerseTiming,
 			]);
-			lastVerseTiming = segments[segments.length - 1][1];
+			lastVerseTiming = segments[segments.length - 1][2];
 			lastVerseIndex = segments[segments.length - 1][0];
 			return {
 				timestamp_from: verse.timestamp_from,
