@@ -52,10 +52,10 @@ export const Quran: React.FC<z.infer<typeof myCompSchema>> = ({
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 
 	useEffect(() => {
-		const currentSementIndex = segments.findIndex(
-			(segment) => min < segment[2]
-		);
-		const currentSegment = segments[currentSementIndex];
+		// const currentSementIndex = segments.findIndex(
+		// 	(segment) => min < segment[2]
+		// );
+		// const currentSegment = segments[currentSementIndex];
 		const words = verse.split(' ');
 		const indexs = Array.from({length: words.length}, (_, i) => i + 1);
 
@@ -64,21 +64,45 @@ export const Quran: React.FC<z.infer<typeof myCompSchema>> = ({
 			() => indexs.splice(0, NUM_OF_WORDS)
 		);
 
-		// console.log(wordsMap);
-		const toBeIndex =
-			Math.floor(
-				segments.findIndex((segment) => min < segment[2]) / NUM_OF_WORDS
-			) + 1;
+		// // console.log(wordsMap);
+		// const toBeIndex =
+		// 	Math.floor(
+		// 		segments.findIndex((segment) => min < segment[2]) / NUM_OF_WORDS
+		// 	) + 1;
 
-		console.log(toBeIndex, wordsMap[toBeIndex], currentSegment);
+		// console.log(toBeIndex, wordsMap[toBeIndex], currentSegment);
 
-		if (wordsMap[toBeIndex - 1]?.includes(currentSegment[0])) {
-			setCurrentVerseIndex(toBeIndex);
+		// if (wordsMap[toBeIndex - 1]?.includes(currentSegment[0])) {
+		// 	setCurrentVerseIndex(toBeIndex);
+		// }
+
+		try {
+			const newSection =
+				wordsMap.findIndex((section) =>
+					section.includes(segments.find((segment) => min < segment[2])[0])
+				) + 1;
+			setCurrentVerseIndex(newSection > 0 ? newSection : 1);
+
+			// console.log(newSection);
+			// console.log(verse.split(' '));
+			console.log(
+				// verse.split(' ')[
+				// wordsMap.findIndex((section) =>
+				// section.includes(
+				// (
+				// 	segments[
+				segments.find((segment) => min < segment[2])[0] - 1
+				// ] as number[]
+				// )[0] - 1
+				// )
+				// )
+				// ],
+				// min,
+				// segments.findIndex((segment) => min < segment[2])
+			);
+		} catch (error) {
+			console.log(error);
 		}
-
-		// console.log(
-		// 	verse.split(' ')[segments.findIndex((segment) => min < segment[2])]
-		// );
 	}, [min]);
 
 	useEffect(() => {
@@ -90,11 +114,14 @@ export const Quran: React.FC<z.infer<typeof myCompSchema>> = ({
 			{/* https://player.vimeo.com/external/326025148.hd.mp4?s=dad6e981b07b5ebfdd5a347a72b0091daabda03c&profile_id=172&oauth2_token_id=57447761#t=0.2,52.83 */}
 
 			{/*https://player.vimeo.com/external/291047369.hd.mp4?s=f4a88b605b1c7124338c0599467bc702ca2c4c38&profile_id=170&oauth2_token_id=57447761#t=0.2,23.83  */}
+
+			{/* https://player.vimeo.com/external/291648067.hd.mp4?s=94998971682c6a3267e4cbd19d16a7b6c720f345&profile_id=175&oauth2_token_id=57447761#t=0.2,31.63 */}
 			<Video
 				src={
-					'https://player.vimeo.com/external/291047369.hd.mp4?s=f4a88b605b1c7124338c0599467bc702ca2c4c38&profile_id=170&oauth2_token_id=57447761#t=0.2,23.83'
+					staticFile('1106060002.mp4')
+					// 'https://player.vimeo.com/external/291648067.hd.mp4?s=94998971682c6a3267e4cbd19d16a7b6c720f345&profile_id=175&oauth2_token_id=57447761#t=0.2,31.63'
 				}
-				startFrom={6}
+				// startFrom={6}
 				style={{scale: '2', width: '1000px', height: '1000px'}}
 				loop
 			></Video>
@@ -169,7 +196,7 @@ export const Quran: React.FC<z.infer<typeof myCompSchema>> = ({
 						margin: 0,
 					}}
 				>
-					{'القارئ: خليفة الطنيجى'}
+					{'القارئ: مشارى راشد العفاسي'}
 				</p>
 			</AbsoluteFill>
 

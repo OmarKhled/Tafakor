@@ -37,7 +37,7 @@ export const RemotionRoot: React.FC = () => {
 
 					const videoUrl = res.videos[
 						Math.floor(Math.random() * 15)
-					].video_files.find((video) => video.quality === 'hd')?.link;
+					].video_files.find((video) => video.quality === 'sd')?.link;
 
 					console.log('object1');
 					const verse = await getVerse();

@@ -10,7 +10,7 @@ const getVerse = async () => {
 	console.log(res);
 	// const postIndex = Math.ceil(Math.random() * res.posts.length);
 	// const postIndex = 16; // Ghafer
-	const postIndex = 2;
+	const postIndex = 8;
 
 	const post = res.posts[postIndex];
 
@@ -18,7 +18,7 @@ const getVerse = async () => {
 
 	const audioRes = await (
 		await fetch(
-			`https://api.qurancdn.com/api/qdc/audio/reciters/161/audio_files?chapter=${post.filters[0].surah_number}&segments=true`,
+			`https://api.qurancdn.com/api/qdc/audio/reciters/7/audio_files?chapter=${post.filters[0].surah_number}&segments=true`,
 			{method: 'GET'}
 		)
 	).json();
