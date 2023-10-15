@@ -1,0 +1,40 @@
+.wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding-top: 2rem;
+}
+
+.start {
+	justify-content: flex-start;
+}
+
+.end {
+	justify-content: flex-end;
+	padding-bottom: 2rem;
+}
+
+.center {
+	align-items: center;
+	justify-content: center;
+}
+
+.sura-name {
+	font-family: 'sura';
+	color: #fff;
+	font-size: 60px;
+	margin: 0;
+}
+
+.rectier {
+	font-family: "Amiri";
+	color: #fff;
+	font-size: 24px;
+	margin: 0;
+}
+
+.ayah {
+	color: #fff;
+	font-size: 52px;
+	margin-top: 7rem
+}
