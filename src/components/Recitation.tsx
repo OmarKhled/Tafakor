@@ -54,7 +54,7 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 
 	useEffect(() => {
-		// console.log({url, to, from, segments, verse});
+		console.log({url, to, from, segments, verse});
 	}, []);
 
 	return (
