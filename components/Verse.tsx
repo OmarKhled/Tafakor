@@ -39,13 +39,6 @@ const Verse = ({
 					)
 				) + 1;
 			setCurrentVerseIndex(newSection > 0 ? newSection : 1);
-
-			// console.log(
-			// 	(segments.find((segment) => min < segment[2]) as number[])[0],
-			// 	segments.find((segment) => min < segment[2]),
-			// 	min,
-			// 	null
-			// );
 		} catch (error) {
 			console.log(error);
 		}

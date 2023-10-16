@@ -30,7 +30,7 @@ suraName
 	})
 	.catch((err) => console.log('Error loading font', err));
 
-export const quranSchema = z.object({
+const quranSchema = z.object({
 	from: z.number(),
 	to: z.number(),
 	url: z.string(),
@@ -53,6 +53,30 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 	const min = frame / 30 / 60;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 
+	const NUM_OF_WORDS = 7;
+
+	useEffect(() => {
+		const words = verse.split(' ');
+		const indexs = Array.from({length: words.length}, (_, i) => i + 1);
+
+		const wordsMap = Array.from(
+			{length: Math.ceil(words.length / NUM_OF_WORDS)},
+			() => indexs.splice(0, NUM_OF_WORDS)
+		);
+
+		try {
+			const newSection =
+				wordsMap.findIndex((section) =>
+					section.includes(
+						(segments.find((segment) => min < segment[2]) as number[])[0]
+					)
+				) + 1;
+			setCurrentVerseIndex(newSection > 0 ? newSection : 1);
+		} catch (error) {
+			console.log(error);
+		}
+	}, [min]);
+
 	useEffect(() => {
 		console.log({url, to, from, segments, verse});
 	}, []);
@@ -61,9 +85,8 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 		<AbsoluteFill style={{backgroundColor: 'white'}}>
 			<Video
 				src={
-					// staticFile('123.mp4')
-					// 'https://player.vimeo.com/external/221214113.sd.mp4?s=2519b65070b6e2ea98b219a6c0fbd9d6e53a7242&profile_id=165&oauth2_token_id=57447761#t=0,19.2'
-					videoUrl
+					'https://player.vimeo.com/external/221214113.sd.mp4?s=2519b65070b6e2ea98b219a6c0fbd9d6e53a7242&profile_id=165&oauth2_token_id=57447761#t=0,19.2'
+					// videoUrl
 				}
 				style={{scale: '2', width: '1000px', height: '1000px'}}
 				loop
@@ -84,15 +107,27 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 				<p className="sura-name">{surahNumber}</p>
 			</AbsoluteFill>
 
-			<Verse
-				min={min}
-				currentVerseIndex={currentVerseIndex}
-				setCurrentVerseIndex={setCurrentVerseIndex}
-				font={Amiri}
-				frame={frame}
-				verse={verse}
-				segments={segments}
-			/>
+			<AbsoluteFill
+				className="wrapper center"
+				style={{
+					opacity: Math.min(1, frame / 50),
+				}}
+			>
+				<h1
+					className="ayah"
+					style={{
+						fontFamily: Amiri,
+					}}
+				>
+					{verse
+						.split(' ')
+						.slice(
+							(currentVerseIndex - 1) * NUM_OF_WORDS,
+							(currentVerseIndex - 1) * NUM_OF_WORDS + NUM_OF_WORDS
+						)
+						.join(' ')}
+				</h1>
+			</AbsoluteFill>
 
 			<AbsoluteFill
 				className="wrapper end"

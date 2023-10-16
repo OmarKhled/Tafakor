@@ -38,3 +38,12 @@
 	font-size: 52px;
 	margin-top: 7rem
 }
+.strips {
+	background: repeating-linear-gradient(
+		45deg,
+		#606dbc,
+		#606dbc 10px,
+		#465298 10px,
+		#465298 20px
+	);
+}
