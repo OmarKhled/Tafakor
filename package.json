@@ -8,15 +8,18 @@
     "upgrade": "remotion upgrade",
     "test": "eslint src --ext ts,tsx,js,jsx && tsc"
   },
+  "type": "module",
   "repository": {},
   "license": "UNLICENSED",
   "dependencies": {
-    "@remotion/cli": "4.0.48",
-    "@remotion/zod-types": "4.0.48",
+    "@remotion/bundler": "^4.0.51",
+    "@remotion/cli": "4.0.51",
+    "@remotion/zod-types": "4.0.51",
     "pexels": "^1.4.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "remotion": "4.0.48",
+    "uuid": "^9.0.1",
     "zod": "^3.21.4"
   },
   "devDependencies": {

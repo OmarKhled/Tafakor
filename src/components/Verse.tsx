@@ -20,7 +20,7 @@ const Verse = ({
 	currentVerseIndex,
 	font,
 }: props) => {
-	const NUM_OF_WORDS = 7;
+	const NUM_OF_WORDS = 5;
 
 	useEffect(() => {
 		const words = verse.split(' ');

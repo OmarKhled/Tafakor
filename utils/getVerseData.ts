@@ -1,11 +1,5 @@
-const getVerse = async (surah_number: number, ayat: number[]) => {
-	// const surah_number = Math.ceil(Math.random() * 114);
-	// const surah_number = 2;
-	// const ayat = [249];
-
+const getVerseData = async (surah_number: number, ayat: number[]) => {
 	const reciterId = 7;
-
-	// https://api.qurancdn.com/api/qdc/audio/reciters/161/audio_files?chapter=2&segments=true
 
 	const audioRes = await (
 		await fetch(
@@ -14,17 +8,13 @@ const getVerse = async (surah_number: number, ayat: number[]) => {
 		)
 	).json();
 
-	// console.log(audioRes);
-
 	const url = audioRes.audio_files[0].audio_url;
-	// console.log('URL: ' + url);
 	let lastVerseTiming = 0;
 	let lastVerseIndex = 0;
 
 	const verseDetails = audioRes.audio_files[0].verse_timings
 		.slice(ayat[0] - 1, ayat[ayat.length - 1])
 		.map((verse: any, index: number) => {
-			// console.log({verseSegments: verse.segments});
 			const segments = verse.segments
 				.filter((segment: any) => segment.length === 3)
 				.map((segment: number[]) => [
@@ -33,10 +23,8 @@ const getVerse = async (surah_number: number, ayat: number[]) => {
 					(segment[2] - verse.segments[0][1]) / 1000 / 60 + lastVerseTiming,
 				]);
 
-			// console.log({segments});
 			lastVerseTiming = segments[segments.length - 1][2];
 			lastVerseIndex = segments[segments.length - 1][0];
-			// console.log({lastVerseTiming, lastVerseIndex});
 			return {
 				timestamp_from: verse.timestamp_from,
 				timestamp_to: verse.timestamp_to,
@@ -44,16 +32,6 @@ const getVerse = async (surah_number: number, ayat: number[]) => {
 				segments,
 			};
 		});
-
-	verseDetails.forEach((verse: any) => {
-		// console.log(
-		// 	`Verse ${verse.verseIndex}: starts from ${
-		// 		verse.timestamp_from / 1000 / 60
-		// 	} and ends at ${verse.timestamp_to / 1000 / 60} `
-		// );
-	});
-
-	// console.log(verseDetails.length);
 
 	return {
 		url: url,
@@ -81,11 +59,9 @@ const getVerse = async (surah_number: number, ayat: number[]) => {
 			.map((text: any) => text.split(' '))
 			.flat()
 			.join(' '),
-
-		// verse: post.citation_texts[Object.keys(post.citation_texts)[0]][0].text,
 		surahNumber: surah_number,
 		segments: verseDetails.map((verse: any) => verse.segments).flat(),
 	};
 };
 
-export {getVerse};
+export {getVerseData};

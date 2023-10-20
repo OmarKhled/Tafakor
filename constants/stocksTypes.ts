@@ -1,1 +1,1 @@
-export default ['highway', 'nature', 'trees', 'space', 'rain', 'thunder'];
+export default ['nature', 'trees', 'rain', 'thunder'];
