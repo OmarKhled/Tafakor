@@ -126,6 +126,7 @@ const getVideo = async (query: string, duration: number) => {
 			outputLocation: `out/${compositionId}-${ID}.mp4`,
 			inputProps,
 			timeoutInMilliseconds: 300000,
+			logLevel: 'verbose',
 		});
 
 		console.log('Video Rendering Done');
