@@ -1,15 +1,6 @@
-name: Render video
+name: Render Video
 on:
-  workflow_dispatch:
-    inputs:
-      titleText:
-        description: "Which text should it say?"
-        required: true
-        default: "Welcome to Remotion"
-      titleColor:
-        description: "Which color should it be in?"
-        required: true
-        default: "black"
+  workflow_dispatch
 jobs:
   render:
     name: Render video
@@ -17,14 +8,19 @@ jobs:
     steps:
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
-      - run: sudo apt update
-      - run: sudo apt install ffmpeg
-      - run: npm i
-      - run: echo $WORKFLOW_INPUT > input-props.json
-        env:
-          WORKFLOW_INPUT: ${{ toJson(github.event.inputs) }}
-      - run: npm run build -- --props="./input-props.json"
-      - uses: actions/upload-artifact@v2
+      - uses: oven-sh/setup-bun@v1
         with:
-          name: out.mp4
-          path: out/video.mp4
+          bun-version: latest
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - run: bun i
+      - run: pip install g4f
+      - run: touch .env
+          echo TAFAKOR_ID=${{ secrets.TAFAKOR_ID }} >> .env 
+          echo USER_ID=${{ secrets.USER_ID }} >> .env 
+          echo USER_ACCESS_TOKEN=${{ secrets.USER_ACCESS_TOKEN }} >> .env
+          echo PEXELS_KEY=${{ secrets.PEXELS_KEY }} >> .env
+      
+      - run: bun render.ts

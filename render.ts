@@ -10,7 +10,15 @@ import {getVerse} from './utils/getVerse.js';
 const USER_ACCESS_TOKEN = process.env.USER_ACCESS_TOKEN;
 const TAFAKOR_ID = process.env.TAFAKOR_ID;
 const USER_ID = process.env.USER_ID;
+
 const PEXELS_KEY = process.env.PEXELS_KEY as string;
+
+console.log({
+	USER_ACCESS_TOKEN,
+	TAFAKOR_ID,
+	USER_ID,
+	PEXELS_KEY,
+});
 
 /**
  *
