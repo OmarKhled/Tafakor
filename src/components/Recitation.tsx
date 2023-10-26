@@ -31,7 +31,7 @@ suraName
 	})
 	.catch((err) => console.log('Error loading font', err));
 
-const quranSchema = z.object({
+const schema = z.object({
 	from: z.number(),
 	to: z.number(),
 	url: z.string(),
@@ -41,9 +41,10 @@ const quranSchema = z.object({
 	surahNumber: z.string(),
 	active: z.boolean(),
 	footageType: z.union([z.literal('video'), z.literal('image')]).optional(),
+	reciter: z.string(),
 });
 
-export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
+export const Recitation: React.FC<z.infer<typeof schema>> = ({
 	from,
 	to,
 	url,
@@ -53,6 +54,7 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 	surahNumber,
 	active,
 	footageType = 'video',
+	reciter,
 }) => {
 	const frame = useCurrentFrame();
 	const min = frame / 30 / 60;
@@ -68,10 +70,7 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 				{footageType == 'video' ? (
 					<>
 						<Video
-							src={
-								// 'https://player.vimeo.com/external/221214113.sd.mp4?s=2519b65070b6e2ea98b219a6c0fbd9d6e53a7242&profile_id=165&oauth2_token_id=57447761#t=0,19.2'
-								footageUrl
-							}
+							src={footageUrl}
 							style={{scale: '2', width: '1000px', height: '1000px'}}
 							loop
 							muted
@@ -81,10 +80,7 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 					footageType == 'image' && (
 						<>
 							<Img
-								src={
-									// 'https://player.vimeo.com/external/221214113.sd.mp4?s=2519b65070b6e2ea98b219a6c0fbd9d6e53a7242&profile_id=165&oauth2_token_id=57447761#t=0,19.2'
-									footageUrl
-								}
+								src={footageUrl}
 								style={{
 									scale: '1',
 									width: '1000px',
@@ -96,14 +92,14 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 					)
 				)}
 
+				{/* Darken Backdrop */}
 				<AbsoluteFill
 					style={{
-						// backgroundColor: '#000',
-						// opacity: 0.4,
 						backdropFilter: 'blur(4px) brightness(60%)',
 					}}
 				></AbsoluteFill>
 
+				{/* Surah Name */}
 				<AbsoluteFill
 					className="wrapper start"
 					style={{
@@ -114,6 +110,7 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 					<p className="sura-name">{surahNumber}</p>
 				</AbsoluteFill>
 
+				{/* Verse(s) text */}
 				<Verse
 					min={min}
 					frame={frame}
@@ -124,6 +121,7 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 					font={Amiri}
 				/>
 
+				{/* Reciter Name */}
 				<AbsoluteFill
 					className="wrapper end"
 					style={{
@@ -141,10 +139,11 @@ export const Recitation: React.FC<z.infer<typeof quranSchema>> = ({
 						}}
 					>
 						<Img src={staticFile('logo.png')} style={{height: '50px'}} />
-						<p className="rectier">{'القارئ: مشارى راشد العفاسي'}</p>
-					</div>{' '}
+						<p className="rectier">{`القارئ: ${reciter}`}</p>
+					</div>
 				</AbsoluteFill>
 
+				{/* Recitation Audio */}
 				<Audio
 					src={url}
 					startFrom={30 * 60 * from}

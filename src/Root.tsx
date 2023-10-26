@@ -1,10 +1,12 @@
 import {Composition} from 'remotion';
 
-import {getVerseData} from '../utils/getVerseData';
+import {getVerseData} from '../utils/getVerse';
 import {getVerse} from '../utils/getVerse';
 
 import './styles/styles.css';
-import Quran, {schema} from './components/Quran';
+import RecitationComposition, {
+	schema,
+} from './components/RecitationComposition';
 
 export const RemotionRoot: React.FC = () => {
 	const FPS = 30;
@@ -14,7 +16,7 @@ export const RemotionRoot: React.FC = () => {
 		<>
 			<Composition
 				id="quran"
-				component={Quran}
+				component={RecitationComposition}
 				fps={FPS}
 				width={SIZE}
 				height={SIZE}

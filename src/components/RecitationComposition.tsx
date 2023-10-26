@@ -1,10 +1,14 @@
-import {createClient, Videos} from 'pexels';
+import {z} from 'zod';
 import {useEffect, useState} from 'react';
 import {continueRender, delayRender} from 'remotion';
-import {z} from 'zod';
+
+import {createClient, Videos} from 'pexels';
+
+import {getVerseData} from '../../utils/getVerse';
+
 import recitationDefaultProps from '../../constants/recitationDefaultProps';
-import stocksTypes from '../../constants/stocksTypes';
-import {getVerseData} from '../../utils/getVerseData';
+import themes from '../../constants/themes';
+
 import {Recitation} from './Recitation';
 
 export const schema = z.object({
@@ -15,29 +19,24 @@ export const schema = z.object({
 	footageType: z.union([z.literal('video'), z.literal('image')]),
 });
 
-const Quran: React.FC<z.infer<typeof schema>> = ({
+const Composition: React.FC<z.infer<typeof schema>> = ({
 	surah,
 	ayat,
 	footage = null,
-	random,
 	footageType,
 }) => {
 	const [handle] = useState(() => delayRender());
-
 	const [props, setProps] = useState(recitationDefaultProps);
 
 	useEffect(() => {
 		(async () => {
-			console.log({surah, ayat});
-			const types = stocksTypes;
-			const query = types[Math.floor(Math.random() * types.length)];
-			// const query = 'alpine';
+			const query = themes[Math.floor(Math.random() * themes.length)];
 
 			const res = (await createClient(
 				'nvPRX0Fsxoq9YJyb4F6UaqA9BkQWYTraTFosgXnFpxSxLJ9BqjPtNrM6'
 			).videos.search({
 				query,
-				per_page: 30,
+				per_page: 80,
 			})) as Videos;
 
 			const footageUrl = res.videos[
@@ -45,10 +44,6 @@ const Quran: React.FC<z.infer<typeof schema>> = ({
 			].video_files.find((video) => video.quality === 'hd')?.link;
 
 			const verse = await getVerseData(surah, ayat);
-
-			console.log(verse);
-
-			console.log('video', footage);
 
 			setProps({
 				footageUrl:
@@ -63,6 +58,7 @@ const Quran: React.FC<z.infer<typeof schema>> = ({
 				surahNumber: ('00' + verse.surahNumber).slice(-3),
 				active: true,
 				footageType: footageType as 'video' | 'image',
+				reciter: verse.reciter,
 			});
 			return 0;
 		})()
@@ -81,4 +77,4 @@ const Quran: React.FC<z.infer<typeof schema>> = ({
 	);
 };
 
-export default Quran;
+export default Composition;

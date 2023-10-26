@@ -1,26 +1,39 @@
 import g4f
+import sys
+import time
+import random
 
-aya = "و لهم عذاب جهنم و بئس المصير"
+# Verse passed through args
+verses = sys.argv[1]
+
+themes = ["nature", "trees", "forest", "thunder", 'mountains', "rain", "sunrise", "waves", "cliff"]
 
 prompt = f"""
-For the follwing verse from the holy quran, analize the context of the verse. The verse would be played in a video and a suitable background video should be chosen. Based on the context of the verse must return only one topic of the following: nature, trees, forest, rain, thunder, mountains, undersee.
+Please analyze the context of the provided verse from the Holy Quran. Imagine this verse being played in a video, and your task is to select a single word that best represents the prevailing emotion or theme from the following list: {', '.join(themes)}. 
 
-ex: وَذَا النُّونِ إِذ ذَّهَبَ مُغَاضِبًا فَظَنَّ أَن لَّن نَّقْدِرَ عَلَيْهِ فَنَادَىٰ فِي الظُّلُمَاتِ أَن لَّا إِلَٰهَ إِلَّا أَنتَ سُبْحَانَكَ إِنِّي كُنتُ مِنَ الظَّالِمِينَ فَاسْتَجَبْنَا لَهُ وَنَجَّيْنَاهُ مِنَ الْغَمِّ ۚ وَكَذَٰلِكَ نُنجِي الْمُؤْمِنِينَ 
-this verse talks about the story of God's Rasul, Younis, in the whale, therefore a suitable topic for the verse can be undersee whale
+The verse: {verses}
 
-the verse: {aya}
-ONLY RETURN SINGLE WORD REPRESENTING THE TOPIC NAME FROM THE ABOVE MENTIONED TOPICS ONLY AND NOTHING ELSE. DON'T RETURN ANY DESCRIPTION
+YOUR RESPONSE SHOULD BE THAT ONE WORD ONLY, WITHOUT ANY ADDITIONAL DESCRIPTION OR EXPLANATION.
 """
 
-emotions = ["nature", "trees", "forest", "rain", "thunder", 'mountains', "undersee"]
 response = ''
-while response.lower() not in emotions:
+# set to timeout loop after 30 seconds
+timeout = time.time() + 30
+
+while response.lower() not in themes:
+  if (time.time() > timeout):
+    print("Breaking loop and choosing theme randomly due to timeout");
+    response = themes[random.randint(0, len(themes) - 1)];
+    break;
   try:
       response = g4f.ChatCompletion.create(
           model="gpt-3.5-turbo",
           messages=[{"role": "user", "content": prompt}],
           stream=False,
+          timeout=20
       )
       print(response)
   except:
       pass
+
+print("Topic: " + response)
