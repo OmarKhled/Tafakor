@@ -1,5 +1,5 @@
 type Verse = {
-	id: string;
+	id: number;
 	from: number;
 	to: number;
 	surah: number;
@@ -8,7 +8,7 @@ type Verse = {
 };
 
 type ReflectPost = {
-	id: string;
+	id: number;
 	body: string;
 	filters: {
 		id: string;

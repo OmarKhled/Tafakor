@@ -32,12 +32,16 @@ const Verse = ({
 		);
 
 		try {
-			const newSection =
-				wordsMap.findIndex((section) =>
-					section.includes(
-						(segments.find((segment) => min < segment[2]) as number[])[0]
-					)
-				) + 1;
+			let newSection = currentVerseIndex;
+			if (segments.find((segment) => min < segment[2])) {
+				newSection =
+					wordsMap.findIndex((section) =>
+						section.includes(
+							(segments.find((segment) => min < segment[2]) as number[])[0]
+						)
+					) + 1;
+			}
+
 			setCurrentVerseIndex(newSection > 0 ? newSection : 1);
 		} catch (error) {
 			console.log(error);

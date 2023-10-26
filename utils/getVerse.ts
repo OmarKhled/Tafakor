@@ -96,6 +96,7 @@ const getVerse = async (): Promise<Verse> => {
 	// Choosing an elligable random post
 	while (post?.filters === undefined) {
 		postIndex = Math.ceil(Math.random() * res.posts.length);
+		// postIndex = res.posts.findIndex((post) => post.id === 16293);
 		post = res.posts[postIndex];
 	}
 
@@ -103,6 +104,10 @@ const getVerse = async (): Promise<Verse> => {
 	const surah = post.filters[0].surah_number;
 	const from = post.filters[0].from;
 	const to = post.filters[0].to;
+
+	const verses = [...Array(to - from + 1)].map((e, i) => to + i);
+
+	const verseText = await getVerseText(surah, verses);
 
 	// Verse timings
 	const {timings} = await recitationData(surah, from, to);
@@ -112,7 +117,7 @@ const getVerse = async (): Promise<Verse> => {
 		to: post.filters[0].to,
 		surah: post.filters[0].surah_number,
 		id: post.id,
-		verse: post.body,
+		verse: verseText,
 		duration:
 			(timings[timings.length - 1].timestamp_to - timings[0].timestamp_from) /
 			1000,

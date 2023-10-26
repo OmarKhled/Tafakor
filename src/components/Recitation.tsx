@@ -62,7 +62,7 @@ export const Recitation: React.FC<z.infer<typeof schema>> = ({
 
 	useEffect(() => {
 		console.log({url, to, from, segments, verse});
-	}, []);
+	}, [verse]);
 
 	if (active) {
 		return (

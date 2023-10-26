@@ -127,6 +127,20 @@ const getVideo = async (query: string, duration: number) => {
 			inputProps,
 			timeoutInMilliseconds: 300000,
 			logLevel: 'verbose',
+			concurrency: 1,
+			onProgress: ({progress}) => {
+				console.log(`Rendering is ${progress * 100}% complete`);
+			},
+			onDownload: (src) => {
+				console.log(`Downloading ${src}...`);
+				return ({percent, downloaded, totalSize}) => {
+					if (percent === null) {
+						console.log(`${downloaded} bytes downloaded`);
+					} else {
+						console.log(`(${Math.round(percent * 100)}% done)`);
+					}
+				};
+			},
 		});
 
 		console.log('Video Rendering Done');
