@@ -95,8 +95,8 @@ const getVerse = async (): Promise<Verse> => {
 
 	// Choosing an elligable random post
 	while (post?.filters === undefined) {
-		postIndex = Math.ceil(Math.random() * res.posts.length);
-		// postIndex = res.posts.findIndex((post) => post.id === 16293);
+		// postIndex = Math.ceil(Math.random() * res.posts.length);
+		postIndex = res.posts.findIndex((post) => post.id === 14454);
 		post = res.posts[postIndex];
 	}
 

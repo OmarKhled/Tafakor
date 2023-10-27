@@ -1,37 +1,45 @@
 {
-	"name": "quran",
-	"version": "1.0.0",
-	"description": "My Remotion video",
-	"scripts": {
-		"start": "remotion studio",
-		"build": "remotion render HelloWorld out/video.mp4",
-		"upgrade": "remotion upgrade",
-		"test": "eslint src --ext ts,tsx,js,jsx && tsc"
-	},
-	"type": "module",
-	"repository": {},
-	"license": "UNLICENSED",
-	"dependencies": {
-		"@remotion/bundler": "^4.0.56",
-		"@remotion/cli": "4.0.56",
-		"@remotion/zod-types": "4.0.56",
-		"@types/uuid": "^9.0.6",
-		"node-fetch": "^3.3.2",
-		"pexels": "^1.4.0",
-		"react": "^18.0.0",
-		"react-dom": "^18.0.0",
-		"remotion": "4.0.56",
-		"uuid": "^9.0.1",
-		"zod": "^3.21.4",
-		"@remotion/google-fonts": "^4.0.56"
-	},
-	"devDependencies": {
-		"@remotion/eslint-config": "4.0.56",
-		"@types/react": "^18.0.26",
-		"@types/web": "^0.0.86",
-		"eslint": "^8.43.0",
-		"prettier": "^2.8.8",
-		"typescript": "^4.9.4"
-	},
-	"packageManager": "bun@1.0.2"
+  "name": "quran",
+  "version": "1.0.0",
+  "description": "My Remotion video",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render HelloWorld out/video.mp4",
+    "upgrade": "remotion upgrade",
+    "test": "eslint src --ext ts,tsx,js,jsx && tsc"
+  },
+  "type": "module",
+  "repository": {},
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@remotion/bundler": "^4.0.56",
+    "@remotion/cli": "4.0.56",
+    "@remotion/compositor-darwin-arm64": "^4.0.57",
+    "@remotion/compositor-darwin-x64": "^4.0.57",
+    "@remotion/compositor-linux-arm64-gnu": "^4.0.57",
+    "@remotion/compositor-linux-arm64-musl": "^4.0.57",
+    "@remotion/compositor-win32-x64-msvc": "^4.0.57",
+    "@remotion/google-fonts": "^4.0.56",
+    "@remotion/zod-types": "4.0.56",
+    "@swc/core": "^1.3.95",
+    "@types/uuid": "^9.0.6",
+    "node-fetch": "^3.3.2",
+    "pexels": "^1.4.0",
+    "pnpapi": "^0.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "remotion": "4.0.56",
+    "uglify-js": "^3.17.4",
+    "uuid": "^9.0.1",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@remotion/eslint-config": "4.0.56",
+    "@types/react": "^18.0.26",
+    "@types/web": "^0.0.86",
+    "eslint": "^8.43.0",
+    "prettier": "^2.8.8",
+    "typescript": "^4.9.4"
+  },
+  "packageManager": "bun@1.0.2"
 }

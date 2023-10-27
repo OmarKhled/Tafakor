@@ -127,7 +127,8 @@ const getVideo = async (query: string, duration: number) => {
 			inputProps,
 			timeoutInMilliseconds: 300000,
 			logLevel: 'verbose',
-			concurrency: 1,
+			browserExecutable: '/usr/bin/thorium-browser',
+			// concurrency: 10,
 			onProgress: ({progress}) => {
 				console.log(`Rendering is ${progress * 100}% complete`);
 			},
