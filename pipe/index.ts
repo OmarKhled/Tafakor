@@ -98,13 +98,13 @@ const s3 = new S3Client({
 			console.log(`Uploaded to S3: ${fileUrl}`);
 
 			// Publish to FB
-			// console.log('Publishing Video to FB');
-			// const publishStatus = await publishToFB(fileUrl);
-			// if (publishStatus) {
-			// 	console.log('Video Published to FB');
-			// } else {
-			// 	console.log('Publishing Failed');
-			// }
+			console.log('Publishing Video to FB');
+			const publishStatus = await publishToFB(fileUrl);
+			if (publishStatus) {
+				console.log('Video Published to FB');
+			} else {
+				console.log('Publishing Failed');
+			}
 
 			valid = true;
 			process.exit();
