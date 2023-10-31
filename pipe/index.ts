@@ -13,6 +13,7 @@ let props: {[key: string]: string} = {};
 
 try {
 	props = require('../input-props.json');
+	console.log(props);
 	if (Object.keys(props).length > 0) {
 		console.log('Input Props Detected');
 	}
