@@ -17,13 +17,13 @@ jobs:
 
       - run: bun i
       - run: pip install g4f
-      - run: echo ${{ secrets.TAFAKOR_ID }}
       - run: touch .env &&
           echo TAFAKOR_ID=${{ secrets.TAFAKOR_ID }} >> .env &&
           echo USER_ID=${{ secrets.USER_ID }} >> .env &&
           echo USER_ACCESS_TOKEN=${{ secrets.USER_ACCESS_TOKEN }} >> .env &&
+          echo S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }} >> .env &&
+          echo S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }} >> .env &&
           echo PEXELS_KEY=${{ secrets.PEXELS_KEY }} >> .env
-      - run: cat .env
       - run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-      - run: bun render.ts
+      - run: bun ./pipe
