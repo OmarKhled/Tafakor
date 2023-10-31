@@ -38,7 +38,7 @@ const s3 = new S3Client({
 	console.log(
 		`Verse Picked: Surah ${surah}, from ${verses[0]} to ${
 			verses[verses.length - 1]
-		}`
+		}, duration: ${verse.duration}`
 	);
 
 	// choosing theme for the video
@@ -47,7 +47,10 @@ const s3 = new S3Client({
 
 	let valid = false;
 	do {
-		const {url} = await getStock(theme, verse.duration);
+		const stockVideosProvider = 'PIXABAY';
+		const {url} = await getStock(theme, verse.duration, stockVideosProvider);
+
+		console.log(`${stockVideosProvider} Video: ${url}`);
 
 		if (url) {
 			const fileName = await renderVideo(bundleLocation, surah, verses, url);
@@ -68,10 +71,12 @@ const s3 = new S3Client({
 			// Push To S3
 			await s3.send(new PutObjectCommand(params));
 
+			const fileUrl = `https://tafakor.s3.eu-north-1.amazonaws.com/videos/${fileName}`;
+			console.log(`Uploaded to S3: ${fileUrl}`);
+
 			// Publish to FB
-			const publishStatus = await publishToFB(
-				`https://tafakor.s3.eu-north-1.amazonaws.com/videos/${fileName}`
-			);
+			console.log('Publishing Video to FB');
+			const publishStatus = await publishToFB(fileUrl);
 			if (publishStatus) {
 				console.log('Video Published to FB');
 			} else {
