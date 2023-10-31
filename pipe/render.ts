@@ -28,11 +28,14 @@ const renderVideo = async (
 			footageType: 'video',
 		};
 
+		console.log(inputProps);
+
 		// Composition
 		const composition = await selectComposition({
 			serveUrl: bundleLocation,
 			id: compositionId,
 			inputProps,
+			logLevel: 'verbose',
 		});
 
 		// Rendering progress bar init

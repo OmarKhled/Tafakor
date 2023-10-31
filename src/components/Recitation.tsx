@@ -95,7 +95,7 @@ export const Recitation: React.FC<z.infer<typeof schema>> = ({
 				{/* Darken Backdrop */}
 				<AbsoluteFill
 					style={{
-						backdropFilter: 'blur(4px) brightness(60%)',
+						backdropFilter: 'blur(1px) brightness(60%)',
 					}}
 				></AbsoluteFill>
 

@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useEffect} from 'react';
+import {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import {AbsoluteFill} from 'remotion';
 
 interface props {
@@ -20,10 +20,47 @@ const Verse = ({
 	currentVerseIndex,
 	font,
 }: props) => {
-	const NUM_OF_WORDS = 5;
+	const NUM_OF_WORDS = 7;
+	const [segs, setSegs] = useState<string[]>([]);
+
+	useEffect(() => {
+		let s = verse.split(/ \u06da | \u06d6 | \u06d7 /);
+		s = s
+			.map((c) =>
+				c.split(' ').length > NUM_OF_WORDS
+					? Array.from(
+							Array(Math.ceil(c.split(' ').length / NUM_OF_WORDS)).keys()
+					  ).map((i) =>
+							c
+								.split(' ')
+								.slice(NUM_OF_WORDS * i, NUM_OF_WORDS * (i + 1))
+								.join(' ')
+					  )
+					: c
+			)
+			.flat();
+		setSegs(s);
+		console.log(s);
+
+		// console.log();
+	}, [verse]);
 
 	useEffect(() => {
 		const words = verse.split(' ');
+
+		let index = 1;
+		let map = segs.map((seg) => {
+			let f: any = seg.split(' ').map((w, i) => i + index);
+			index += f.length;
+			// if (f.length > NUM_OF_WORDS) {
+			// f = Array.from(Array(Math.ceil(f.length / NUM_OF_WORDS)).keys()).map(
+			// 	(i) => f.slice(NUM_OF_WORDS * i, NUM_OF_WORDS * (i + 1))
+			// );
+			// }
+			return f;
+		});
+		// .flat();
+
 		const indexs = Array.from({length: words.length}, (_, i) => i + 1);
 
 		const wordsMap = Array.from(
@@ -34,15 +71,18 @@ const Verse = ({
 		try {
 			let newSection = currentVerseIndex;
 			if (segments.find((segment) => min < segment[2])) {
-				newSection =
-					wordsMap.findIndex((section) =>
-						section.includes(
-							(segments.find((segment) => min < segment[2]) as number[])[0]
-						)
-					) + 1;
+				console.log(segments.find((segment) => min < segment[2]));
+				// console.log(segments.find((segment) => min < segment[2]));
+				newSection = map.findIndex((section) =>
+					section.includes(
+						(segments.find((segment) => min < segment[2]) as number[])[0]
+					)
+				);
 			}
 
-			setCurrentVerseIndex(newSection > 0 ? newSection : 1);
+			console.log(newSection);
+
+			setCurrentVerseIndex(newSection >= 0 ? newSection : segs.length - 1);
 		} catch (error) {
 			console.log(error);
 		}
@@ -59,15 +99,19 @@ const Verse = ({
 				className="ayah"
 				style={{
 					fontFamily: font,
+					textAlign: 'center',
+					padding: '2rem',
+					lineHeight: '7rem',
 				}}
 			>
-				{verse
+				{/* {verse
 					.split(' ')
 					.slice(
 						(currentVerseIndex - 1) * NUM_OF_WORDS,
 						(currentVerseIndex - 1) * NUM_OF_WORDS + NUM_OF_WORDS
 					)
-					.join(' ')}
+					.join(' ')} */}
+				{segs[currentVerseIndex]}
 			</h1>
 		</AbsoluteFill>
 	);
