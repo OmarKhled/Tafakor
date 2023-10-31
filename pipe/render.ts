@@ -49,6 +49,7 @@ const renderVideo = async (
 			outputLocation: `out/${compositionId}-${ID}.mp4`,
 			inputProps,
 			timeoutInMilliseconds: 300000,
+			// concurrency: 8,
 			onProgress: ({progress}) => {
 				renderingProgresss?.update({value: progress * 100});
 			},

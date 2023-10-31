@@ -7,6 +7,16 @@ import {getStock} from './stocks';
 import {renderVideo} from './render';
 import {getTheme} from './theme';
 import {publishToFB} from './publish';
+import {Verse} from '../utils/types';
+
+let props: {[key: string]: string} = {};
+
+try {
+	props = require('../input-props.json');
+	if (Object.keys(props).length > 0) {
+		console.log('Input Props Detected');
+	}
+} catch (error) {}
 
 const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID as string;
 const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY as string;
@@ -27,12 +37,16 @@ const s3 = new S3Client({
 	});
 
 	// fetching a verse
-	const verse = await getVerse();
+	const verse: Verse = await getVerse({
+		surah: props.surah ? Number(props.surah) : undefined,
+		from: props.from ? Number(props.from) : undefined,
+		to: props.to ? Number(props.to) : undefined,
+	});
 
 	// verse data extraction
 	const surah = verse.surah;
 	const verses = [...Array(verse.to - verse.from + 1)].map(
-		(e, i) => verse.to + i
+		(e, i) => verse.from + i
 	);
 
 	console.log(
@@ -42,15 +56,23 @@ const s3 = new S3Client({
 	);
 
 	// choosing theme for the video
-	const theme = await getTheme(verse.verse);
-	console.log('Chosen theme:', theme);
+	let theme = '';
+	if (!props.video) {
+		theme = await getTheme(verse.verse);
+		console.log('Chosen theme:', theme);
+	}
 
 	let valid = false;
 	do {
 		const stockVideosProvider = 'PIXABAY';
-		const {url} = await getStock(theme, verse.duration, stockVideosProvider);
-
-		console.log(`${stockVideosProvider} Video: ${url}`);
+		let url = '';
+		if (props.video) {
+			url = props.video;
+			console.log(`Prop Video: ${url}`);
+		} else {
+			url = (await getStock(theme, verse.duration, stockVideosProvider)).url;
+			console.log(`${stockVideosProvider} Video: ${url}`);
+		}
 
 		if (url) {
 			const fileName = await renderVideo(bundleLocation, surah, verses, url);

@@ -33,7 +33,7 @@ const recitationData = async (surah: number, from: number, to: number) => {
 	const recitationUrl = res.audio_files[0].audio_url;
 
 	// Maping verses numbers
-	const verses = [...Array(to - from + 1)].map((e, i) => to + i);
+	const verses = [...Array(to - from + 1)].map((e, i) => from + i);
 
 	//
 	let lastVerseEnding = 0;
@@ -79,33 +79,47 @@ const recitationData = async (surah: number, from: number, to: number) => {
 /**
  * @description fetches a random quranreflect post and returns its verse(s)
  */
-const getVerse = async (): Promise<Verse> => {
+const getVerse = async ({
+	surah,
+	from,
+	to,
+}: {
+	surah?: number;
+	from?: number;
+	to?: number;
+}): Promise<Verse> => {
 	let verse;
-	// Fetching Posts from quran reflect
-	const res: {posts: ReflectPost[]} = await (
-		await fetch(
-			'https://quranreflect.com/posts.json?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&page=1&tab=trending&lang=ar&featured=true',
-			{method: 'GET'}
-		)
-	).json();
-
-	// Post Init
-	let postIndex: number | undefined;
 	let post: ReflectPost | undefined;
+	if (!(surah && from && to)) {
+		console.log('reflect');
+		// Fetching Posts from quran reflect
+		const res: {posts: ReflectPost[]} = await (
+			await fetch(
+				'https://quranreflect.com/posts.json?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&page=1&tab=trending&lang=ar&featured=true',
+				{method: 'GET'}
+			)
+		).json();
 
-	// Choosing an elligable random post
-	while (post?.filters === undefined) {
-		postIndex = Math.ceil(Math.random() * res.posts.length);
-		// postIndex = res.posts.findIndex((post) => post.id === 14454);
-		post = res.posts[postIndex];
+		// Post Init
+		let postIndex: number | undefined;
+
+		// Choosing an elligable random post
+		while (post?.filters === undefined) {
+			postIndex = Math.ceil(Math.random() * res.posts.length);
+			// postIndex = res.posts.findIndex((post) => post.id === 14454);
+			post = res.posts[postIndex];
+		}
+
+		// Post verse(s) data
+		surah = post.filters[0].surah_number;
+		from = post.filters[0].from;
+		to = post.filters[0].to;
 	}
 
-	// Post verse(s) data
-	const surah = post.filters[0].surah_number;
-	const from = post.filters[0].from;
-	const to = post.filters[0].to;
+	console.log({surah, from, to});
 
-	const verses = [...Array(to - from + 1)].map((e, i) => to + i);
+	// @ts-ignore
+	const verses = [...Array(to - from + 1)].map((e, i) => from + i);
 
 	const verseText = await getVerseText(surah, verses);
 
@@ -113,10 +127,10 @@ const getVerse = async (): Promise<Verse> => {
 	const {timings} = await recitationData(surah, from, to);
 
 	verse = {
-		from: post.filters[0].from,
-		to: post.filters[0].to,
-		surah: post.filters[0].surah_number,
-		id: post.id,
+		from: verses[0],
+		to: verses[verses.length - 1],
+		surah: surah,
+		id: post?.id,
 		verse: verseText,
 		duration:
 			(timings[timings.length - 1].timestamp_to - timings[0].timestamp_from) /
@@ -130,7 +144,8 @@ const getVerse = async (): Promise<Verse> => {
  * @param surah - Surah Number
  * @param verses - Verrses
  */
-const getVerseText = async (surah: number, verses: number[]) => {
+export const getVerseText = async (surah: number, verses: number[]) => {
+	console.log(verses);
 	const res = await (
 		await fetch(
 			`https://quranreflect.com/citation_texts/citation_texts_from_filter?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&from=${

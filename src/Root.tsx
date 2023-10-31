@@ -31,11 +31,11 @@ export const RemotionRoot: React.FC = () => {
 				}}
 				calculateMetadata={async ({props}) => {
 					if (props.random) {
-						const verse = await getVerse();
+						const verse = await getVerse({});
 						console.log(verse);
 						props.surah = verse.surah;
 						props.ayat = [...Array(verse.to - verse.from + 1)].map(
-							(e, i) => verse.to + i
+							(e, i) => verse.from + i
 						);
 					}
 					const {durationInMins} = await getVerseData(props.surah, props.ayat);
