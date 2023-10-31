@@ -19,7 +19,6 @@ jobs:
     name: Render video
     runs-on: ubuntu-latest
     steps:
-      - run: cat input-props.json
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
       - uses: oven-sh/setup-bun@v1
