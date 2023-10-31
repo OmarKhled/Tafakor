@@ -19,10 +19,7 @@ jobs:
     name: Render video
     runs-on: ubuntu-latest
     steps:
-      - name: Emitt input props
-        run: echo $WORKFLOW_INPUT | tee input-props.json | jq -C '.'
-        env:
-          WORKFLOW_INPUT: ${{ toJson(github.event.inputs) }}
+      - run: cat input-props.json
       - uses: actions/checkout@main
       - uses: actions/setup-node@main
       - uses: oven-sh/setup-bun@v1
@@ -31,12 +28,16 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+      - name: Emit input props
+        run: echo $WORKFLOW_INPUT | tee input-props.json | jq -C '.'
+        env:
+          WORKFLOW_INPUT: ${{ toJson(github.event.inputs) }}
 
       - name: Bun Dependencies Install
         run: bun i
       - name: Python Dependencies Install
         run: pip install g4f
-      - name: Emitt Enviroment Variables
+      - name: Emit Enviroment Variables
         run: touch .env &&
           echo TAFAKOR_ID=${{ secrets.TAFAKOR_ID }} >> .env &&
           echo USER_ID=${{ secrets.USER_ID }} >> .env &&
