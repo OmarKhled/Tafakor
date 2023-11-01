@@ -32,91 +32,91 @@ const s3 = new S3Client({
 
 (async () => {
 	// remotion bundle location
-	const bundleLocation = await bundle({
-		entryPoint: path.join(__dirname, '../src/index.ts'),
-		webpackOverride: (config) => config,
-	});
+	// const bundleLocation = await bundle({
+	// 	entryPoint: path.join(__dirname, '../src/index.ts'),
+	// 	webpackOverride: (config) => config,
+	// });
 
-	// fetching a verse
-	const verse: Verse = await getVerse({
-		surah: props.surah ? Number(props.surah) : undefined,
-		from: props.from ? Number(props.from) : undefined,
-		to: props.to ? Number(props.to) : undefined,
-	});
+	// // fetching a verse
+	// const verse: Verse = await getVerse({
+	// 	surah: props.surah ? Number(props.surah) : undefined,
+	// 	from: props.from ? Number(props.from) : undefined,
+	// 	to: props.to ? Number(props.to) : undefined,
+	// });
 
-	// verse data extraction
-	const surah = verse.surah;
-	const verses = [...Array(verse.to - verse.from + 1)].map(
-		(e, i) => verse.from + i
-	);
+	// // verse data extraction
+	// const surah = verse.surah;
+	// const verses = [...Array(verse.to - verse.from + 1)].map(
+	// 	(e, i) => verse.from + i
+	// );
 
-	console.log(
-		`Verse Picked: Surah ${surah}, from ${verses[0]} to ${
-			verses[verses.length - 1]
-		}, duration: ${verse.duration}`
-	);
+	// console.log(
+	// 	`Verse Picked: Surah ${surah}, from ${verses[0]} to ${
+	// 		verses[verses.length - 1]
+	// 	}, duration: ${verse.duration}`
+	// );
 
-	// choosing theme for the video
-	let theme = '';
-	if (!props.video) {
-		theme = await getTheme(verse.verse);
+	// // choosing theme for the video
+	// let theme = '';
+	// if (!props.video) {
+	// 	theme = await getTheme(verse.verse);
+	// }
+	// console.log('Chosen theme:', theme);
+
+	// let valid = false;
+	// do {
+	// 	const stockVideosProvider: stockProvider = 'PIXABAY';
+	// 	let url = '';
+	// 	if (props.video) {
+	// 		url = props.video;
+	// 		console.log(`Prop Video: ${url}`);
+	// 	} else {
+	// 		url = (await getStock(theme, verse.duration, stockVideosProvider)).url;
+	// 		console.log(`${stockVideosProvider} Video: ${url}`);
+	// 	}
+
+	// 	if (url) {
+	// 		const outputType = (props.outputType as outputType) || 'reel';
+	// 		const fileName = await renderVideo(
+	// 			bundleLocation,
+	// 			surah,
+	// 			verses,
+	// 			url,
+	// 			outputType
+	// 		);
+
+	// 		console.log('Video Rendering Done');
+
+	// 		const file = await fs.readFile(
+	// 			path.join(__dirname, '../out/' + fileName)
+	// 		);
+
+	// 		const params = {
+	// 			Bucket: 'tafakor',
+	// 			Key: 'videos' + '/' + fileName,
+	// 			Body: file,
+	// 			ACL: ObjectCannedACL.public_read,
+	// 		};
+
+	// 		// Push To S3
+	// 		await s3.send(new PutObjectCommand(params));
+
+	const fileUrl = `https://tafakor.s3.eu-north-1.amazonaws.com/videos/${'quran-8fee19cf-b43f-4a6d-a0a7-8d151710eb98.mp4'}`;
+	console.log(`Uploaded to S3: ${fileUrl}`);
+
+	// Publish to FB
+	console.log('Publishing Video to FB');
+	const publishStatus = await publishToFB(fileUrl, 'reel');
+	if (publishStatus) {
+		console.log('Video Published to FB');
+	} else {
+		console.log('Publishing Failed');
 	}
-	console.log('Chosen theme:', theme);
 
-	let valid = false;
-	do {
-		const stockVideosProvider: stockProvider = 'PIXABAY';
-		let url = '';
-		if (props.video) {
-			url = props.video;
-			console.log(`Prop Video: ${url}`);
-		} else {
-			url = (await getStock(theme, verse.duration, stockVideosProvider)).url;
-			console.log(`${stockVideosProvider} Video: ${url}`);
-		}
-
-		if (url) {
-			const outputType = (props.outputType as outputType) || 'reel';
-			const fileName = await renderVideo(
-				bundleLocation,
-				surah,
-				verses,
-				url,
-				outputType
-			);
-
-			console.log('Video Rendering Done');
-
-			const file = await fs.readFile(
-				path.join(__dirname, '../out/' + fileName)
-			);
-
-			const params = {
-				Bucket: 'tafakor',
-				Key: 'videos' + '/' + fileName,
-				Body: file,
-				ACL: ObjectCannedACL.public_read,
-			};
-
-			// Push To S3
-			await s3.send(new PutObjectCommand(params));
-
-			const fileUrl = `https://tafakor.s3.eu-north-1.amazonaws.com/videos/${fileName}`;
-			console.log(`Uploaded to S3: ${fileUrl}`);
-
-			// Publish to FB
-			console.log('Publishing Video to FB');
-			const publishStatus = await publishToFB(fileUrl, outputType);
-			if (publishStatus) {
-				console.log('Video Published to FB');
-			} else {
-				console.log('Publishing Failed');
-			}
-
-			valid = true;
-			process.exit();
-		} else {
-			continue;
-		}
-	} while (!valid);
+	// valid = true;
+	process.exit();
+	// } else {
+	// 	continue;
+	// }
+	// } while (!valid);
 })();

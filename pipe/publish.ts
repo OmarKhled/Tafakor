@@ -30,11 +30,13 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 							},
 							body: JSON.stringify({
 								upload_phase: 'start',
-								access_token: 'Your_page_access_token',
+								access_token: TAFAKOR_TOKEN,
 							}),
 						}
 					)
 				).json();
+
+				console.log(sessionInit);
 
 				const videoId = sessionInit.video_id;
 
