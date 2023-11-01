@@ -8,6 +8,17 @@ import RecitationComposition, {
 	schema,
 } from './components/RecitationComposition';
 
+const SIZES = {
+	reel: {
+		width: 1080,
+		height: 1920,
+	},
+	post: {
+		width: 1000,
+		height: 1000,
+	},
+};
+
 export const RemotionRoot: React.FC = () => {
 	const FPS = 30;
 	const SIZE = 1000;
@@ -18,8 +29,8 @@ export const RemotionRoot: React.FC = () => {
 				id="quran"
 				component={RecitationComposition}
 				fps={FPS}
-				width={SIZE}
-				height={SIZE}
+				width={1080}
+				height={1920}
 				schema={schema}
 				durationInFrames={1}
 				defaultProps={{
@@ -28,6 +39,8 @@ export const RemotionRoot: React.FC = () => {
 					footage: '',
 					random: true,
 					footageType: 'video',
+					outputType: 'reel',
+					size: SIZES.reel,
 				}}
 				calculateMetadata={async ({props}) => {
 					if (props.random) {
@@ -40,8 +53,12 @@ export const RemotionRoot: React.FC = () => {
 					}
 					const {durationInMins} = await getVerseData(props.surah, props.ayat);
 
+					props.size = SIZES[props.outputType];
+
 					return {
 						durationInFrames: Math.ceil(durationInMins * FPS * 60),
+						width: props.size.width,
+						height: props.size.height,
 						props,
 					};
 				}}

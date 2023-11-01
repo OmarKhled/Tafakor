@@ -91,7 +91,6 @@ const getVerse = async ({
 	let verse;
 	let post: ReflectPost | undefined;
 	if (!(surah && from && to)) {
-		console.log('reflect');
 		// Fetching Posts from quran reflect
 		const res: {posts: ReflectPost[]} = await (
 			await fetch(
@@ -115,8 +114,6 @@ const getVerse = async ({
 		from = post.filters[0].from;
 		to = post.filters[0].to;
 	}
-
-	console.log({surah, from, to});
 
 	// @ts-ignore
 	const verses = [...Array(to - from + 1)].map((e, i) => from + i);
@@ -159,26 +156,8 @@ export const getVerseText = async (surah: number, verses: number[]) => {
 			)
 		).json();
 
-		console.log(res);
-
 		versesTexts.push(res.data.text);
 	}
-	// const res = await (
-	// 	await fetch(
-	// 		`https://quranreflect.com/citation_texts/citation_texts_from_filter?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&from=${
-	// 			verses[0]
-	// 		}&to=${verses[verses.length - 1]}&citation_id=${
-	// 			surah + 1
-	// 		}&translation_id=8`,
-	// 		{method: 'GET'}
-	// 	)
-	// ).json();
-
-	// const joinedVerses = res.citation_texts
-	// 	.map((cite: any) => cite.text)
-	// 	.map((text: any) => text.split(' '))
-	// 	.flat()
-	// 	.join(' ');
 
 	const joinedVerses = versesTexts.join(' \u06da ');
 
@@ -205,7 +184,7 @@ const getVerseData = async (surah: number, verses: number[]) => {
 			(timings[timings.length - 1].timestamp_to - timings[0].timestamp_from) /
 			1000 /
 			60,
-		start: timings[0].timestamp_from / 1000 / 60,
+		from: timings[0].timestamp_from / 1000 / 60,
 		to: timings[timings.length - 1].timestamp_to / 1000 / 60,
 		verse: verseText,
 		surahNumber: surah,

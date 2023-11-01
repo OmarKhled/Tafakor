@@ -74,4 +74,5 @@ export default {
 	footageType: 'video' as 'video' | 'image',
 
 	reciter: 'مشارى راشد العفاسي',
+	scale: 2,
 };

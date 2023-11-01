@@ -12,13 +12,13 @@ const getTheme = (verse: string): Promise<string> => {
 			verse,
 		]);
 		query.stdout.on('data', (data: {toString: () => string}) => {
+			console.log(data.toString());
 			resolve(
 				data.toString().split('\n')[
 					data
 						.toString()
-						.toString()
 						.split('\n')
-						.findIndex((q) => q.includes('Theme:'))
+						.findIndex((q) => q.includes('Theme: '))
 				].split(' ')[1]
 			);
 		});

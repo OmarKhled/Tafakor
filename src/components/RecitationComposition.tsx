@@ -1,8 +1,7 @@
 import {z} from 'zod';
 import {useEffect, useState} from 'react';
 import {continueRender, delayRender} from 'remotion';
-
-import {createClient, Videos} from 'pexels';
+import {getVideoMetadata} from '@remotion/media-utils';
 
 import {getVerseData} from '../../utils/getVerse';
 
@@ -10,6 +9,7 @@ import recitationDefaultProps from '../../constants/recitationDefaultProps';
 import themes from '../../constants/themes';
 
 import {Recitation} from './Recitation';
+import {getStock} from '../../pipe/stocks';
 
 export const schema = z.object({
 	surah: z.number(),
@@ -17,6 +17,8 @@ export const schema = z.object({
 	footage: z.string(),
 	random: z.boolean(),
 	footageType: z.union([z.literal('video'), z.literal('image')]),
+	outputType: z.union([z.literal('reel'), z.literal('post')]),
+	size: z.object({width: z.number(), height: z.number()}),
 });
 
 const Composition: React.FC<z.infer<typeof schema>> = ({
@@ -24,34 +26,39 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 	ayat,
 	footage = null,
 	footageType,
+	size,
 }) => {
 	const [handle] = useState(() => delayRender());
 	const [props, setProps] = useState(recitationDefaultProps);
 
 	useEffect(() => {
 		(async () => {
-			const query = themes[Math.floor(Math.random() * themes.length)];
-
-			const res = (await createClient(
-				'nvPRX0Fsxoq9YJyb4F6UaqA9BkQWYTraTFosgXnFpxSxLJ9BqjPtNrM6'
-			).videos.search({
-				query,
-				per_page: 80,
-			})) as Videos;
-
-			const footageUrl = res.videos[
-				Math.floor(Math.random() * res.videos.length)
-			].video_files.find((video) => video.quality === 'hd')?.link;
+			let footageUrl = footage;
 
 			const verse = await getVerseData(surah, ayat);
 
+			if (footageUrl == null || footageUrl.length == 0) {
+				const query = themes[Math.floor(Math.random() * themes.length)];
+				footageUrl = (
+					await getStock(query, verse.durationInMins * 60, 'PIXABAY')
+				).url as string;
+			}
+
+			const footageMetadata = await getVideoMetadata(footageUrl);
+
+			const dimension =
+				footageMetadata.width > footageMetadata.height
+					? {value: footageMetadata.height, type: 'height'}
+					: {value: footageMetadata.width, type: 'width'};
+
+			const scale = Math.ceil(
+				size[dimension.type as 'width' | 'height'] / dimension.value
+			);
+
 			setProps({
-				footageUrl:
-					footage !== null && footage.length > 0
-						? footage
-						: (footageUrl as string),
+				footageUrl: footageUrl as string,
 				url: verse.url,
-				from: verse.start,
+				from: verse.from,
 				to: verse.to,
 				verse: verse.verse,
 				segments: verse.segments,
@@ -59,6 +66,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				active: true,
 				footageType: footageType as 'video' | 'image',
 				reciter: verse.reciter,
+				scale,
 			});
 			return 0;
 		})()

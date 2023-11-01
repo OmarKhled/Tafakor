@@ -9,7 +9,7 @@ import {
 } from 'remotion';
 import {z} from 'zod';
 import {loadFont} from '@remotion/google-fonts/Amiri';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 
 import {Img} from 'remotion';
 import Verse from './Verse';
@@ -42,6 +42,7 @@ const schema = z.object({
 	active: z.boolean(),
 	footageType: z.union([z.literal('video'), z.literal('image')]).optional(),
 	reciter: z.string(),
+	scale: z.number(),
 });
 
 export const Recitation: React.FC<z.infer<typeof schema>> = ({
@@ -55,10 +56,10 @@ export const Recitation: React.FC<z.infer<typeof schema>> = ({
 	active,
 	footageType = 'video',
 	reciter,
+	scale,
 }) => {
 	const frame = useCurrentFrame();
 	const min = frame / 30 / 60;
-	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 
 	useEffect(() => {
 		console.log({url, to, from, segments, verse});
@@ -66,12 +67,19 @@ export const Recitation: React.FC<z.infer<typeof schema>> = ({
 
 	if (active) {
 		return (
-			<AbsoluteFill style={{backgroundColor: 'white'}}>
+			<AbsoluteFill
+				style={{
+					backgroundColor: 'white',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				}}
+			>
 				{footageType == 'video' ? (
 					<>
 						<Video
 							src={footageUrl}
-							style={{scale: '2', width: '1000px', height: '1000px'}}
+							style={{transform: `scale(${scale})`}}
 							loop
 							muted
 						></Video>
@@ -116,8 +124,6 @@ export const Recitation: React.FC<z.infer<typeof schema>> = ({
 					frame={frame}
 					verse={verse}
 					segments={segments}
-					setCurrentVerseIndex={setCurrentVerseIndex}
-					currentVerseIndex={currentVerseIndex}
 					font={Amiri}
 				/>
 

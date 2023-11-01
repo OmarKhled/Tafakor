@@ -1,6 +1,18 @@
 import {renderMedia, selectComposition} from '@remotion/renderer';
 import {v4} from 'uuid';
 import {ProgressBar} from '@opentf/cli-pbar';
+import {outputType} from './pipe';
+
+const SIZES = {
+	reel: {
+		width: 1080,
+		height: 1920,
+	},
+	post: {
+		width: 1000,
+		height: 1000,
+	},
+};
 
 /**
  * @description renders comp
@@ -13,7 +25,8 @@ const renderVideo = async (
 	bundleLocation: string,
 	surah: number,
 	verses: number[],
-	footage: string
+	footage: string,
+	outputType: outputType
 ) => {
 	try {
 		const ID = v4(); // unique video id
@@ -26,9 +39,9 @@ const renderVideo = async (
 			footage,
 			random: false,
 			footageType: 'video',
+			size: SIZES[outputType],
+			outputType,
 		};
-
-		console.log(inputProps);
 
 		// Composition
 		const composition = await selectComposition({
@@ -52,7 +65,7 @@ const renderVideo = async (
 			outputLocation: `out/${compositionId}-${ID}.mp4`,
 			inputProps,
 			timeoutInMilliseconds: 300000,
-			// concurrency: 8,
+			concurrency: 8,
 			onProgress: ({progress}) => {
 				renderingProgresss?.update({value: progress * 100});
 			},

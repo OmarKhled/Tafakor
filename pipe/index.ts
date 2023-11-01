@@ -8,14 +8,14 @@ import {renderVideo} from './render';
 import {getTheme} from './theme';
 import {publishToFB} from './publish';
 import {Verse} from '../utils/types';
+import {outputType, stockProvider} from './pipe';
 
 let props: {[key: string]: string} = {};
 
 try {
 	props = require('../input-props.json');
-	console.log(props);
 	if (Object.keys(props).length > 0) {
-		console.log('Input Props Detected');
+		console.log('Input Props Detected', props);
 	}
 } catch (error) {}
 
@@ -60,12 +60,12 @@ const s3 = new S3Client({
 	let theme = '';
 	if (!props.video) {
 		theme = await getTheme(verse.verse);
-		console.log('Chosen theme:', theme);
 	}
+	console.log('Chosen theme:', theme);
 
 	let valid = false;
 	do {
-		const stockVideosProvider = 'PIXABAY';
+		const stockVideosProvider: stockProvider = 'PIXABAY';
 		let url = '';
 		if (props.video) {
 			url = props.video;
@@ -76,7 +76,14 @@ const s3 = new S3Client({
 		}
 
 		if (url) {
-			const fileName = await renderVideo(bundleLocation, surah, verses, url);
+			const outputType = (props.outputType as outputType) || 'reel';
+			const fileName = await renderVideo(
+				bundleLocation,
+				surah,
+				verses,
+				url,
+				outputType
+			);
 
 			console.log('Video Rendering Done');
 
@@ -99,7 +106,7 @@ const s3 = new S3Client({
 
 			// Publish to FB
 			console.log('Publishing Video to FB');
-			const publishStatus = await publishToFB(fileUrl);
+			const publishStatus = await publishToFB(fileUrl, outputType);
 			if (publishStatus) {
 				console.log('Video Published to FB');
 			} else {

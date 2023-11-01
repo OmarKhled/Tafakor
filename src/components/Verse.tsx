@@ -1,4 +1,4 @@
-import {Dispatch, SetStateAction, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {AbsoluteFill} from 'remotion';
 
 interface props {
@@ -6,21 +6,12 @@ interface props {
 	frame: number;
 	verse: string;
 	segments: number[][];
-	setCurrentVerseIndex: Dispatch<SetStateAction<number>>;
-	currentVerseIndex: number;
 	font: string;
 }
 
-const Verse = ({
-	min,
-	frame,
-	verse,
-	segments,
-	setCurrentVerseIndex,
-	currentVerseIndex,
-	font,
-}: props) => {
+const Verse = ({min, frame, verse, segments, font}: props) => {
 	const NUM_OF_WORDS = 7;
+	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 	const [segs, setSegs] = useState<string[]>([]);
 
 	useEffect(() => {
@@ -40,39 +31,19 @@ const Verse = ({
 			)
 			.flat();
 		setSegs(s);
-		console.log(s);
-
-		// console.log();
 	}, [verse]);
 
 	useEffect(() => {
-		const words = verse.split(' ');
-
 		let index = 1;
 		let map = segs.map((seg) => {
 			let f: any = seg.split(' ').map((w, i) => i + index);
 			index += f.length;
-			// if (f.length > NUM_OF_WORDS) {
-			// f = Array.from(Array(Math.ceil(f.length / NUM_OF_WORDS)).keys()).map(
-			// 	(i) => f.slice(NUM_OF_WORDS * i, NUM_OF_WORDS * (i + 1))
-			// );
-			// }
 			return f;
 		});
-		// .flat();
-
-		const indexs = Array.from({length: words.length}, (_, i) => i + 1);
-
-		const wordsMap = Array.from(
-			{length: Math.ceil(words.length / NUM_OF_WORDS)},
-			() => indexs.splice(0, NUM_OF_WORDS)
-		);
 
 		try {
 			let newSection = currentVerseIndex;
 			if (segments.find((segment) => min < segment[2])) {
-				console.log(segments.find((segment) => min < segment[2]));
-				// console.log(segments.find((segment) => min < segment[2]));
 				newSection = map.findIndex((section) =>
 					section.includes(
 						(segments.find((segment) => min < segment[2]) as number[])[0]
@@ -80,12 +51,8 @@ const Verse = ({
 				);
 			}
 
-			console.log(newSection);
-
 			setCurrentVerseIndex(newSection >= 0 ? newSection : segs.length - 1);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	}, [min]);
 
 	return (
@@ -104,13 +71,6 @@ const Verse = ({
 					lineHeight: '7rem',
 				}}
 			>
-				{/* {verse
-					.split(' ')
-					.slice(
-						(currentVerseIndex - 1) * NUM_OF_WORDS,
-						(currentVerseIndex - 1) * NUM_OF_WORDS + NUM_OF_WORDS
-					)
-					.join(' ')} */}
 				{segs[currentVerseIndex]}
 			</h1>
 		</AbsoluteFill>

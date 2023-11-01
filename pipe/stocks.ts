@@ -1,4 +1,5 @@
 import {createClient, Videos} from 'pexels';
+import {stockProvider} from './pipe';
 
 const PEXELS_KEY = process.env.PEXELS_KEY as string;
 const PIXABAY_KEY = process.env.PIXABAY_KEY as string;
@@ -62,7 +63,7 @@ const pexelsStock = async (query: string, duration: number) => {
 	)?.link;
 
 	return {
-		url: videoUrl,
+		url: videoUrl as string,
 		duration: video.duration,
 	};
 };
@@ -107,11 +108,7 @@ const pixabayStock = async (query: string, duration: number) => {
  * @param query - Videos search query
  * @param duration - Video duration
  */
-const getStock = (
-	query: string,
-	duration: number,
-	provider: 'PIXABAY' | 'PEXELS'
-) => {
+const getStock = (query: string, duration: number, provider: stockProvider) => {
 	switch (provider) {
 		case 'PEXELS':
 			return pexelsStock(query, duration);
