@@ -2,6 +2,8 @@ import {renderMedia, selectComposition} from '@remotion/renderer';
 import {v4} from 'uuid';
 import {ProgressBar} from '@opentf/cli-pbar';
 import {outputType} from './pipe';
+import {spawn} from 'child_process';
+import path from 'path';
 
 const SIZES = {
 	reel: {
@@ -74,6 +76,11 @@ const renderVideo = async (
 				return ({percent, downloaded, totalSize}) => {
 					if (percent !== null) {
 						downloadProgress?.update({value: percent * 100});
+
+						const query = spawn('ls', [path.join(__dirname, '../out')]);
+						query.stdout.on('data', (data: {toString: () => string}) => {
+							console.log(data.toString());
+						});
 					}
 				};
 			},
