@@ -77,6 +77,7 @@ const s3 = new S3Client({
 
 		if (url) {
 			const outputType = (props.outputType as outputType) || 'reel';
+			console.log('renderVideo');
 			const fileName = await renderVideo(
 				bundleLocation,
 				surah,
