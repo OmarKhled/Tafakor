@@ -49,7 +49,7 @@ jobs:
           echo PIXABAY_KEY=${{ secrets.PIXABAY_KEY }} >> .env &&
           echo PEXELS_KEY=${{ secrets.PEXELS_KEY }} >> .env
       - name: Installing latest chromium version
-        run: apt-get install -y chromium
+        run: sudo apt-get install -y chromium
       # - name: Installing Chrome
       #   run: sudo dpkg -i google-chrome-stable_current_amd64.deb
       - name: Rendering Video
