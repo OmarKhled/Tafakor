@@ -5,9 +5,10 @@ import './Footer.css';
 interface props {
 	frame: number;
 	name: string;
+	size: 'lg' | 'rg';
 }
 
-function ReciterName({frame, name}: props) {
+function ReciterName({frame, name, size = 'rg'}: props) {
 	return (
 		<AbsoluteFill
 			className="wrapper end"
@@ -15,18 +16,9 @@ function ReciterName({frame, name}: props) {
 				opacity: Math.min(1, frame / 50),
 			}}
 		>
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					gap: '1rem',
-					width: '100%',
-					justifyContent: 'space-between',
-					padding: '0 2rem',
-				}}
-			>
-				<Img src={staticFile('logo.png')} style={{height: '50px'}} />
-				<p className="rectier">{`القارئ: ${name}`}</p>
+			<div className="footer">
+				<Img src={staticFile('logo.png')} className={`logo ${size}`} />
+				<p className={`rectier ${size}`}>{`القارئ: ${name}`}</p>
 			</div>
 		</AbsoluteFill>
 	);

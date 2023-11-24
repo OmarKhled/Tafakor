@@ -1,6 +1,6 @@
 import {loadFont} from '@remotion/google-fonts/Amiri';
 import {useEffect, useState} from 'react';
-import {AbsoluteFill, continueRender, delayRender, staticFile} from 'remotion';
+import {AbsoluteFill} from 'remotion';
 
 import './Verse.css';
 
@@ -9,26 +9,13 @@ interface props {
 	frame: number;
 	verse: string;
 	segments: number[][];
+	size: 'lg' | 'rg';
 }
 
-// Amiri Font
-const {fontFamily: Amiri} = loadFont();
+// Load Amiri Font
+loadFont();
 
-// Sura Font
-const waitForFont = delayRender();
-const suraName = new FontFace(
-	`sura`,
-	`url('${staticFile('sura_names.woff2')}') format('woff2')`
-);
-suraName
-	.load()
-	.then(() => {
-		document.fonts.add(suraName);
-		continueRender(waitForFont);
-	})
-	.catch((err) => console.log('Error loading font', err));
-
-const Verse = ({min, frame, verse, segments}: props) => {
+const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 	const NUM_OF_WORDS = 7;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 	const [segs, setSegs] = useState<string[]>([]);
@@ -84,14 +71,7 @@ const Verse = ({min, frame, verse, segments}: props) => {
 				opacity: Math.min(1, frame / 50),
 			}}
 		>
-			<h1
-				className="ayah"
-				style={{
-					fontFamily: Amiri,
-				}}
-			>
-				{segs[currentVerseIndex]}
-			</h1>
+			<h1 className={`ayah ${size}`}>{segs[currentVerseIndex]}</h1>
 		</AbsoluteFill>
 	);
 };

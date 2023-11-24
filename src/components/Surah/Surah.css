@@ -1,0 +1,13 @@
+.sura-name {
+	font-family: 'sura';
+	color: #fff;
+	margin: 0;
+}
+
+.sura-name.rg {
+	font-size: 60px;
+}
+
+.sura-name.lg {
+	font-size: 90px;
+}

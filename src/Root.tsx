@@ -22,12 +22,12 @@ export const RemotionRoot: React.FC = () => {
 				schema={schema}
 				durationInFrames={1}
 				defaultProps={{
-					surah: 33,
-					ayat: [4],
+					surah: 26,
+					ayat: [41, 42, 43, 44, 45, 46, 47],
 					footage: '',
 					random: true,
-					outputType: 'reel',
-					size: SIZES.reel,
+					outputType: 'reel' as const,
+					size: {width: 1080, height: 1920},
 				}}
 				calculateMetadata={async ({props}) => {
 					if (props.random) {

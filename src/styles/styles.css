@@ -19,21 +19,6 @@
 	justify-content: center;
 }
 
-.sura-name {
-	font-family: 'sura';
-	color: #fff;
-	font-size: 60px;
-	margin: 0;
-}
-
-.rectier {
-	font-family: "Amiri";
-	color: #fff;
-	font-size: 26px;
-	font-weight: 900;
-	margin: 0;
-}
-
 .strips {
 	background: repeating-linear-gradient(
 		45deg,

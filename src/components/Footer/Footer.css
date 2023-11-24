@@ -6,3 +6,27 @@
 	justify-content: space-between;
 	padding: 0 2rem;
 }
+
+.logo.rg {
+	height: 50px;
+}
+
+.logo.lg {
+	height: 65px;
+}
+
+
+.rectier {
+	font-family: "Amiri";
+	color: #fff;
+	font-weight: 900;
+	margin: 0;
+}
+
+.rectier.rg {
+	font-size: 26px;
+}
+
+.rectier.lg {
+	font-size: 35px;
+}

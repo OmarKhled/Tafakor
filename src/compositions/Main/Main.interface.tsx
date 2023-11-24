@@ -4,11 +4,9 @@ import {continueRender, delayRender} from 'remotion';
 import {getVideoMetadata} from '@remotion/media-utils';
 
 import {getVerseData} from '../../../utils/getVerse';
-
-import recitationDefaultProps from '../../../constants/recitationDefaultProps';
 import themes from '../../../constants/themes';
 
-import Recitation from './Main';
+import Recitation, {schema as mainSchema} from './Main';
 import {getStock} from '../../../pipe/stocks';
 
 export const schema = z.object({
@@ -25,9 +23,10 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 	ayat,
 	footage = null,
 	size,
+	outputType,
 }) => {
 	const [handle] = useState(() => delayRender());
-	const [props, setProps] = useState(recitationDefaultProps);
+	const [props, setProps] = useState<z.infer<typeof mainSchema>>();
 
 	useEffect(() => {
 		(async () => {
@@ -64,6 +63,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				active: true,
 				reciter: verse.reciter,
 				scale,
+				outputType,
 			});
 			return 0;
 		})()
@@ -77,6 +77,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 
 	return (
 		<>
+			{/* @ts-ignore */}
 			<Recitation {...props} />
 		</>
 	);

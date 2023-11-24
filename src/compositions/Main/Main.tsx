@@ -4,9 +4,9 @@ import {z} from 'zod';
 import Verse from '../../components/Verse';
 import BackgroundFill from '../../components/BackgroundFill';
 import Surah from '../../components/Surah';
-import ReciterName from '../../components/Footer';
+import Footer from '../../components/Footer';
 
-const schema = z.object({
+export const schema = z.object({
 	from: z.number(),
 	to: z.number(),
 	url: z.string(),
@@ -17,9 +17,10 @@ const schema = z.object({
 	active: z.boolean(),
 	reciter: z.string(),
 	scale: z.number(),
+	outputType: z.union([z.literal('reel'), z.literal('post')]),
 });
 
-const Recitation: React.FC<z.infer<typeof schema>> = ({
+const Main: React.FC<z.infer<typeof schema>> = ({
 	from,
 	to,
 	url,
@@ -30,6 +31,7 @@ const Recitation: React.FC<z.infer<typeof schema>> = ({
 	active,
 	reciter,
 	scale,
+	outputType,
 }) => {
 	const frame = useCurrentFrame();
 	const min = frame / 30 / 60;
@@ -48,13 +50,27 @@ const Recitation: React.FC<z.infer<typeof schema>> = ({
 				<BackgroundFill footageUrl={footageUrl} scale={scale} />
 
 				{/* Surah Name */}
-				<Surah frame={frame} surahNumber={surahNumber} />
+				<Surah
+					frame={frame}
+					surahNumber={surahNumber}
+					size={outputType === 'post' ? 'rg' : 'lg'}
+				/>
 
 				{/* Verse(s) text */}
-				<Verse min={min} frame={frame} verse={verse} segments={segments} />
+				<Verse
+					min={min}
+					frame={frame}
+					verse={verse}
+					segments={segments}
+					size={outputType === 'post' ? 'rg' : 'lg'}
+				/>
 
 				{/* Reciter Name */}
-				<ReciterName name={reciter} frame={frame} />
+				<Footer
+					name={reciter}
+					frame={frame}
+					size={outputType === 'post' ? 'rg' : 'lg'}
+				/>
 
 				{/* Recitation Audio */}
 				<Audio
@@ -69,4 +85,4 @@ const Recitation: React.FC<z.infer<typeof schema>> = ({
 	}
 };
 
-export default Recitation;
+export default Main;

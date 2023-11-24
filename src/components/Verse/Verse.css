@@ -1,9 +1,16 @@
 .ayah {
 	color: #fff;
-	font-size: 52px;
 	margin-top: 7rem;
-  font-family: sura;
+  font-family: Amiri;
 	text-align: center;
 	padding: 2rem;
 	line-height: 7rem;
+}
+
+.ayah.rg {
+	font-size: 52px;
+}
+
+.ayah.lg {
+	font-size: 62px;
 }
