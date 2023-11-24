@@ -73,11 +73,11 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 				/>
 
 				{/* Recitation Audio */}
-				<Audio
+				{/* <Audio
 					src={url}
 					startFrom={30 * 60 * from}
 					endAt={30 * 60 * to}
-				></Audio>
+				></Audio> */}
 			</AbsoluteFill>
 		);
 	} else {
