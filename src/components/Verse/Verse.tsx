@@ -1,21 +1,43 @@
+import {loadFont} from '@remotion/google-fonts/Amiri';
 import {useEffect, useState} from 'react';
-import {AbsoluteFill} from 'remotion';
+import {AbsoluteFill, continueRender, delayRender, staticFile} from 'remotion';
+
+import './Verse.css';
 
 interface props {
 	min: number;
 	frame: number;
 	verse: string;
 	segments: number[][];
-	font: string;
 }
 
-const Verse = ({min, frame, verse, segments, font}: props) => {
+// Amiri Font
+const {fontFamily: Amiri} = loadFont();
+
+// Sura Font
+const waitForFont = delayRender();
+const suraName = new FontFace(
+	`sura`,
+	`url('${staticFile('sura_names.woff2')}') format('woff2')`
+);
+suraName
+	.load()
+	.then(() => {
+		document.fonts.add(suraName);
+		continueRender(waitForFont);
+	})
+	.catch((err) => console.log('Error loading font', err));
+
+const Verse = ({min, frame, verse, segments}: props) => {
 	const NUM_OF_WORDS = 7;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 	const [segs, setSegs] = useState<string[]>([]);
 
 	useEffect(() => {
-		let s = verse.split(/ \u06da | \u06d6 | \u06d7 /);
+		let s = verse
+			.split(/\u06de | \u06de /)
+			.join('')
+			.split(/ \u06da | \u06d6 | \u06d7 /);
 		s = s
 			.map((c) =>
 				c.split(' ').length > NUM_OF_WORDS
@@ -65,10 +87,7 @@ const Verse = ({min, frame, verse, segments, font}: props) => {
 			<h1
 				className="ayah"
 				style={{
-					fontFamily: font,
-					textAlign: 'center',
-					padding: '2rem',
-					lineHeight: '7rem',
+					fontFamily: Amiri,
 				}}
 			>
 				{segs[currentVerseIndex]}

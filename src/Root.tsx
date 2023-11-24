@@ -1,33 +1,21 @@
 import {Composition} from 'remotion';
 
+import Main, {schema} from './compositions/Main';
+
 import {getVerseData} from '../utils/getVerse';
 import {getVerse} from '../utils/getVerse';
+import {SIZES} from '../constants/sizes';
 
 import './styles/styles.css';
-import RecitationComposition, {
-	schema,
-} from './components/RecitationComposition';
-
-const SIZES = {
-	reel: {
-		width: 1080,
-		height: 1920,
-	},
-	post: {
-		width: 1000,
-		height: 1000,
-	},
-};
 
 export const RemotionRoot: React.FC = () => {
 	const FPS = 30;
-	const SIZE = 1000;
 
 	return (
 		<>
 			<Composition
 				id="quran"
-				component={RecitationComposition}
+				component={Main}
 				fps={FPS}
 				width={1080}
 				height={1920}
@@ -38,7 +26,6 @@ export const RemotionRoot: React.FC = () => {
 					ayat: [4],
 					footage: '',
 					random: true,
-					footageType: 'video',
 					outputType: 'reel',
 					size: SIZES.reel,
 				}}

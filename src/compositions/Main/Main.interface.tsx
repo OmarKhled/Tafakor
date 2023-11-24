@@ -3,20 +3,19 @@ import {useEffect, useState} from 'react';
 import {continueRender, delayRender} from 'remotion';
 import {getVideoMetadata} from '@remotion/media-utils';
 
-import {getVerseData} from '../../utils/getVerse';
+import {getVerseData} from '../../../utils/getVerse';
 
-import recitationDefaultProps from '../../constants/recitationDefaultProps';
-import themes from '../../constants/themes';
+import recitationDefaultProps from '../../../constants/recitationDefaultProps';
+import themes from '../../../constants/themes';
 
-import {Recitation} from './Recitation';
-import {getStock} from '../../pipe/stocks';
+import Recitation from './Main';
+import {getStock} from '../../../pipe/stocks';
 
 export const schema = z.object({
 	surah: z.number(),
 	ayat: z.array(z.number()),
 	footage: z.string(),
 	random: z.boolean(),
-	footageType: z.union([z.literal('video'), z.literal('image')]),
 	outputType: z.union([z.literal('reel'), z.literal('post')]),
 	size: z.object({width: z.number(), height: z.number()}),
 });
@@ -25,7 +24,6 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 	surah,
 	ayat,
 	footage = null,
-	footageType,
 	size,
 }) => {
 	const [handle] = useState(() => delayRender());
@@ -64,7 +62,6 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				segments: verse.segments,
 				surahNumber: ('00' + verse.surahNumber).slice(-3),
 				active: true,
-				footageType: footageType as 'video' | 'image',
 				reciter: verse.reciter,
 				scale,
 			});

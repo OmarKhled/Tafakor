@@ -4,7 +4,6 @@
 	"description": "My Remotion video",
 	"scripts": {
 		"start": "remotion studio",
-		"build": "remotion render HelloWorld out/video.mp4",
 		"upgrade": "remotion upgrade",
 		"test": "eslint src --ext ts,tsx,js,jsx && tsc"
 	},
@@ -14,21 +13,21 @@
 	"dependencies": {
 		"@aws-sdk/client-s3": "^3.437.0",
 		"@opentf/cli-pbar": "^0.1.8",
-		"@remotion/bundler": "^4.0.56",
-		"@remotion/cli": "4.0.56",
-		"@remotion/google-fonts": "^4.0.56",
-		"@remotion/zod-types": "4.0.56",
+		"@remotion/bundler": "^4.0.74",
+		"@remotion/cli": "4.0.74",
+		"@remotion/google-fonts": "^4.0.74",
+		"@remotion/zod-types": "4.0.74",
 		"@types/uuid": "^9.0.6",
 		"aws-sdk": "^2.1483.0",
 		"pexels": "^1.4.0",
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0",
-		"remotion": "4.0.56",
+		"remotion": "4.0.74",
 		"uuid": "^9.0.1",
 		"zod": "^3.21.4"
 	},
 	"devDependencies": {
-		"@remotion/eslint-config": "4.0.56",
+		"@remotion/eslint-config": "4.0.74",
 		"@types/react": "^18.0.26",
 		"@types/web": "^0.0.86",
 		"eslint": "^8.43.0",

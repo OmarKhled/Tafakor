@@ -38,7 +38,6 @@ const renderVideo = async (
 			ayat: verses,
 			footage,
 			random: false,
-			footageType: 'video',
 			size: SIZES[outputType],
 			outputType,
 		};

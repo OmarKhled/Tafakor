@@ -1,0 +1,3 @@
+.backdrop {
+	backdrop-filter: blur(1px) brightness(60%);
+}
