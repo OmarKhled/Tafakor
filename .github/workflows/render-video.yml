@@ -48,9 +48,11 @@ jobs:
           echo S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }} >> .env &&
           echo PIXABAY_KEY=${{ secrets.PIXABAY_KEY }} >> .env &&
           echo PEXELS_KEY=${{ secrets.PEXELS_KEY }} >> .env
-      - name: Installing latest chromium version
-        run: sudo apt-get install -y chromium
-      # - name: Installing Chrome
-      #   run: sudo dpkg -i google-chrome-stable_current_amd64.deb
+      - name: Install FFMPEG
+        run: sudo apt install ffmpeg
+      - name: Fetching latest chromium version
+        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      - name: Installing Chrome
+        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
       - name: Rendering Video
         run: bun ./pipe
