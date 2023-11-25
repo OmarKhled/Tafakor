@@ -5,15 +5,15 @@ on:
       surah:
         description: "Surah Number"
         required: true
-        default: "26"
+        default: "2"
       from:
         description: "Ayat From"
         required: true
-        default: "41"
+        default: "1"
       to:
         description: "Ayat To"
         required: true
-        default: "47"
+        default: "2"
       video:
         description: "Video"
         required: true
