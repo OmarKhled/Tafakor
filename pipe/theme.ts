@@ -11,6 +11,7 @@ const getTheme = (verse: string): Promise<string> => {
 			path.join(__dirname, '/verseTheme.py'),
 			verse,
 		]);
+		console.log(query);
 		query.stdout.on('data', (data: {toString: () => string}) => {
 			console.log(data.toString());
 			resolve(

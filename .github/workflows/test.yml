@@ -1,0 +1,58 @@
+name: Render Video
+on:
+  workflow_dispatch:
+    inputs:
+      surah:
+        description: "Surah Number"
+        required: false
+      from:
+        description: "Ayat From"
+        required: false
+      to:
+        description: "Ayat To"
+        required: false
+      video:
+        description: "Video"
+        required: false
+      outputType:
+        description: "Facebook Publishment Type"
+        required: false
+jobs:
+  render:
+    name: Render video
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: actions/setup-node@main
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Emit input props
+        run: echo $WORKFLOW_INPUT | tee input-props.json | jq -C '.'
+        env:
+          WORKFLOW_INPUT: ${{ toJson(github.event.inputs) }}
+
+      - name: Bun Dependencies Install
+        run: bun i
+      - name: Python Dependencies Install
+        run: pip install g4f
+      - name: Emit Enviroment Variables
+        run: touch .env &&
+          echo TAFAKOR_ID=${{ secrets.TAFAKOR_ID }} >> .env &&
+          echo USER_ID=${{ secrets.USER_ID }} >> .env &&
+          echo USER_ACCESS_TOKEN=${{ secrets.USER_ACCESS_TOKEN }} >> .env &&
+          echo S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }} >> .env &&
+          echo S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }} >> .env &&
+          echo PIXABAY_KEY=${{ secrets.PIXABAY_KEY }} >> .env &&
+          echo PEXELS_KEY=${{ secrets.PEXELS_KEY }} >> .env
+      - name: Install FFMPEG
+        run: sudo apt install ffmpeg
+      - name: Fetching latest chrome version
+        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      - name: Installing Chrome
+        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
+      - name: Rendering Video
+        run: bun ./pipe/test.ts
