@@ -1,4 +1,4 @@
-name: Render Video
+name: Test / Render Video
 on:
   workflow_dispatch:
     inputs:
