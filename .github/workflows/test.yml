@@ -38,8 +38,6 @@ jobs:
 
       - name: Bun Dependencies Install
         run: bun i
-      - name: Python Dependencies Install
-        run: pip install g4f
       - name: Install FFMPEG
         run: sudo apt install ffmpeg
       - name: Fetching latest chrome version
