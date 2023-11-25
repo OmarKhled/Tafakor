@@ -16,7 +16,7 @@ interface props {
 loadFont();
 
 const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
-	const NUM_OF_WORDS = 7;
+	const NUM_OF_WORDS = size === 'rg' ? 7 : 5;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 	const [segs, setSegs] = useState<string[]>([]);
 

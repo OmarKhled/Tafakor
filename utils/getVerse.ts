@@ -91,10 +91,11 @@ const getVerse = async ({
 	let verse;
 	let post: ReflectPost | undefined;
 	if (!(surah && from && to)) {
+		const page = Math.floor(Math.random() * 300);
 		// Fetching Posts from quran reflect
 		const res: {posts: ReflectPost[]} = await (
 			await fetch(
-				'https://quranreflect.com/posts.json?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&page=1&tab=trending&lang=ar&featured=true',
+				`https://quranreflect.com/posts.json?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&page=1&tab=trending&lang=ar&featured=true&page=${page}`,
 				{method: 'GET'}
 			)
 		).json();
@@ -107,6 +108,96 @@ const getVerse = async ({
 			postIndex = Math.ceil(Math.random() * res.posts.length);
 			// postIndex = res.posts.findIndex((post) => post.id === 14454);
 			post = res.posts[postIndex];
+		}
+
+		// Post verse(s) data
+		surah = post.filters[0].surah_number;
+		from = post.filters[0].from;
+		to = post.filters[0].to;
+	}
+
+	// @ts-ignore
+	const verses = [...Array(to - from + 1)].map((e, i) => from + i);
+
+	const verseText = await getVerseText(surah, verses);
+
+	// Verse timings
+	const {timings} = await recitationData(surah, from, to);
+
+	verse = {
+		from: verses[0],
+		to: verses[verses.length - 1],
+		surah: surah,
+		id: post?.id,
+		verse: verseText,
+		duration:
+			(timings[timings.length - 1].timestamp_to - timings[0].timestamp_from) /
+			1000,
+	};
+	return verse;
+};
+
+/**
+ * @description fetches a random quranreflect post and returns its verse(s)
+ */
+const fetchAllPosts = async ({
+	surah,
+	from,
+	to,
+}: {
+	surah?: number;
+	from?: number;
+	to?: number;
+}): Promise<Verse> => {
+	let verse;
+	let post: ReflectPost | undefined;
+	if (!(surah && from && to)) {
+		// Fetching Posts from quran reflect
+		let lastPage = false;
+		let page = 1;
+		const posts: ReflectPost[] = [];
+		do {
+			let timeout = 0;
+			let done = false;
+			while (!done) {
+				await new Promise((resolve) => {
+					setTimeout(async () => {
+						try {
+							const res: {posts: ReflectPost[]} = await (
+								await fetch(
+									`https://quranreflect.com/posts.json?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&page=1&tab=trending&lang=ar&featured=true&page=${page}`,
+									{method: 'GET'}
+								)
+							).json();
+							if (res.posts.length === 0) {
+								lastPage = true;
+							} else {
+								console.log(page);
+								posts.push(...res.posts);
+								page++;
+							}
+							done = true;
+							resolve(null);
+						} catch (error) {
+							timeout += 500;
+							console.log(`Crashed, increseing timeout by 500`);
+							resolve(null);
+						}
+					}, timeout);
+				});
+			}
+		} while (!lastPage);
+
+		console.log(posts.length);
+
+		// Post Init
+		let postIndex: number | undefined;
+
+		// Choosing an elligable random post
+		while (post?.filters === undefined) {
+			postIndex = Math.ceil(Math.random() * posts.length);
+			// postIndex = res.posts.findIndex((post) => post.id === 14454);
+			post = posts[postIndex];
 		}
 
 		// Post verse(s) data

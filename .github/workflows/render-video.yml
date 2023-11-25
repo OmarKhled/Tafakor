@@ -37,7 +37,7 @@ jobs:
 
       - name: Bun Dependencies Install
         run: bun i
-      - name: Python Dependencies Install
+      - if: inputs.video == ''
         run: pip install g4f
       - name: Emit Enviroment Variables
         run: touch .env &&
