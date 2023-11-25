@@ -4,19 +4,20 @@ on:
     inputs:
       surah:
         description: "Surah Number"
-        required: false
+        required: true
+        default: "26"
       from:
         description: "Ayat From"
-        required: false
+        required: true
+        default: "41"
       to:
         description: "Ayat To"
-        required: false
+        required: true
+        default: "47"
       video:
         description: "Video"
-        required: false
-      outputType:
-        description: "Facebook Publishment Type"
-        required: false
+        required: true
+        default: "https://player.vimeo.com/progressive_redirect/playback/224857514/rendition/720p/file.mp4?loc=external&oauth2_token_id=1027659527&signature=a756b9db87ab75c38c60274686cd4b145a956cc878863f36fc8d03ca3dfc04d4#t=0"
 jobs:
   render:
     name: Render video
