@@ -17,12 +17,18 @@ on:
       outputType:
         description: "Facebook Publishment Type"
         required: false
+      ref:
+        description: "Commit Refernce"
+        required: true
+        default: "main"
 jobs:
   render:
     name: Render video
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@main
       - uses: oven-sh/setup-bun@v1
         with:
