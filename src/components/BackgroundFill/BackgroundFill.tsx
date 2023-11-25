@@ -10,11 +10,11 @@ interface props {
 function BackgroundFill({footageUrl, scale}: props) {
 	return (
 		<>
-			<OffthreadVideo
+			{/* <OffthreadVideo
 				src={footageUrl}
 				style={{transform: `scale(${scale})`}}
 				muted
-			></OffthreadVideo>
+			></OffthreadVideo> */}
 
 			<AbsoluteFill className="backdrop"></AbsoluteFill>
 		</>
