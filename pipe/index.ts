@@ -44,6 +44,8 @@ const s3 = new S3Client({
 		to: props.to ? Number(props.to) : undefined,
 	});
 
+	console.log(verse.duration);
+
 	// verse data extraction
 	const surah = verse.surah;
 	const verses = [...Array(verse.to - verse.from + 1)].map(

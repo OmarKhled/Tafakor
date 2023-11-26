@@ -1,4 +1,4 @@
-import {AbsoluteFill, OffthreadVideo} from 'remotion';
+import {AbsoluteFill, OffthreadVideo, Video} from 'remotion';
 
 import './BackgroundFill.css';
 
@@ -10,11 +10,11 @@ interface props {
 function BackgroundFill({footageUrl, scale}: props) {
 	return (
 		<>
-			{/* <OffthreadVideo
+			<Video
 				src={footageUrl}
 				style={{transform: `scale(${scale})`}}
 				muted
-			></OffthreadVideo> */}
+			></Video>
 
 			<AbsoluteFill className="backdrop"></AbsoluteFill>
 		</>

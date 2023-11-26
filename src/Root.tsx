@@ -20,7 +20,7 @@ export const RemotionRoot: React.FC = () => {
 				width={1080}
 				height={1920}
 				schema={schema}
-				durationInFrames={1}
+				durationInFrames={341}
 				defaultProps={{
 					surah: 26,
 					ayat: [41, 42, 43, 44, 45, 46, 47],
@@ -29,26 +29,26 @@ export const RemotionRoot: React.FC = () => {
 					outputType: 'reel' as const,
 					size: {width: 1080, height: 1920},
 				}}
-				calculateMetadata={async ({props}) => {
-					if (props.random) {
-						const verse = await getVerse({});
-						console.log(verse);
-						props.surah = verse.surah;
-						props.ayat = [...Array(verse.to - verse.from + 1)].map(
-							(e, i) => verse.from + i
-						);
-					}
-					const {durationInMins} = await getVerseData(props.surah, props.ayat);
+				// calculateMetadata={async ({props}) => {
+				// 	if (props.random) {
+				// 		const verse = await getVerse({});
+				// 		console.log(verse);
+				// 		props.surah = verse.surah;
+				// 		props.ayat = [...Array(verse.to - verse.from + 1)].map(
+				// 			(e, i) => verse.from + i
+				// 		);
+				// 	}
+				// 	const {durationInMins} = await getVerseData(props.surah, props.ayat);
 
-					props.size = SIZES[props.outputType];
+				// 	props.size = SIZES[props.outputType];
 
-					return {
-						durationInFrames: Math.ceil(durationInMins * FPS * 60),
-						width: props.size.width,
-						height: props.size.height,
-						props,
-					};
-				}}
+				// 	return {
+				// 		durationInFrames: Math.ceil(durationInMins * FPS * 60),
+				// 		width: props.size.width,
+				// 		height: props.size.height,
+				// 		props,
+				// 	};
+				// }}
 			/>
 		</>
 	);

@@ -66,6 +66,10 @@ const renderVideo = async (
 			outputLocation: `out/${compositionId}-${ID}.mp4`,
 			inputProps,
 			timeoutInMilliseconds: 300000,
+			onBrowserLog: (log) => {
+				console.log(log);
+			},
+			logLevel: 'verbose',
 			// concurrency: 8,
 			onProgress: ({progress}) => {
 				renderingProgresss?.update({value: progress * 100});
@@ -77,10 +81,10 @@ const renderVideo = async (
 					if (percent !== null) {
 						downloadProgress?.update({value: percent * 100});
 
-						const query = spawn('ls', [path.join(__dirname, '../out')]);
-						query.stdout.on('data', (data: {toString: () => string}) => {
-							console.log(data.toString());
-						});
+						// const query = spawn('ls', [path.join(__dirname, '../out')]);
+						// query.stdout.on('data', (data: {toString: () => string}) => {
+						// 	console.log(data.toString());
+						// });
 					}
 				};
 			},
