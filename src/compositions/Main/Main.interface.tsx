@@ -1,6 +1,6 @@
 import {z} from 'zod';
 import {useEffect, useState} from 'react';
-import {continueRender, delayRender} from 'remotion';
+import {continueRender, delayRender, staticFile} from 'remotion';
 import {getVideoMetadata} from '@remotion/media-utils';
 
 import {getVerseData} from '../../../utils/getVerse';
@@ -8,6 +8,25 @@ import themes from '../../../constants/themes';
 
 import Recitation, {schema as mainSchema} from './Main';
 import {getStock} from '../../../pipe/stocks';
+
+import {loadFont} from '@remotion/google-fonts/Amiri';
+
+// Load Amiri Font
+loadFont();
+
+// Sura Font
+const waitForFont = delayRender();
+const suraName = new FontFace(
+	`sura`,
+	`url('${staticFile('sura_names.woff2')}') format('woff2')`
+);
+suraName
+	.load()
+	.then(() => {
+		document.fonts.add(suraName);
+		continueRender(waitForFont);
+	})
+	.catch((err) => console.log('Error loading font', err));
 
 export const schema = z.object({
 	surah: z.number(),

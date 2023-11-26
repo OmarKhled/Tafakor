@@ -1,36 +1,10 @@
-import {
-	AbsoluteFill,
-	Audio,
-	useCurrentFrame,
-	continueRender,
-	delayRender,
-	staticFile,
-} from 'remotion';
+import {AbsoluteFill, Audio, useCurrentFrame} from 'remotion';
 import {z} from 'zod';
 
 import Verse from '../../components/Verse';
 import BackgroundFill from '../../components/BackgroundFill';
 import Surah from '../../components/Surah';
 import Footer from '../../components/Footer';
-
-import {loadFont} from '@remotion/google-fonts/Amiri';
-
-// Load Amiri Font
-loadFont();
-
-// Sura Font
-const waitForFont = delayRender();
-const suraName = new FontFace(
-	`sura`,
-	`url('${staticFile('sura_names.woff2')}') format('woff2')`
-);
-suraName
-	.load()
-	.then(() => {
-		document.fonts.add(suraName);
-		continueRender(waitForFont);
-	})
-	.catch((err) => console.log('Error loading font', err));
 
 export const schema = z.object({
 	from: z.number(),
