@@ -72,14 +72,16 @@ const renderVideo = async (
 			logLevel: 'verbose',
 			// concurrency: 8,
 			onProgress: ({progress}) => {
-				renderingProgresss?.update({value: progress * 100});
+				// renderingProgresss?.update({value: progress * 100});
+				console.log('Rendering Porgress:', progress * 100);
 			},
 			onDownload: (src) => {
 				console.log(`\nDownloading ${src} ...`);
-				const downloadProgress = multiBar.add({total: 100});
+				// const downloadProgress = multiBar.add({total: 100});
 				return ({percent, downloaded, totalSize}) => {
 					if (percent !== null) {
-						downloadProgress?.update({value: percent * 100});
+						console.log('Downloading Porgress:', percent * 100);
+						// downloadProgress?.update({value: percent * 100});
 
 						// const query = spawn('ls', [path.join(__dirname, '../out')]);
 						// query.stdout.on('data', (data: {toString: () => string}) => {
