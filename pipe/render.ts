@@ -70,7 +70,7 @@ const renderVideo = async (
 				console.log(log);
 			},
 			logLevel: 'verbose',
-			// concurrency: 8,
+			concurrency: 8,
 			onProgress: ({progress}) => {
 				// renderingProgresss?.update({value: progress * 100});
 				console.log('Rendering Porgress:', progress * 100);

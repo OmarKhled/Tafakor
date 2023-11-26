@@ -1,4 +1,4 @@
-import {AbsoluteFill, continueRender, delayRender, staticFile} from 'remotion';
+import {AbsoluteFill} from 'remotion';
 
 import './Surah.css';
 
@@ -7,20 +7,6 @@ interface props {
 	surahNumber: string;
 	size: 'lg' | 'rg';
 }
-
-// Sura Font
-const waitForFont = delayRender();
-const suraName = new FontFace(
-	`sura`,
-	`url('${staticFile('sura_names.woff2')}') format('woff2')`
-);
-suraName
-	.load()
-	.then(() => {
-		document.fonts.add(suraName);
-		continueRender(waitForFont);
-	})
-	.catch((err) => console.log('Error loading font', err));
 
 function Surah({frame, surahNumber, size = 'rg'}: props) {
 	return (

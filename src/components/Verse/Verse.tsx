@@ -1,9 +1,7 @@
-import {loadFont} from '@remotion/google-fonts/Amiri';
 import {useEffect, useState} from 'react';
 import {AbsoluteFill} from 'remotion';
 
 import './Verse.css';
-
 interface props {
 	min: number;
 	frame: number;
@@ -11,9 +9,6 @@ interface props {
 	segments: number[][];
 	size: 'lg' | 'rg';
 }
-
-// Load Amiri Font
-loadFont();
 
 const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 	const NUM_OF_WORDS = size === 'rg' ? 7 : 5;
