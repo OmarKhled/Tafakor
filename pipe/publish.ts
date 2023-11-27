@@ -92,9 +92,4 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 	}
 };
 
-publishToFB(
-	'https://tafakor.s3.eu-north-1.amazonaws.com/videos/quran-6ad3bf09-3ca6-40f2-91c6-f3d284b43f5d.mp4',
-	'reel'
-);
-
 export {publishToFB};
