@@ -1,6 +1,6 @@
 export const SIZES = {
 	reel: {
-		width: 900,
+		width: 1080,
 		height: 1920,
 	},
 	post: {

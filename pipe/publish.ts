@@ -1,4 +1,7 @@
 import {outputType} from './pipe';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const USER_ACCESS_TOKEN = process.env.USER_ACCESS_TOKEN;
 const TAFAKOR_ID = process.env.TAFAKOR_ID;
@@ -11,6 +14,8 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 				`https://graph.facebook.com/v18.0/${USER_ID}/accounts?access_token=${USER_ACCESS_TOKEN}`
 			)
 		).json();
+
+		console.log(accounts);
 
 		const TAFAKOR_TOKEN = accounts.data.find(
 			(p) => p.id === TAFAKOR_ID
@@ -82,8 +87,14 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 				return postPublish.success;
 		}
 	} catch (error) {
+		console.log(error);
 		return false;
 	}
 };
+
+publishToFB(
+	'https://tafakor.s3.eu-north-1.amazonaws.com/videos/quran-6ad3bf09-3ca6-40f2-91c6-f3d284b43f5d.mp4',
+	'reel'
+);
 
 export {publishToFB};
