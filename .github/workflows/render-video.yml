@@ -17,18 +17,12 @@ on:
       outputType:
         description: "Facebook Publishment Type"
         required: false
-      ref:
-        description: "Commit Refernce"
-        required: true
-        default: "main"
 jobs:
   render:
     name: Render video
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          ref: ${{ inputs.ref }}
       - uses: actions/setup-node@main
       - uses: oven-sh/setup-bun@v1
         with:
@@ -44,16 +38,11 @@ jobs:
       - name: Dependencies Install
         run: bun i
       - if: inputs.video == ''
+        name: Python Dependencies
         run: pip install g4f
       - name: Emit Enviroment Variables
         run: touch .env &&
-          echo TAFAKOR_ID=${{ secrets.TAFAKOR_ID }} >> .env &&
-          echo USER_ID=${{ secrets.USER_ID }} >> .env &&
-          echo USER_ACCESS_TOKEN=${{ secrets.USER_ACCESS_TOKEN }} >> .env &&
-          echo S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }} >> .env &&
-          echo S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }} >> .env &&
-          echo PIXABAY_KEY=${{ secrets.PIXABAY_KEY }} >> .env &&
-          echo PEXELS_KEY=${{ secrets.PEXELS_KEY }} >> .env
+          echo "${{ secrets.ENV }}" > .env
       - name: Install FFMPEG
         run: sudo apt install ffmpeg
       - name: Fetching latest chrome version
@@ -61,4 +50,4 @@ jobs:
       - name: Installing Chrome
         run: sudo dpkg -i google-chrome-stable_current_amd64.deb
       - name: Rendering Video
-        run: bun ./pipe
+        run: npm run pipe

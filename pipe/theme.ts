@@ -8,7 +8,7 @@ import path from 'path';
 const getTheme = (verse: string): Promise<string> => {
 	return new Promise<string>((resolve) => {
 		const query = spawn('python', [
-			path.join(__dirname, '/verseTheme.py'),
+			path.join(process.cwd(), 'pipe', 'verseTheme.py'),
 			verse,
 		]);
 		console.log(query);

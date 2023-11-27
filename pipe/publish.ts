@@ -61,6 +61,7 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 						}
 					)
 				).json();
+				console.log(reelPublish);
 				return reelPublish.success;
 
 			case 'post':
@@ -77,6 +78,7 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 						}
 					)
 				).json();
+				console.log(postPublish);
 				return postPublish.success;
 		}
 	} catch (error) {

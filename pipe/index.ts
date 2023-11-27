@@ -1,5 +1,7 @@
 import path from 'path';
-import fs from 'fs/promises';
+import dotenv from 'dotenv';
+import {readFileSync} from 'fs';
+import {readFile} from 'fs/promises';
 import {bundle} from '@remotion/bundler';
 import {S3Client, PutObjectCommand, ObjectCannedACL} from '@aws-sdk/client-s3';
 import {getVerse} from '../utils/getVerse';
@@ -10,10 +12,12 @@ import {publishToFB} from './publish';
 import {Verse} from '../utils/types';
 import {outputType, stockProvider} from './pipe';
 
+dotenv.config();
+
 let props: {[key: string]: string} = {};
 
 try {
-	props = require('../input-props.json');
+	props = JSON.parse(readFileSync('input-props.json', 'utf-8'));
 	if (Object.keys(props).length > 0) {
 		console.log('Input Props Detected', props);
 	}
@@ -33,7 +37,7 @@ const s3 = new S3Client({
 (async () => {
 	// remotion bundle location
 	const bundleLocation = await bundle({
-		entryPoint: path.join(__dirname, '../src/index.ts'),
+		entryPoint: path.join(process.cwd(), 'src/index.ts'),
 		webpackOverride: (config) => config,
 	});
 
@@ -47,7 +51,7 @@ const s3 = new S3Client({
 	console.log(verse.duration);
 
 	// verse data extraction
-	const surah = verse.surah;
+	const {surah} = verse;
 	const verses = [...Array(verse.to - verse.from + 1)].map(
 		(e, i) => verse.from + i
 	);
@@ -90,9 +94,7 @@ const s3 = new S3Client({
 
 			console.log('Video Rendering Done');
 
-			const file = await fs.readFile(
-				path.join(__dirname, '../out/' + fileName)
-			);
+			const file = await readFile(path.join(process.cwd(), '/out/' + fileName));
 
 			const params = {
 				Bucket: 'tafakor',
@@ -104,7 +106,7 @@ const s3 = new S3Client({
 			// Push To S3
 			await s3.send(new PutObjectCommand(params));
 
-			const fileUrl = `https://tafakor.s3.eu-north-1.amazonaws.com/videos/${fileName}`;
+			const fileUrl = `${process.env.S3_ENDPOINT}${fileName}`;
 			console.log(`Uploaded to S3: ${fileUrl}`);
 
 			// Publish to FB
