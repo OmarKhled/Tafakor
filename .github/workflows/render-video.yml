@@ -45,3 +45,8 @@ jobs:
           echo "${{ secrets.ENV }}" > .env
       - name: Rendering Video
         run: npm run pipe
+      - name: Upload video
+        uses: actions/upload-artifact@v3
+        with:
+          name: out
+          path: out/*.mp4
