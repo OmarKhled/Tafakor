@@ -2,10 +2,7 @@ import {createClient, Videos} from 'pexels';
 import {stockProvider} from './pipe';
 import dotenv from 'dotenv';
 
-dotenv.config();
-
-const PEXELS_KEY = process.env.PEXELS_KEY as string;
-const PIXABAY_KEY = process.env.PIXABAY_KEY as string;
+// dotenv.config();
 
 /**
  * @description gets video with the closest duration to the targeted duration
@@ -42,9 +39,12 @@ const closestDurationVideo = (
  * @param duration - video duration
  */
 const pexelsStock = async (query: string, duration: number) => {
+	const PEXELS_KEY = process.env.PEXELS_KEY as string;
+
 	let page = 1;
 	let resLength = 0;
 	const videos = [];
+
 	do {
 		console.log('Page:', page);
 		const res: Videos = (await createClient(PEXELS_KEY).videos.search({
@@ -78,6 +78,8 @@ const pexelsStock = async (query: string, duration: number) => {
  */
 
 const pixabayStock = async (query: string, duration: number) => {
+	const PIXABAY_KEY = process.env.PIXABAY_KEY as string;
+
 	let page = 1;
 	let resLength = 0;
 	const videos = [];

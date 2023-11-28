@@ -5,10 +5,10 @@ import {readFile} from 'fs/promises';
 import {bundle} from '@remotion/bundler';
 import {S3Client, PutObjectCommand, ObjectCannedACL} from '@aws-sdk/client-s3';
 import {getVerse} from '../utils/getVerse';
-import {getStock} from './stocks';
 import {renderVideo} from './render';
 import {getTheme} from './theme';
 import {publishToFB} from './publish';
+import {getStock} from './stocks';
 import {Verse} from '../utils/types';
 import {outputType, stockProvider} from './pipe';
 
