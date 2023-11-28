@@ -1,4 +1,4 @@
-import {AbsoluteFill, OffthreadVideo, Video} from 'remotion';
+import {AbsoluteFill, Video} from 'remotion';
 
 import './BackgroundFill.css';
 

@@ -1,5 +1,8 @@
 import {createClient, Videos} from 'pexels';
 import {stockProvider} from './pipe';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const PEXELS_KEY = process.env.PEXELS_KEY as string;
 const PIXABAY_KEY = process.env.PIXABAY_KEY as string;
