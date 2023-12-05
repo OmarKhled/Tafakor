@@ -79,41 +79,36 @@ const recitationData = async (surah: number, from: number, to: number) => {
 /**
  * @description fetches a random quranreflect post and returns its verse(s)
  */
-const getVerse = async ({
-	surah,
-	from,
-	to,
-}: {
-	surah?: number;
-	from?: number;
-	to?: number;
-}): Promise<Verse> => {
+const getVerse = async (
+	{
+		surah,
+		from,
+		to,
+	}: {
+		surah?: number;
+		from?: number;
+		to?: number;
+	},
+	random: boolean = false
+): Promise<Verse> => {
 	let verse;
 	let post: ReflectPost | undefined;
 	if (!(surah && from && to)) {
-		const page = Math.floor(Math.random() * 300);
-		// Fetching Posts from quran reflect
-		const res: {posts: ReflectPost[]} = await (
+		const post: {
+			id: string;
+			surah_number: number;
+			from: number;
+			to: number;
+		} = await (
 			await fetch(
-				`https://quranreflect.com/posts.json?client_auth_token=tUqQpl4f87wIGnLRLzG61dGYe03nkBQj&page=1&tab=trending&lang=ar&featured=true&page=${page}`,
-				{method: 'GET'}
+				`${process.env.TAFAKOR_API_ENDPOINT}/verses/one?random=${random}`
 			)
 		).json();
 
-		// Post Init
-		let postIndex: number | undefined;
-
-		// Choosing an elligable random post
-		while (post?.filters === undefined) {
-			postIndex = Math.ceil(Math.random() * res.posts.length);
-			// postIndex = res.posts.findIndex((post) => post.id === 14454);
-			post = res.posts[postIndex];
-		}
-
 		// Post verse(s) data
-		surah = post.filters[0].surah_number;
-		from = post.filters[0].from;
-		to = post.filters[0].to;
+		surah = post.surah_number;
+		from = post.from;
+		to = post.to;
 	}
 
 	// @ts-ignore

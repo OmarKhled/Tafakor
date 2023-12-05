@@ -1,8 +1,5 @@
 import {createClient, Videos} from 'pexels';
 import {stockProvider} from './pipe';
-import dotenv from 'dotenv';
-
-// dotenv.config();
 
 /**
  * @description gets video with the closest duration to the targeted duration

@@ -19,7 +19,7 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 		let s = verse
 			.split(/\u06de | \u06de /)
 			.join('')
-			.split(/ \u06da | \u06d6 | \u06d7 /);
+			.split(/ \u06da | \u06d6 | \u06d7 | \u06d8 /);
 		s = s
 			.map((c) =>
 				c.split(' ').length > NUM_OF_WORDS
