@@ -1,5 +1,5 @@
 type Verse = {
-	id: number | undefined;
+	id: number | string | undefined;
 	from: number;
 	to: number;
 	surah: number;
