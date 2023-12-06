@@ -79,7 +79,7 @@ const s3 = new S3Client({
 		const video = await getStock(theme, verse.duration, stockVideosProvider);
 		url = video.url;
 		videoId = video.id;
-		console.log(`${stockVideosProvider} Video: ${url}`);
+		console.log(`${stockVideosProvider} Video: ${url}, videoId ${videoId}`);
 	}
 
 	let valid = false;
@@ -104,6 +104,7 @@ const s3 = new S3Client({
 				Key: 'videos' + '/' + fileName,
 				Body: file,
 				ACL: ObjectCannedACL.public_read,
+				ContentType: 'video/mp4',
 			};
 
 			// Push To S3

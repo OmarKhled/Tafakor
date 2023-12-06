@@ -11,7 +11,6 @@ const getTheme = (verse: string): Promise<string> => {
 			path.join(process.cwd(), 'pipe', 'verseTheme.py'),
 			verse,
 		]);
-		console.log(query);
 		query.stdout.on('data', (data: {toString: () => string}) => {
 			console.log(data.toString());
 			resolve(
