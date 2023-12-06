@@ -17,9 +17,11 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 
 	useEffect(() => {
 		let s = verse
-			.split(/\u06de | \u06de /)
+			.split(
+				/\u06de | \u06de |\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650 /
+			)
 			.join('')
-			.split(/ \u06da | \u06d6 | \u06d7 | \u06d8 /);
+			.split(/ \u06da | \u06d6 | \u06d7 | \u06d8 | \u06db /);
 		s = s
 			.map((c) =>
 				c.split(' ').length > NUM_OF_WORDS
@@ -35,6 +37,7 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 			)
 			.flat();
 		setSegs(s);
+		console.log(s);
 	}, [verse]);
 
 	useEffect(() => {
