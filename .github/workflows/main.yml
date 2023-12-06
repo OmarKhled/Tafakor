@@ -1,0 +1,33 @@
+name: Scheduled Posts
+on:
+  schedule:
+  - cron: "0 6 * * *"
+jobs:
+  render:
+    name: Render video
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@main
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: 1.0.8
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Dependencies Install
+        run: bun i
+      - if: inputs.video == ''
+        name: Python Dependencies
+        run: pip install g4f
+      - name: Emit Enviroment Variables
+        run: touch .env &&
+          echo "${{ secrets.ENV }}" > .env
+      - name: Rendering Video
+        run: npm run pipe
+      - name: Upload video
+        uses: actions/upload-artifact@v3
+        with:
+          name: out
+          path: out/*.mp4
