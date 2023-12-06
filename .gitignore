@@ -7,5 +7,6 @@ dist
 out
 ignore
 
+input-props.json
 
 *.ignore.*
