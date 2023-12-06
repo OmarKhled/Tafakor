@@ -7,7 +7,7 @@ import {S3Client, PutObjectCommand, ObjectCannedACL} from '@aws-sdk/client-s3';
 import {getVerse} from '../utils/getVerse';
 import {renderVideo} from './render';
 import {getTheme} from './theme';
-import {publishToFB} from './publish';
+import {submitPosting} from './publish';
 import {getStock} from './stocks';
 import {Verse} from '../utils/types';
 import {outputType, stockProvider} from './pipe';
@@ -69,18 +69,21 @@ const s3 = new S3Client({
 	}
 	console.log('Chosen theme:', theme);
 
+	const stockVideosProvider: stockProvider = 'PIXABAY';
+	let url = '';
+	let videoId = '';
+	if (props.video) {
+		url = props.video;
+		console.log(`Prop Video: ${url}`);
+	} else {
+		const video = await getStock(theme, verse.duration, stockVideosProvider);
+		url = video.url;
+		videoId = video.id;
+		console.log(`${stockVideosProvider} Video: ${url}`);
+	}
+
 	let valid = false;
 	do {
-		const stockVideosProvider: stockProvider = 'PIXABAY';
-		let url = '';
-		if (props.video) {
-			url = props.video;
-			console.log(`Prop Video: ${url}`);
-		} else {
-			url = (await getStock(theme, verse.duration, stockVideosProvider)).url;
-			console.log(`${stockVideosProvider} Video: ${url}`);
-		}
-
 		if (url) {
 			const outputType = (props.outputType as outputType) || 'reel';
 			console.log('renderVideo');
@@ -111,11 +114,19 @@ const s3 = new S3Client({
 
 			// Publish to FB
 			console.log('Publishing Video to FB');
-			const publishStatus = await publishToFB(fileUrl, outputType);
+
+			// const publishStatus = await publishToFB(fileUrl, outputType);
+			const publishStatus = await submitPosting(
+				outputType,
+				fileUrl,
+				String(verse.id),
+				videoId,
+				stockVideosProvider
+			);
 			if (publishStatus) {
 				console.log('Video Published to FB');
 			} else {
-				console.log('Publishing Failed');
+				throw new Error('Publishing Failed');
 			}
 
 			valid = true;

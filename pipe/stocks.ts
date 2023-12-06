@@ -65,6 +65,7 @@ const pexelsStock = async (query: string, duration: number) => {
 	return {
 		url: videoUrl as string,
 		duration: video.duration,
+		id: video.id,
 	};
 };
 
@@ -102,6 +103,7 @@ const pixabayStock = async (query: string, duration: number) => {
 	return {
 		url: videoUrl,
 		duration: video.duration,
+		id: video.id,
 	};
 };
 
