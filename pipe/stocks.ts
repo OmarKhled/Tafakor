@@ -1,6 +1,8 @@
 import {createClient, Videos} from 'pexels';
 import {stockProvider} from './pipe';
 
+type stocks = {id: string}[] | null;
+
 /**
  * @description gets video with the closest duration to the targeted duration
  * @param videos - videos array
@@ -35,12 +37,16 @@ const closestDurationVideo = (
  * @param query - video search query
  * @param duration - video duration
  */
-const pexelsStock = async (query: string, duration: number) => {
+const pexelsStock = async (
+	query: string,
+	duration: number,
+	usedStocks: stocks
+) => {
 	const PEXELS_KEY = process.env.PEXELS_KEY as string;
 
 	let page = 1;
 	let resLength = 0;
-	const videos = [];
+	let videos = [];
 
 	do {
 		console.log('Page:', page);
@@ -54,6 +60,10 @@ const pexelsStock = async (query: string, duration: number) => {
 		videos.push(...res.videos);
 		resLength = res.videos.length;
 	} while (resLength > 0 && page < 3);
+
+	videos = videos.filter(
+		(video) => !usedStocks?.map((stock) => stock.id).includes(String(video.id))
+	);
 
 	const video = closestDurationVideo(videos, duration);
 
@@ -75,12 +85,16 @@ const pexelsStock = async (query: string, duration: number) => {
  * @param duration - video duration
  */
 
-const pixabayStock = async (query: string, duration: number) => {
+const pixabayStock = async (
+	query: string,
+	duration: number,
+	usedStocks: stocks
+) => {
 	const PIXABAY_KEY = process.env.PIXABAY_KEY as string;
 
 	let page = 1;
 	let resLength = 0;
-	const videos = [];
+	let videos = [];
 	do {
 		console.log('Page:', page);
 		const res = await (
@@ -94,6 +108,10 @@ const pixabayStock = async (query: string, duration: number) => {
 		videos.push(...res.hits);
 		resLength = res.hits.length;
 	} while (resLength > 0 && page <= 3);
+
+	videos = videos.filter(
+		(video) => !usedStocks?.map((stock) => stock.id).includes(String(video.id))
+	);
 
 	const video = closestDurationVideo(videos, duration);
 
@@ -112,16 +130,25 @@ const pixabayStock = async (query: string, duration: number) => {
  * @param query - Videos search query
  * @param duration - Video duration
  */
-const getStock = (query: string, duration: number, provider: stockProvider) => {
+const getStock = async (
+	query: string,
+	duration: number,
+	provider: stockProvider
+) => {
+	const usedStocks: stocks = await (
+		await fetch(`${process.env.TAFAKOR_API_ENDPOINT}/stocks`)
+	).json();
+
+	console.log('Stocks:', usedStocks);
 	switch (provider) {
 		case 'PEXELS':
-			return pexelsStock(query, duration);
+			return pexelsStock(query, duration, usedStocks);
 
 		case 'PIXABAY':
-			return pixabayStock(query, duration);
+			return pixabayStock(query, duration, usedStocks);
 
 		default:
-			return pixabayStock(query, duration);
+			return pixabayStock(query, duration, usedStocks);
 	}
 };
 

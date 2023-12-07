@@ -114,18 +114,25 @@ const s3 = new S3Client({
 			console.log(`Uploaded to S3: ${fileUrl}`);
 
 			// Publish to FB
-			console.log('Publishing Video to FB');
+			console.log('Submitting Publishment...');
 
-			// const publishStatus = await publishToFB(fileUrl, outputType);
+			console.log({
+				outputType,
+				fileUrl,
+				verseId: String(verse.id),
+				stockId: String(videoId),
+				stockVideosProvider,
+			});
+
 			const publishStatus = await submitPosting(
 				outputType,
 				fileUrl,
 				String(verse.id),
-				videoId,
+				String(videoId),
 				stockVideosProvider
 			);
 			if (publishStatus) {
-				console.log('Video Published to FB');
+				console.log('Submitted');
 			} else {
 				throw new Error('Publishing Failed');
 			}
