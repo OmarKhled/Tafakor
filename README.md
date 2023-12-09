@@ -8,7 +8,7 @@ Tafakor | تفكُّر
 
 [![Facebook Link](https://img.shields.io/badge/Tafakor_On_Facebook-fff?logo=facebook&labelColor=blue)](https://www.facebook.com/Tfkor)
 
-Tafakor, is a project for creating Quranic content programatically. Tafakor utilizes a specialized pipeline to automatically generate and post Quran clips every day on social media platforms.
+Tafakor, is a project for creating Quranic content programatically. The project utilizes a specialized pipeline to automatically generate and post Quranic content every day on social media platforms.
 
 Tafakor wouldn't exist without the efforts of the great dedicated teams at [Quran.com](https://quran.com), [Alquran.cloud](https://alquran.cloud), and [Quranicaudio.cloud](https://quranicaudio.com). Their pioneering efforts and inspirational contributions have been fundamental in shaping our project and enabling us to bring Tafakor to life.
 
