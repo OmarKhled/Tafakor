@@ -1,4 +1,4 @@
-import {AudioResponse, ReflectPost, Verse} from './types';
+import {AudioResponse, Verse} from './types';
 
 const reciters = [
 	{
@@ -8,6 +8,10 @@ const reciters = [
 	{
 		name: 'خليفة الطنيجى',
 		id: 161,
+	},
+	{
+		name: 'محمود خليل الحصرى',
+		id: 12,
 	},
 ];
 

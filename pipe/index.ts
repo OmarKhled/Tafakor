@@ -11,6 +11,7 @@ import {submitPosting} from './publish';
 import {getStock} from './stocks';
 import {Verse} from '../utils/types';
 import {outputType, stockProvider} from './pipe';
+import {STOCKS} from '../constants/stocks';
 
 dotenv.config();
 
@@ -69,7 +70,8 @@ const s3 = new S3Client({
 	}
 	console.log('Chosen theme:', theme);
 
-	const stockVideosProvider: stockProvider = 'PIXABAY';
+	const stockVideosProvider: stockProvider =
+		STOCKS[Math.floor(Math.random() * STOCKS.length)];
 	let url = '';
 	let videoId = '';
 	if (props.video) {

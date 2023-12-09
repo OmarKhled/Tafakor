@@ -2,14 +2,15 @@ import {z} from 'zod';
 import {useEffect, useState} from 'react';
 import {continueRender, delayRender, staticFile} from 'remotion';
 import {getVideoMetadata} from '@remotion/media-utils';
+import {loadFont} from '@remotion/google-fonts/Amiri';
 
+import Recitation, {schema as mainSchema} from './Main';
 import {getVerseData} from '../../../utils/getVerse';
 import themes from '../../../constants/themes';
 
-import Recitation, {schema as mainSchema} from './Main';
 import {getStock} from '../../../pipe/stocks';
 
-import {loadFont} from '@remotion/google-fonts/Amiri';
+import {STOCKS} from '../../../constants/stocks';
 
 // Load Amiri Font
 loadFont();
@@ -55,8 +56,10 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 
 			if (footageUrl == null || footageUrl.length == 0) {
 				const query = themes[Math.floor(Math.random() * themes.length)];
+				const stockVideosProvider =
+					STOCKS[Math.floor(Math.random() * STOCKS.length)];
 				footageUrl = (
-					await getStock(query, verse.durationInMins * 60, 'PIXABAY')
+					await getStock(query, verse.durationInMins * 60, stockVideosProvider)
 				).url as string;
 			}
 
