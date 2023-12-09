@@ -119,7 +119,7 @@ const pixabayStock = async (
 	const videoUrl = video.videos['medium'].url;
 
 	return {
-		url: videoUrl,
+		url: videoUrl + '&download=1',
 		duration: video.duration,
 		id: video.id,
 	};
