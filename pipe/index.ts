@@ -70,8 +70,7 @@ const s3 = new S3Client({
 	}
 	console.log('Chosen theme:', theme);
 
-	const stockVideosProvider: stockProvider =
-		STOCKS[Math.floor(Math.random() * STOCKS.length)];
+	const stockVideosProvider: stockProvider = STOCKS[0];
 	let url = '';
 	let videoId = '';
 	if (props.video) {
