@@ -118,6 +118,8 @@ const pixabayStock = async (
 	// Video URL
 	const videoUrl = video.videos['medium'].url + '&download=1';
 
+	console.log('Fetched URL, PIXABAY:', videoUrl);
+
 	const response = await fetch(videoUrl, {method: 'GET'});
 	console.log(response.status);
 	console.log(response.statusText);
