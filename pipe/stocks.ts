@@ -68,9 +68,9 @@ const pexelsStock = async (
 	const video = closestDurationVideo(videos, duration);
 
 	// Video URL
-	const videoUrl = video.video_files.find(
-		(video: any) => video.quality === 'hd'
-	)?.link;
+	const videoUrl =
+		video.video_files.find((video: any) => video.quality === 'hd')?.link +
+		'&download=1';
 
 	return {
 		url: videoUrl as string,
@@ -118,22 +118,13 @@ const pixabayStock = async (
 	// Video URL
 	const videoUrl = video.videos['medium'].url + '&download=1';
 
-	fetch(videoUrl, {method: 'GET'})
-		.then(async (response) => {
-			console.log(response.status);
-			console.log(response.statusText);
-			console.log(await response.json());
-			console.log(response.body);
-			console.log('redirected: ', response.redirected);
-			console.log('res url: ', response.url);
-			// HTTP 301 response
-			// if (response.redirected) {
-			// 	// window.location.href = response.url;
-			// }
-		})
-		.catch(function (err) {
-			console.info(err + ' url: ' + videoUrl);
-		});
+	const response = await fetch(videoUrl, {method: 'GET'});
+	console.log(response.status);
+	console.log(response.statusText);
+	// console.log(await response.json());
+	console.log(response.body);
+	console.log('redirected: ', response.redirected);
+	console.log('res url: ', response.url);
 
 	return {
 		url: videoUrl + '&download=1',
