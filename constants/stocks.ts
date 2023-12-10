@@ -1,3 +1,3 @@
 import {stockProvider} from '../pipe/pipe';
 
-export const STOCKS: stockProvider[] = ['PEXELS', 'PIXABAY'];
+export const STOCKS: stockProvider[] = ['PIXABAY', 'PEXELS'];
