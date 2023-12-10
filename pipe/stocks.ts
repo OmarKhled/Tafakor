@@ -129,7 +129,7 @@ const pixabayStock = async (
 	console.log('res url: ', response.url);
 
 	return {
-		url: videoUrl + '&download=1',
+		url: response.url,
 		duration: video.duration,
 		id: video.id,
 	};
