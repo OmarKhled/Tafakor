@@ -55,6 +55,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 			const verse = await getVerseData(surah, ayat);
 
 			if (footageUrl == null || footageUrl.length == 0) {
+				console.log('No Media');
 				const query = themes[Math.floor(Math.random() * themes.length)];
 				const stockVideosProvider =
 					STOCKS[Math.floor(Math.random() * STOCKS.length)];
@@ -93,6 +94,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				continueRender(handle);
 			})
 			.catch((err) => {
+				continueRender(handle);
 				console.log(`Error fetching metadata: ${err}`);
 			});
 	}, [handle]);

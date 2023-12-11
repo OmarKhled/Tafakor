@@ -120,16 +120,8 @@ const pixabayStock = async (
 
 	console.log('Fetched URL, PIXABAY:', videoUrl);
 
-	const response = await fetch(videoUrl, {method: 'GET'});
-	console.log(response.status);
-	console.log(response.statusText);
-	// console.log(await response.json());
-	console.log(response.body);
-	console.log('redirected: ', response.redirected);
-	console.log('res url: ', response.url);
-
 	return {
-		url: response.url,
+		url: videoUrl,
 		duration: video.duration,
 		id: video.id,
 	};
@@ -149,7 +141,7 @@ const getStock = async (
 		await fetch(`${process.env.TAFAKOR_API_ENDPOINT}/stocks`)
 	).json();
 
-	console.log('Stocks:', usedStocks);
+	// console.log('Stocks:', usedStocks);
 	switch (provider) {
 		case 'PEXELS':
 			return pexelsStock(query, duration, usedStocks);

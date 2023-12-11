@@ -18,8 +18,8 @@ const getTheme = (verse: string): Promise<string> => {
 					data
 						.toString()
 						.split('\n')
-						.findIndex((q) => q.includes('Theme: '))
-				].split(' ')[1]
+						.findIndex((q) => q.includes('Selected Theme:'))
+				].split(' ')[2]
 			);
 		});
 	});

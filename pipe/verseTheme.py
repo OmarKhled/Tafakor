@@ -36,4 +36,4 @@ while response.lower() not in themes:
   except:
       pass
 
-print("Theme: " + response)
+print("Selected Theme: " + response)
