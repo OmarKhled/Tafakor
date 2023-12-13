@@ -1,22 +1,6 @@
 name: Render Video
 on:
-  workflow_dispatch:
-    inputs:
-      surah:
-        description: "Surah Number"
-        required: false
-      from:
-        description: "Ayat From"
-        required: false
-      to:
-        description: "Ayat To"
-        required: false
-      video:
-        description: "Video"
-        required: false
-      outputType:
-        description: "Facebook Publishment Type"
-        required: false
+  workflow_dispatch
 jobs:
   render:
     name: Render video
@@ -43,10 +27,6 @@ jobs:
       - name: Emit Enviroment Variables
         run: touch .env &&
           echo "${{ secrets.ENV }}" > .env
-      - name: Fetching latest chrome version
-        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - name: Installing Chrome
-        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
       - name: Rendering Video
         run: npm run pipe
       - name: Upload video

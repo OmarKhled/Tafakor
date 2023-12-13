@@ -95,15 +95,15 @@ const getVerse = async (
 	},
 	random: boolean = false
 ): Promise<Verse> => {
-	let verse;
-	// let post: ReflectPost | undefined;
 	let postId;
+	let postVideo;
 	if (!(surah && from && to)) {
 		const post: {
 			id: string;
 			surah_number: number;
 			from: number;
 			to: number;
+			video: string;
 		} = await (
 			await fetch(
 				`${process.env.TAFAKOR_API_ENDPOINT}/verses/one?random=${random}`
@@ -111,6 +111,7 @@ const getVerse = async (
 		).json();
 
 		postId = post.id;
+		postVideo = post.video;
 
 		// Post verse(s) data
 		surah = post.surah_number;
@@ -126,7 +127,7 @@ const getVerse = async (
 	// Verse timings
 	const {timings} = await recitationData(surah, from, to);
 
-	verse = {
+	return {
 		from: verses[0],
 		to: verses[verses.length - 1],
 		surah: surah,
@@ -135,8 +136,8 @@ const getVerse = async (
 		duration:
 			(timings[timings.length - 1].timestamp_to - timings[0].timestamp_from) /
 			1000,
+		video: postVideo,
 	};
-	return verse;
 };
 
 /**

@@ -1,6 +1,5 @@
 import path from 'path';
 import dotenv from 'dotenv';
-import {readFileSync} from 'fs';
 import {readFile} from 'fs/promises';
 import {bundle} from '@remotion/bundler';
 import {S3Client, PutObjectCommand, ObjectCannedACL} from '@aws-sdk/client-s3';
@@ -15,14 +14,14 @@ import {STOCKS} from '../constants/stocks';
 
 dotenv.config();
 
-let props: {[key: string]: string} = {};
+let props: {[key: string]: string | undefined} = {};
 
-try {
-	props = JSON.parse(readFileSync('input-props.json', 'utf-8'));
-	if (Object.keys(props).length > 0) {
-		console.log('Input Props Detected', props);
-	}
-} catch (error) {}
+// try {
+// 	props = JSON.parse(readFileSync('input-props.json', 'utf-8'));
+// 	if (Object.keys(props).length > 0) {
+// 		console.log('Input Props Detected', props);
+// 	}
+// } catch (error) {}
 
 const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID as string;
 const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY as string;
@@ -49,6 +48,9 @@ const s3 = new S3Client({
 		to: props.to ? Number(props.to) : undefined,
 	});
 
+	// If manual video provided, proceed with it
+	props.video = verse.video;
+
 	console.log(verse.duration);
 
 	// verse data extraction
@@ -74,8 +76,9 @@ const s3 = new S3Client({
 	let url = '';
 	let videoId = '';
 	if (props.video) {
-		url = props.video;
 		console.log(`Prop Video: ${url}`);
+		url = props.video;
+		videoId = 'M' + verse.id;
 	} else {
 		const video = await getStock(theme, verse.duration, stockVideosProvider);
 		url = video.url;
@@ -86,8 +89,11 @@ const s3 = new S3Client({
 	let valid = false;
 	do {
 		if (url) {
-			const outputType = (props.outputType as outputType) || 'reel';
-			console.log('renderVideo');
+			const outputType =
+				(props.outputType as outputType) ||
+				['reel', 'post'][Math.round(Math.random() * 1)];
+
+			console.log('Initiating Video Render');
 			const fileName = await renderVideo(
 				bundleLocation,
 				surah,
@@ -97,6 +103,8 @@ const s3 = new S3Client({
 			);
 
 			console.log('Video Rendering Done');
+
+			console.log('Uploading Video to S3');
 
 			const file = await readFile(path.join(process.cwd(), '/out/' + fileName));
 

@@ -5,6 +5,7 @@ type Verse = {
 	surah: number;
 	verse: string;
 	duration: number;
+	video: string | undefined;
 };
 
 type ReflectPost = {
