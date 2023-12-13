@@ -1,4 +1,4 @@
-name: Render Video
+name: Tafakor Video
 on:
   workflow_dispatch
 jobs:
