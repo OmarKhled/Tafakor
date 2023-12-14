@@ -97,6 +97,7 @@ const getVerse = async (
 ): Promise<Verse> => {
 	let postId;
 	let postVideo = undefined;
+	let postType = undefined;
 	if (!(surah && from && to)) {
 		const post: {
 			id: string;
@@ -107,6 +108,10 @@ const getVerse = async (
 				Valid: boolean;
 				String: string;
 			};
+			type: {
+				Valid: boolean;
+				String: 'reel' | 'post';
+			};
 		} = await (
 			await fetch(
 				`${process.env.TAFAKOR_API_ENDPOINT}/verses/one?random=${random}`
@@ -114,6 +119,10 @@ const getVerse = async (
 		).json();
 
 		postId = post.id;
+
+		if (post.type.Valid) {
+			postType = post.type.String;
+		}
 
 		if (post.video.Valid) {
 			postVideo = post.video.String;
@@ -143,6 +152,7 @@ const getVerse = async (
 			(timings[timings.length - 1].timestamp_to - timings[0].timestamp_from) /
 			1000,
 		video: postVideo,
+		type: postType,
 	};
 };
 

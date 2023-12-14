@@ -91,7 +91,7 @@ const s3 = new S3Client({
 	do {
 		if (url) {
 			const outputType =
-				(props.outputType as outputType) ||
+				(verse.type as outputType) ||
 				['reel', 'post'][Math.round(Math.random() * 1)];
 
 			console.log('Initiating Video Render');

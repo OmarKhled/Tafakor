@@ -6,6 +6,7 @@ type Verse = {
 	verse: string;
 	duration: number;
 	video: string | undefined;
+	type: 'reel' | 'post' | undefined;
 };
 
 type ReflectPost = {
