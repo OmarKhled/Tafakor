@@ -18,10 +18,12 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 	useEffect(() => {
 		let s = verse
 			.split(
-				/\u06de | \u06de |\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650 |\u06de | \u06e9 | \u06e9 /
+				/(?:\s)?\u06de(?:\s)?|(?:\s)?\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650(?:\s)?|(?:\s)?\u06e9(?:\s)?|(?:\s)?\u06e9(?:\s)?/
 			)
 			.join('')
-			.split(/ \u06da | \u06d6 | \u06d7 | \u06d8 | \u06db /);
+			.split(
+				/(?:\s)?\u06da(?:\s)?|(?:\s)?\u06d6(?:\s)?|(?:\s)?\u06d7(?:\s)?|(?:\s)?\u06d8(?:\s)?|(?:\s)?\u06db(?:\s)?/
+			);
 		s = s
 			.map((c) =>
 				c.split(' ').length > NUM_OF_WORDS
@@ -37,7 +39,7 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 			)
 			.flat();
 		setSegs(s);
-		console.log(s);
+		console.log(s, segments);
 	}, [verse]);
 
 	useEffect(() => {
@@ -50,14 +52,15 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 
 		try {
 			let newSection = currentVerseIndex;
-			if (segments.find((segment) => min < segment[2])) {
+			const foundSegment = segments.find((segment) => min < segment[2]);
+			if (foundSegment) {
+				console.log(foundSegment);
 				newSection = map.findIndex((section) =>
-					section.includes(
-						(segments.find((segment) => min < segment[2]) as number[])[0]
-					)
+					section.includes((foundSegment as number[])[0])
 				);
 			}
 
+			// console.log({min, currentVerseIndex, newSection});
 			setCurrentVerseIndex(newSection >= 0 ? newSection : segs.length - 1);
 		} catch (error) {}
 	}, [min]);
@@ -69,7 +72,12 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 				opacity: Math.min(1, frame / 50),
 			}}
 		>
-			<h1 className={`ayah ${size}`}>{segs[currentVerseIndex]}</h1>
+			<h1 className={`ayah ${size}`}>
+				{/* {
+					'\u062c\u064e\u0645\u0650\u06cc\u0639\u064b\u0627\u06da \u0625\u0650\u0646\u0651\u064e\u0647\u064f\u06e5 \u0647\u064f\u0648\u064e \u0671\u0644\u06e1\u063a\u064e\u0641\u064f\u0648\u0631\u064f \u0671\u0644\u0631\u0651\u064e\u062d\u0650\u06cc\u0645\u064f'
+				} */}
+				{segs[currentVerseIndex]}
+			</h1>
 		</AbsoluteFill>
 	);
 };

@@ -171,7 +171,7 @@ export const getVerseText = async (surah: number, verses: number[]) => {
 
 		const res = await (
 			await fetch(
-				`https://api.alquran.cloud/v1/ayah/${surah}:${verse}/quran-uthmani-mini`,
+				`https://api.alquran.cloud/v1/ayah/${surah}:${verse}/quran-uthmani-min`,
 				{method: 'GET'}
 			)
 		).json();
