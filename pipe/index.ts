@@ -72,13 +72,14 @@ const s3 = new S3Client({
 	}
 	console.log('Chosen theme:', theme);
 
-	const stockVideosProvider: stockProvider = STOCKS[0];
+	let stockVideosProvider: stockProvider = STOCKS[0];
 	let url = '';
 	let videoId = '';
 	if (props.video) {
 		console.log(`Prop Video: ${url}`);
 		url = props.video;
 		videoId = 'M' + verse.id;
+		stockVideosProvider = 'MANUAL';
 	} else {
 		const video = await getStock(theme, verse.duration, stockVideosProvider);
 		url = video.url;

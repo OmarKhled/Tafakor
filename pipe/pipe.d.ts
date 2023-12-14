@@ -1,2 +1,2 @@
 export type outputType = 'reel' | 'post';
-export type stockProvider = 'PIXABAY' | 'PEXELS';
+export type stockProvider = 'PIXABAY' | 'PEXELS' | 'MANUAL';
