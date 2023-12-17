@@ -6,7 +6,7 @@ import path from 'path';
  * @param verse - quranic verses
  */
 const getTheme = (verse: string): Promise<string> => {
-	return new Promise<string>((resolve) => {
+	return new Promise<string>((resolve, reject) => {
 		console.log([
 			'python',
 			[path.join(process.cwd(), 'pipe', 'verseTheme.py'), verse],
@@ -15,6 +15,10 @@ const getTheme = (verse: string): Promise<string> => {
 			path.join(process.cwd(), 'pipe', 'verseTheme.py'),
 			verse,
 		]);
+		query.stdout.on('error', (data: {toString: () => string}) => {
+			console.log(data.toString());
+			reject();
+		});
 		query.stdout.on('data', (data: {toString: () => string}) => {
 			console.log(data.toString());
 			resolve(
