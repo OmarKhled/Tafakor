@@ -7,6 +7,10 @@ import path from 'path';
  */
 const getTheme = (verse: string): Promise<string> => {
 	return new Promise<string>((resolve) => {
+		console.log([
+			'python',
+			[path.join(process.cwd(), 'pipe', 'verseTheme.py'), verse],
+		]);
 		const query = spawn('python', [
 			path.join(process.cwd(), 'pipe', 'verseTheme.py'),
 			verse,
