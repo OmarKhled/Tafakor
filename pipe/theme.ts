@@ -12,26 +12,28 @@ const getTheme = (verse: string): Promise<string> => {
 			[path.join(process.cwd(), 'pipe', 'verseTheme.py'), verse],
 		]);
 
-		resolve('nature');
-		// const query = spawn('python', [
-		// 	path.join(process.cwd(), 'pipe', 'verseTheme.py'),
-		// 	verse,
-		// ]);
-		// query.stdout.on('error', (data: {toString: () => string}) => {
-		// 	console.log(data.toString());
-		// 	reject();
-		// });
-		// query.stdout.on('data', (data: {toString: () => string}) => {
-		// 	console.log(data.toString());
-		// 	resolve(
-		// 		data.toString().split('\n')[
-		// 			data
-		// 				.toString()
-		// 				.split('\n')
-		// 				.findIndex((q) => q.includes('Selected Theme:'))
-		// 		].split(' ')[2]
-		// 	);
-		// });
+		const query = spawn('python', [
+			path.join(process.cwd(), 'pipe', 'verseTheme.py'),
+			verse,
+		]);
+
+		query.stdout.on('error', (data: {toString: () => string}) => {
+			console.log(data.toString());
+			reject();
+		});
+
+		query.stdout.on('data', (data: {toString: () => string}) => {
+			console.log(data.toString());
+			resolve(
+				// data.toString().split('\n')[
+				// 	data
+				// 		.toString()
+				// 		.split('\n')
+				// 		.findIndex((q) => q.includes('Selected Theme:'))
+				// ].split(' ')[2]
+				'nature'
+			);
+		});
 	});
 };
 
