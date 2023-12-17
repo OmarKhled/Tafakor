@@ -51,6 +51,8 @@ const s3 = new S3Client({
 	// If manual video provided, proceed with it
 	props.video = verse.video;
 
+	console.log(props.video);
+
 	console.log(verse.duration);
 
 	// verse data extraction
