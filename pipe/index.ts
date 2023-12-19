@@ -71,7 +71,7 @@ const s3 = new S3Client({
 	let url = '';
 	let videoId = '';
 	if (props.video !== undefined) {
-		console.log('No prop video passed, skipping theme');
+		console.log('Video passed, skipping theme selection');
 		console.log(`Prop Video: ${url}`);
 		url = props.video;
 		videoId = 'M' + verse.id;
