@@ -36,6 +36,7 @@ export const schema = z.object({
 	random: z.boolean(),
 	outputType: z.union([z.literal('reel'), z.literal('post')]),
 	size: z.object({width: z.number(), height: z.number()}),
+	reciterId: z.union([z.number(), z.undefined()]),
 });
 
 const Composition: React.FC<z.infer<typeof schema>> = ({
@@ -44,6 +45,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 	footage = null,
 	size,
 	outputType,
+	reciterId,
 }) => {
 	const [handle] = useState(() => delayRender());
 	const [props, setProps] = useState<z.infer<typeof mainSchema>>();
@@ -52,7 +54,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 		(async () => {
 			let footageUrl = footage;
 
-			const verse = await getVerseData(surah, ayat);
+			const verse = await getVerseData(surah, ayat, reciterId);
 
 			if (footageUrl == null || footageUrl.length == 0) {
 				console.log('No Media');

@@ -26,7 +26,8 @@ const renderVideo = async (
 	surah: number,
 	verses: number[],
 	footage: string,
-	outputType: outputType
+	outputType: outputType,
+	reciterId: number | undefined
 ) => {
 	try {
 		const ID = v4(); // unique video id
@@ -40,6 +41,7 @@ const renderVideo = async (
 			random: false,
 			size: SIZES[outputType],
 			outputType,
+			reciterId,
 		};
 
 		// Composition
@@ -50,10 +52,6 @@ const renderVideo = async (
 			logLevel: 'verbose',
 		});
 
-		// Rendering progress bar init
-		const multiBar = new ProgressBar();
-		multiBar.start();
-
 		// Rendering Composition (mostly takes a while)
 		await renderMedia({
 			composition,
@@ -63,9 +61,6 @@ const renderVideo = async (
 			outputLocation: `out/${compositionId}-${ID}.mp4`,
 			inputProps,
 			timeoutInMilliseconds: 300000,
-			onBrowserLog: (log) => {
-				console.log(log);
-			},
 			logLevel: 'verbose',
 			// concurrency: 8,
 			onProgress: ({progress, encodedFrames, renderedFrames}) => {
@@ -75,14 +70,6 @@ const renderVideo = async (
 					encodedFrames,
 					progress * 100
 				);
-			},
-			onDownload: (src) => {
-				console.log(`\nDownloading ${src} ...`);
-				return ({percent, downloaded, totalSize}) => {
-					if (percent !== null) {
-						console.log('Downloading Porgress:', percent * 100);
-					}
-				};
 			},
 		});
 

@@ -49,7 +49,6 @@ const pexelsStock = async (
 	let videos = [];
 
 	do {
-		console.log('Page:', page);
 		const res: Videos = (await createClient(PEXELS_KEY).videos.search({
 			query,
 			per_page: 80,
@@ -96,7 +95,6 @@ const pixabayStock = async (
 	let resLength = 0;
 	let videos = [];
 	do {
-		console.log('Page:', page);
 		const res = await (
 			await fetch(
 				`https://pixabay.com/api/videos?key=${PIXABAY_KEY}&q=${query}&video_type=film&safesearch=true&per_page=200&page=${page}`,
@@ -117,8 +115,6 @@ const pixabayStock = async (
 
 	// Video URL
 	const videoUrl = video.videos['medium'].url + '&download=1';
-
-	console.log('Fetched URL, PIXABAY:', videoUrl);
 
 	return {
 		url: videoUrl,
@@ -141,7 +137,6 @@ const getStock = async (
 		await fetch(`${process.env.TAFAKOR_API_ENDPOINT}/stocks`)
 	).json();
 
-	// console.log('Stocks:', usedStocks);
 	switch (provider) {
 		case 'PEXELS':
 			return pexelsStock(query, duration, usedStocks);

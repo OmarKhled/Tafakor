@@ -51,9 +51,7 @@ const s3 = new S3Client({
 	// If manual video provided, proceed with it
 	props.video = verse.video;
 
-	console.log(props.video);
-
-	console.log(verse.duration);
+	console.log('Expected Duration:', verse.duration);
 
 	// verse data extraction
 	const {surah} = verse;
@@ -72,12 +70,11 @@ const s3 = new S3Client({
 	let videoId = '';
 	if (props.video !== undefined) {
 		console.log('Video passed, skipping theme selection');
-		console.log(`Prop Video: ${url}`);
+
 		url = props.video;
 		videoId = 'M' + verse.id;
 		stockVideosProvider = 'MANUAL';
 	} else {
-		console.log('Choosing theme');
 		const theme = await getTheme(verse.verse);
 		console.log('Chosen theme:', theme);
 
@@ -87,8 +84,6 @@ const s3 = new S3Client({
 		console.log(`${stockVideosProvider} Video: ${url}, videoId ${videoId}`);
 	}
 
-	console.log({url});
-
 	let valid = false;
 	do {
 		if (url) {
@@ -96,13 +91,14 @@ const s3 = new S3Client({
 				(verse.type as outputType) ||
 				['reel', 'post'][Math.round(Math.random() * 1)];
 
-			console.log('Initiating Video Render');
+			console.log('Initiating Render');
 			const fileName = await renderVideo(
 				bundleLocation,
 				surah,
 				verses,
 				url,
-				outputType
+				outputType,
+				verse.reciterId
 			);
 
 			console.log('Video Rendering Done');
@@ -128,14 +124,6 @@ const s3 = new S3Client({
 			// Publish to FB
 			console.log('Submitting Publishment...');
 
-			console.log({
-				outputType,
-				fileUrl,
-				verseId: String(verse.id),
-				stockId: String(videoId),
-				stockVideosProvider,
-			});
-
 			const publishStatus = await submitPosting(
 				outputType,
 				fileUrl,
@@ -144,7 +132,7 @@ const s3 = new S3Client({
 				stockVideosProvider
 			);
 			if (publishStatus) {
-				console.log('Submitted');
+				// console.log('Submitted');
 			} else {
 				throw new Error('Publishing Failed');
 			}

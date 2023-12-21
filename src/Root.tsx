@@ -32,7 +32,6 @@ export const RemotionRoot: React.FC = () => {
 				calculateMetadata={async ({props}) => {
 					if (props.random) {
 						const verse = await getVerse({});
-						console.log(verse);
 						props.surah = verse.surah;
 						props.ayat = [...Array(verse.to - verse.from + 1)].map(
 							(e, i) => verse.from + i

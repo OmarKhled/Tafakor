@@ -15,8 +15,6 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 			)
 		).json();
 
-		console.log(accounts);
-
 		const TAFAKOR_TOKEN = accounts.data.find(
 			(p) => p.id === TAFAKOR_ID
 		)?.access_token;
@@ -41,8 +39,6 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 					)
 				).json();
 
-				console.log(sessionInit);
-
 				const videoId = sessionInit.video_id;
 
 				await (
@@ -66,7 +62,6 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 						}
 					)
 				).json();
-				console.log(reelPublish);
 				return reelPublish.success;
 
 			case 'post':
@@ -83,7 +78,6 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 						}
 					)
 				).json();
-				console.log(postPublish);
 				return postPublish.success;
 		}
 	} catch (error) {

@@ -13,10 +13,43 @@ const reciters = [
 		name: 'محمود خليل الحصرى',
 		id: 12,
 	},
+	{
+		name: 'ابو بكر الشاطري',
+		id: 4,
+	},
 ];
 
-const reciter = reciters[0];
-const reciterId = reciter.id;
+interface versePostReponse {
+	id: string;
+	surah_number: number;
+	from: number;
+	to: number;
+	video: {
+		Valid: boolean;
+		String: string;
+	};
+	type: {
+		Valid: boolean;
+		String: 'reel' | 'post';
+	};
+	reciter: {
+		Valid: boolean;
+		Int16: number;
+	};
+}
+
+let reciter: {name: string; id: number};
+let reciterId: number;
+
+const initReciter = (id: number = 7) => {
+	if (id && id != reciterId) {
+		const found = reciters.find((reciter) => reciter.id === id);
+		if (found) {
+			reciter = found;
+			reciterId = reciter.id;
+		}
+	}
+};
 
 /**
  * @description returns recitation data of verse(s)
@@ -24,7 +57,15 @@ const reciterId = reciter.id;
  * @param from - Start Verse Number
  * @param to - End Verse Number
  */
-const recitationData = async (surah: number, from: number, to: number) => {
+const recitationData = async (
+	surah: number,
+	from: number,
+	to: number,
+	reciterIdProp?: number
+) => {
+	if (!reciter || !reciterId || reciterIdProp) {
+		initReciter(reciterIdProp);
+	}
 	// Verse fetching from qurancdn
 	const res: AudioResponse = await (
 		await fetch(
@@ -95,38 +136,14 @@ const getVerse = async (
 	},
 	random: boolean = false
 ): Promise<Verse> => {
-	let postId;
-	let postVideo = undefined;
-	let postType = undefined;
+	let post: versePostReponse | undefined;
+
 	if (!(surah && from && to)) {
-		const post: {
-			id: string;
-			surah_number: number;
-			from: number;
-			to: number;
-			video: {
-				Valid: boolean;
-				String: string;
-			};
-			type: {
-				Valid: boolean;
-				String: 'reel' | 'post';
-			};
-		} = await (
+		post = (await (
 			await fetch(
 				`${process.env.TAFAKOR_API_ENDPOINT}/verses/one?random=${random}`
 			)
-		).json();
-
-		postId = post.id;
-
-		if (post.type.Valid) {
-			postType = post.type.String;
-		}
-
-		if (post.video.Valid) {
-			postVideo = post.video.String;
-		}
+		).json()) as versePostReponse;
 
 		// Post verse(s) data
 		surah = post.surah_number;
@@ -140,19 +157,25 @@ const getVerse = async (
 	const verseText = await getVerseText(surah, verses);
 
 	// Verse timings
-	const {timings} = await recitationData(surah, from, to);
+	const {timings} = await recitationData(
+		surah,
+		from,
+		to,
+		post?.reciter.Valid ? post?.reciter.Int16 : undefined
+	);
 
 	return {
 		from: verses[0],
 		to: verses[verses.length - 1],
 		surah: surah,
-		id: postId,
+		id: post?.id,
 		verse: verseText,
 		duration:
 			(timings[timings.length - 1].timestamp_to - timings[0].timestamp_from) /
 			1000,
-		video: postVideo,
-		type: postType,
+		video: post?.video.Valid ? post?.video.String : undefined,
+		type: post?.type.Valid ? post?.type.String : undefined,
+		reciterId: post?.reciter.Valid ? post?.reciter.Int16 : undefined,
 	};
 };
 
@@ -162,8 +185,6 @@ const getVerse = async (
  * @param verses - Verrses
  */
 export const getVerseText = async (surah: number, verses: number[]) => {
-	console.log(verses);
-
 	const versesTexts = [];
 
 	for (let index = 0; index < verses.length; index++) {
@@ -189,11 +210,20 @@ export const getVerseText = async (surah: number, verses: number[]) => {
  * @param surah - Surah Number
  * @param verses - Verrses
  */
-const getVerseData = async (surah: number, verses: number[]) => {
+const getVerseData = async (
+	surah: number,
+	verses: number[],
+	reciterIdProp?: number
+) => {
+	if (!reciter || !reciterId) {
+		initReciter(reciterIdProp);
+	}
+
 	const {timings, url} = await recitationData(
 		surah,
 		verses[0],
-		verses[verses.length - 1]
+		verses[verses.length - 1],
+		reciterIdProp
 	);
 
 	const verseText = await getVerseText(surah, verses);

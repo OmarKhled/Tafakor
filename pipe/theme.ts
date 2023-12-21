@@ -30,7 +30,6 @@ const getTheme = async (verse: string): Promise<string> => {
 			frequency_penalty: 0,
 			presence_penalty: 0,
 		});
-		console.log(theme);
 	}
 
 	return theme?.choices[0].message.content ?? 'NO THEME';
