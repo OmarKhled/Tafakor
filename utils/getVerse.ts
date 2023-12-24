@@ -42,7 +42,6 @@ let reciter: {name: string; id: number};
 let reciterId: number;
 
 const initReciter = (id: number = 7) => {
-	console.log({id});
 	if (id && id != reciterId) {
 		const found = reciters.find((reciter) => reciter.id === id);
 		if (found) {
@@ -146,8 +145,6 @@ const getVerse = async (
 			)
 		).json()) as versePostReponse;
 
-		console.log(post);
-
 		// Post verse(s) data
 		surah = post.surah_number;
 		from = post.from;
@@ -156,10 +153,8 @@ const getVerse = async (
 
 	// @ts-ignore
 	const verses = [...Array(to - from + 1)].map((e, i) => from + i);
-	console.log(verses);
 
 	const verseText = await getVerseText(surah, verses);
-	console.log(verseText);
 
 	// Verse timings
 	const {timings} = await recitationData(
