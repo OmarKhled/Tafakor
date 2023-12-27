@@ -87,7 +87,7 @@ const s3 = new S3Client({
 	let valid = false;
 	do {
 		if (url) {
-			const postType = ['reel', 'pot'];
+			const postType = ['reel', 'post'];
 			const uploadsMetaData = {
 				post: '',
 				reel: '',
