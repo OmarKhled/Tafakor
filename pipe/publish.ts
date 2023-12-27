@@ -87,8 +87,8 @@ const publishToFB = async (fileUrl: string, type: outputType) => {
 };
 
 const submitPosting = async (
-	type: 'reel' | 'post',
-	fileUrl: string,
+	reelUrl: string,
+	postUrl: string,
 	verseId: string,
 	stockId: string,
 	stockProvider: string
@@ -97,8 +97,8 @@ const submitPosting = async (
 		await fetch(`${process.env.TAFAKOR_API_ENDPOINT}/publish`, {
 			method: 'POST',
 			body: JSON.stringify({
-				posting_type: type,
-				file_url: fileUrl,
+				reel_url: reelUrl,
+				post_url: postUrl,
 				verse_id: verseId,
 				stock_id: stockId,
 				stock_provider: stockProvider,

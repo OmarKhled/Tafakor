@@ -87,52 +87,66 @@ const s3 = new S3Client({
 	let valid = false;
 	do {
 		if (url) {
-			const outputType =
-				(verse.type as outputType) ||
-				['reel', 'post'][Math.round(Math.random() * 1)];
-
-			console.log('Initiating Render');
-			const fileName = await renderVideo(
-				bundleLocation,
-				surah,
-				verses,
-				url,
-				outputType,
-				verse.reciterId
-			);
-
-			console.log('Video Rendering Done');
-
-			console.log('Uploading Video to S3');
-
-			const file = await readFile(path.join(process.cwd(), '/out/' + fileName));
-
-			const params = {
-				Bucket: 'tafakor',
-				Key: 'videos' + '/' + fileName,
-				Body: file,
-				ACL: ObjectCannedACL.public_read,
-				ContentType: 'video/mp4',
+			const postType = ['reel', 'pot'];
+			const uploadsMetaData = {
+				post: '',
+				reel: '',
 			};
 
-			// Push To S3
-			await s3.send(new PutObjectCommand(params));
+			for (let index = 0; index < postType.length; index++) {
+				const outputType = postType[index] as outputType;
+				console.log(`Rendering ${outputType}`);
 
-			const fileUrl = `${process.env.S3_ENDPOINT}${fileName}`;
-			console.log(`Uploaded to S3: ${fileUrl}`);
+				const fileName = (await renderVideo(
+					bundleLocation,
+					surah,
+					verses,
+					url,
+					outputType,
+					verse.reciterId
+				)) as string;
+
+				console.log(`============================`);
+				console.log(`${outputType} Rendering Done`);
+				console.log(`============================`);
+				console.log(`Uploading ${outputType} to S3`);
+
+				const file = await readFile(
+					path.join(process.cwd(), '/out/' + fileName)
+				);
+
+				const params = {
+					Bucket: 'tafakor',
+					Key: 'videos' + '/' + fileName,
+					Body: file,
+					ACL: ObjectCannedACL.public_read,
+					ContentType: 'video/mp4',
+				};
+
+				// Push To S3
+				await s3.send(new PutObjectCommand(params));
+
+				const fileUrl = `${process.env.S3_ENDPOINT}${fileName}`;
+
+				console.log(`============================`);
+				console.log(`Uploaded to S3: ${fileUrl}`);
+				console.log(`============================`);
+
+				uploadsMetaData[outputType] = fileUrl;
+			}
 
 			// Publish to FB
 			console.log('Submitting Publishment...');
 
 			const publishStatus = await submitPosting(
-				outputType,
-				fileUrl,
+				uploadsMetaData['reel'], // reelUrl
+				uploadsMetaData['post'], // postUrl
 				String(verse.id),
 				String(videoId),
 				stockVideosProvider
 			);
 			if (publishStatus) {
-				// console.log('Submitted');
+				console.log('Submitted');
 			} else {
 				throw new Error('Publishing Failed');
 			}
