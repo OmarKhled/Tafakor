@@ -16,13 +16,6 @@ dotenv.config();
 
 let props: {[key: string]: string | undefined} = {};
 
-// try {
-// 	props = JSON.parse(readFileSync('input-props.json', 'utf-8'));
-// 	if (Object.keys(props).length > 0) {
-// 		console.log('Input Props Detected', props);
-// 	}
-// } catch (error) {}
-
 const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID as string;
 const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY as string;
 

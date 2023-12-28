@@ -1,7 +1,7 @@
 import {createClient, Videos} from 'pexels';
 import {stockProvider} from './pipe';
 
-type stocks = {id: string}[] | null;
+type stocks = {stockid: string}[] | null;
 
 /**
  * @description gets video with the closest duration to the targeted duration
@@ -61,7 +61,8 @@ const pexelsStock = async (
 	} while (resLength > 0 && page < 3);
 
 	videos = videos.filter(
-		(video) => !usedStocks?.map((stock) => stock.id).includes(String(video.id))
+		(video) =>
+			!usedStocks?.map((stock) => stock.stockid).includes(String(video.id))
 	);
 
 	const video = closestDurationVideo(videos, duration);
@@ -108,7 +109,8 @@ const pixabayStock = async (
 	} while (resLength > 0 && page <= 3);
 
 	videos = videos.filter(
-		(video) => !usedStocks?.map((stock) => stock.id).includes(String(video.id))
+		(video) =>
+			!usedStocks?.map((stock) => stock.stockid).includes(String(video.id))
 	);
 
 	const video = closestDurationVideo(videos, duration);
