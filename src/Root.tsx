@@ -32,6 +32,7 @@ export const RemotionRoot: React.FC = () => {
 				calculateMetadata={async ({props}) => {
 					if (props.random) {
 						const verse = await getVerse({});
+						props.footage = verse.video ?? '';
 						props.surah = verse.surah;
 						props.ayat = [...Array(verse.to - verse.from + 1)].map(
 							(e, i) => verse.from + i

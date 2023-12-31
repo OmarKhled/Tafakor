@@ -73,9 +73,10 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 					? {value: footageMetadata.height, type: 'height'}
 					: {value: footageMetadata.width, type: 'width'};
 
-			const scale = Math.ceil(
-				size[dimension.type as 'width' | 'height'] / dimension.value
-			);
+			const scale =
+				Math.ceil(
+					size[dimension.type as 'width' | 'height'] / dimension.value
+				) + 0.01;
 
 			setProps({
 				footageUrl: footageUrl as string,

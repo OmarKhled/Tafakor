@@ -1,3 +1,4 @@
 .backdrop {
-	backdrop-filter: blur(1px) brightness(60%);
+	backdrop-filter: blur(6px) brightness(60%) contrast(0.9);
+	scale: 1.04;
 }

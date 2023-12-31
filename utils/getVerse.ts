@@ -110,7 +110,8 @@ const recitationData = async (
 				(segment[2] - verse.segments[0][1]) / 1000 / 60 + lastVerseEnding,
 			]);
 
-		lastVerseEnding = segments[segments.length - 1][2];
+		lastVerseEnding =
+			(verse.timestamp_to - versesTimings[0].timestamp_from) / 1000 / 60;
 		lastVerseWordIndex = segments[segments.length - 1][0];
 		return {
 			timestamp_from: verse.timestamp_from,

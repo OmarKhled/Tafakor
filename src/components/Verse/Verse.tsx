@@ -39,6 +39,8 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 			)
 			.flat();
 		setSegs(s);
+
+		console.log(segments);
 	}, [verse]);
 
 	useEffect(() => {
@@ -52,14 +54,21 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 		try {
 			let newSection = currentVerseIndex;
 			const foundSegment = segments.find((segment) => min < segment[2]);
+			console.log({foundSegment, map});
 			if (foundSegment) {
 				newSection = map.findIndex((section) =>
 					section.includes((foundSegment as number[])[0])
 				);
 			}
 
-			// console.log({min, currentVerseIndex, newSection});
 			setCurrentVerseIndex(newSection >= 0 ? newSection : segs.length - 1);
+			console.log({
+				foundSegment: foundSegment?.[0],
+				min,
+				currentVerseIndex,
+				newSection,
+				hi: segs[currentVerseIndex],
+			});
 		} catch (error) {}
 	}, [min]);
 
