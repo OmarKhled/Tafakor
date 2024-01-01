@@ -42,7 +42,6 @@ function BackgroundFill({footageUrl, scale}: props) {
 			<Loop durationInFrames={Math.floor(fps * duration)}>
 				<OffthreadVideo
 					src={footageUrl}
-					startFrom={27 * 30}
 					style={{transform: `scale(${scale})`}}
 					muted
 				></OffthreadVideo>
