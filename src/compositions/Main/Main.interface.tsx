@@ -2,7 +2,6 @@ import {z} from 'zod';
 import {useEffect, useState} from 'react';
 import {continueRender, delayRender, staticFile} from 'remotion';
 import {getVideoMetadata} from '@remotion/media-utils';
-import {loadFont} from '@remotion/google-fonts/Amiri';
 
 import Recitation, {schema as mainSchema} from './Main';
 import {getVerseData} from '../../../utils/getVerse';
@@ -11,9 +10,6 @@ import themes from '../../../constants/themes';
 import {getStock} from '../../../pipe/stocks';
 
 import {STOCKS} from '../../../constants/stocks';
-
-// Load Amiri Font
-loadFont();
 
 // Sura Font
 const waitForFont = delayRender();
