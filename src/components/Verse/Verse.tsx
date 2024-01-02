@@ -52,7 +52,6 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 		try {
 			let newSection = currentVerseIndex;
 			const foundSegment = segments.find((segment) => min < segment[2]);
-			console.log({foundSegment, map});
 			if (foundSegment) {
 				newSection = map.findIndex((section) =>
 					section.includes((foundSegment as number[])[0])

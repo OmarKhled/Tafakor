@@ -19,9 +19,9 @@ jobs:
 
       - name: Dependencies Install
         run: bun i
-      - if: inputs.video == ''
-        name: Python Dependencies
-        run: pip install g4f
+      # - if: inputs.video == ''
+      #   name: Python Dependencies
+      #   run: pip install g4f
       - name: Emit Enviroment Variables
         run: touch .env &&
           echo "${{ secrets.ENV }}" > .env
