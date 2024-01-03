@@ -1,4 +1,17 @@
 .backdrop {
 	backdrop-filter: blur(6px) brightness(60%) contrast(0.9);
-	scale: 1.04;
+	position: absolute;
+    inset: 0px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    scale: 1;
+	/* scale: 1.04; */
+}
+
+.video {
+	position: absolute;
+  width: 100%;
 }
