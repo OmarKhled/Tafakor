@@ -39,14 +39,16 @@ function BackgroundFill({footageUrl, scale}: props) {
 
 	return (
 		<>
-			<Loop durationInFrames={Math.floor(fps * duration)}>
-				<OffthreadVideo
-					src={footageUrl}
-					className="video"
-					style={{transform: `scale(${scale})`}}
-					muted
-				></OffthreadVideo>
-			</Loop>
+			<div className="videoContainer">
+				<Loop durationInFrames={Math.floor(fps * duration)}>
+					<OffthreadVideo
+						src={footageUrl}
+						className="video"
+						style={{transform: `scale(${scale})`}}
+						muted
+					></OffthreadVideo>
+				</Loop>
+			</div>
 
 			<AbsoluteFill className="backdrop"></AbsoluteFill>
 		</>

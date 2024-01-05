@@ -74,9 +74,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				size: size[dimension.type as 'width' | 'height'],
 			});
 			const scale =
-				Math.ceil(
-					size[dimension.type as 'width' | 'height'] / dimension.value
-				) + 0.01;
+				size[dimension.type as 'width' | 'height'] / dimension.value + 0.04;
 
 			console.log({scale});
 
