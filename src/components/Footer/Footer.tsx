@@ -1,7 +1,9 @@
 import {AbsoluteFill, Img, staticFile} from 'remotion';
-
+import {loadFont} from '@remotion/google-fonts/Cairo';
+import {MicrophoneSolid} from 'iconoir-react';
 import './Footer.css';
 
+loadFont();
 interface props {
 	frame: number;
 	name: string;
@@ -18,7 +20,10 @@ function ReciterName({frame, name, size = 'rg'}: props) {
 		>
 			<div className="footer">
 				<Img src={staticFile('logo.png')} className={`logo ${size}`} />
-				<p className={`rectier ${size}`}>{`القارئ: ${name}`}</p>
+				<div className="reciter-container">
+					<p className={`rectier ${size}`}>{`${name}`}</p>
+					<MicrophoneSolid color="#fff" width={50} height={50} />
+				</div>
 			</div>
 		</AbsoluteFill>
 	);
