@@ -18,6 +18,7 @@ export const schema = z.object({
 	reciter: z.string(),
 	scale: z.number(),
 	outputType: z.union([z.literal('reel'), z.literal('post')]),
+	englishWords: z.array(z.string()),
 });
 
 const Main: React.FC<z.infer<typeof schema>> = ({
@@ -32,6 +33,7 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 	reciter,
 	scale,
 	outputType,
+	englishWords,
 }) => {
 	const frame = useCurrentFrame();
 	const min = frame / 30 / 60;
@@ -64,6 +66,7 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 						frame={frame}
 						verse={verse}
 						segments={segments}
+						englishWords={englishWords}
 						size={outputType === 'post' ? 'rg' : 'lg'}
 					/>
 

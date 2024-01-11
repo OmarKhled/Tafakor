@@ -120,14 +120,46 @@ const recitationData = async (
 		};
 	});
 
+	// Word by word translations
+	const wbwTranslations: {
+		verses: {
+			words: {translation: {text: string}; char_type_name: 'end' | 'word'}[];
+		}[];
+	} = await (
+		await fetch(
+			`https://api.qurancdn.com/api/qdc/verses/by_chapter/${surah}?` +
+				new URLSearchParams({
+					words: 'true',
+					per_page: '10000',
+					word_translation_language: 'en',
+					word_fields: 'verse_key,verse_id,location,qpc_uthmani_hafs',
+					page: '1',
+				})
+		)
+	).json();
+
+	// Filtering words
+	let words = wbwTranslations.verses
+		.filter((_, i) => verses.includes(i + 1))
+		.map((verse) =>
+			verse.words
+				.filter((word) => word.char_type_name === 'word')
+				?.map((word) => word.translation.text.replace(/[\(\)]/g, ''))
+		)
+		.flat();
+
+	// Duplicates filtering
+	words = words.map((word, index) => (words[index - 1] == word ? '' : word));
+
 	return {
 		timings,
 		url: recitationUrl,
+		englishWords: words,
 	};
 };
 
 /**
- * @description fetches a random quranreflect post and returns its verse(s)
+ * @description fetches the scheculed verse
  */
 const getVerse = async (
 	{
@@ -224,7 +256,7 @@ const getVerseData = async (
 		initReciter(reciterIdProp);
 	}
 
-	const {timings, url} = await recitationData(
+	const {timings, url, englishWords} = await recitationData(
 		surah,
 		verses[0],
 		verses[verses.length - 1],
@@ -245,6 +277,7 @@ const getVerseData = async (
 		surahNumber: surah,
 		segments: timings.map((verse: any) => verse.segments).flat(),
 		reciter: reciter.name,
+		englishWords,
 	};
 };
 

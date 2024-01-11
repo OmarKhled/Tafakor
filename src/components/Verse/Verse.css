@@ -2,6 +2,7 @@
 	color: #fff;
   font-family: Amiri;
 	text-align: center;
+	margin: 0;
 }
 
 .ayah.rg {
@@ -10,4 +11,19 @@
 
 .ayah.lg {
 	font-size: 62px;
+}
+
+.translation {
+	color: #fff;
+	margin-top: 1rem;
+	font-family: "Poppins";
+	font-weight: 400;
+}
+
+.translation.rg {
+	font-size: 52px;
+}
+
+.translation.lg {
+	font-size: 30px;
 }

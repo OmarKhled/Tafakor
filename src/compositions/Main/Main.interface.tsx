@@ -85,6 +85,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				to: verse.to,
 				verse: verse.verse,
 				segments: verse.segments,
+				englishWords: verse.englishWords,
 				surahNumber: ('00' + verse.surahNumber).slice(-3),
 				active: true,
 				reciter: verse.reciter,
