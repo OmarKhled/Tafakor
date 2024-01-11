@@ -38,46 +38,49 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 
 	if (active) {
 		return (
-			<AbsoluteFill
-				style={{
-					backgroundColor: 'white',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-				}}
-			>
+			<AbsoluteFill>
 				{/* BackgroundFill (Video) */}
 				<BackgroundFill footageUrl={footageUrl} scale={scale} />
 
-				{/* Surah Name */}
-				<Surah
-					frame={frame}
-					surahNumber={surahNumber}
-					size={outputType === 'post' ? 'rg' : 'lg'}
-				/>
+				<AbsoluteFill
+					style={{
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						justifyContent: 'space-between',
+						padding: outputType === 'post' ? '1rem 1.5rem' : '2rem',
+					}}
+				>
+					{/* Surah Name */}
+					<Surah
+						frame={frame}
+						surahNumber={surahNumber}
+						size={outputType === 'post' ? 'rg' : 'lg'}
+					/>
 
-				{/* Verse(s) text */}
-				<Verse
-					min={min}
-					frame={frame}
-					verse={verse}
-					segments={segments}
-					size={outputType === 'post' ? 'rg' : 'lg'}
-				/>
+					{/* Verse(s) text */}
+					<Verse
+						min={min}
+						frame={frame}
+						verse={verse}
+						segments={segments}
+						size={outputType === 'post' ? 'rg' : 'lg'}
+					/>
 
-				{/* Reciter Name */}
-				<Footer
-					name={reciter}
-					frame={frame}
-					size={outputType === 'post' ? 'rg' : 'lg'}
-				/>
+					{/* Reciter Name */}
+					<Footer
+						name={reciter}
+						frame={frame}
+						size={outputType === 'post' ? 'rg' : 'lg'}
+					/>
 
-				{/* Recitation Audio */}
-				<Audio
-					src={url}
-					startFrom={30 * 60 * from}
-					endAt={30 * 60 * to}
-				></Audio>
+					{/* Recitation Audio */}
+					<Audio
+						src={url}
+						startFrom={30 * 60 * from}
+						endAt={30 * 60 * to}
+					></Audio>
+				</AbsoluteFill>
 			</AbsoluteFill>
 		);
 	} else {

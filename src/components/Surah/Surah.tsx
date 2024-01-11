@@ -11,14 +11,14 @@ interface props {
 function Surah({frame, surahNumber, size = 'rg'}: props) {
 	return (
 		<>
-			<AbsoluteFill
+			{/* <AbsoluteFill
 				className="wrapper start"
 				style={{
 					opacity: Math.min(1, frame / 50),
 				}}
-			>
-				<p className={`sura-name ${size}`}>{surahNumber}</p>
-			</AbsoluteFill>
+			> */}
+			<p className={`sura-name ${size}`}>{surahNumber}</p>
+			{/* </AbsoluteFill> */}
 		</>
 	);
 }

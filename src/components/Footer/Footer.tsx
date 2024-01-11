@@ -1,4 +1,4 @@
-import {AbsoluteFill, Img, staticFile} from 'remotion';
+import {Img, staticFile} from 'remotion';
 
 import './Footer.css';
 
@@ -10,7 +10,7 @@ interface props {
 
 function ReciterName({frame, name, size = 'rg'}: props) {
 	return (
-		<AbsoluteFill
+		<div
 			className="wrapper end"
 			style={{
 				opacity: Math.min(1, frame / 50),
@@ -20,7 +20,7 @@ function ReciterName({frame, name, size = 'rg'}: props) {
 				<Img src={staticFile('logo.png')} className={`logo ${size}`} />
 				<p className={`rectier ${size}`}>{`القارئ: ${name}`}</p>
 			</div>
-		</AbsoluteFill>
+		</div>
 	);
 }
 
