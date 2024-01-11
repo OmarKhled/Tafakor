@@ -22,6 +22,7 @@
     "@types/uuid": "^9.0.6",
     "aws-sdk": "^2.1483.0",
     "dotenv": "^16.3.1",
+    "iconoir-react": "^7.3.0",
     "node-fetch": "^3.3.2",
     "openai": "^4.23.0",
     "path": "^0.12.7",

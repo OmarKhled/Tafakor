@@ -14,18 +14,23 @@
 	height: 65px;
 }
 
-
-.rectier {
-	font-family: "Amiri";
-	color: #fff;
-	font-weight: 900;
-	margin: 0;
-}
-
-.rectier.rg {
-	font-size: 26px;
-}
-
-.rectier.lg {
-	font-size: 35px;
+.reciter-container {
+	display: flex;
+	gap: 0.7rem;
+	align-items: center;
+	.rectier {
+		font-family: "Amiri";
+		color: #fff;
+		font-weight: 900;
+		margin: 0;
+		line-height: 0;
+	}
+	
+	.rectier.rg {
+		font-size: 26px;
+	}
+	
+	.rectier.lg {
+		font-size: 35px;
+	}
 }
