@@ -1,4 +1,4 @@
-import {AbsoluteFill, Img, staticFile} from 'remotion';
+import {Img, staticFile} from 'remotion';
 import {loadFont} from '@remotion/google-fonts/Cairo';
 import {MicrophoneSolid} from 'iconoir-react';
 import './Footer.css';
@@ -12,7 +12,7 @@ interface props {
 
 function ReciterName({frame, name, size = 'rg'}: props) {
 	return (
-		<AbsoluteFill
+		<div
 			className="wrapper end"
 			style={{
 				opacity: Math.min(1, frame / 50),
@@ -25,7 +25,7 @@ function ReciterName({frame, name, size = 'rg'}: props) {
 					<MicrophoneSolid color="#fff" width={50} height={50} />
 				</div>
 			</div>
-		</AbsoluteFill>
+		</div>
 	);
 }
 

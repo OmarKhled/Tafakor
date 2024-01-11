@@ -1,6 +1,5 @@
 import {useEffect, useState} from 'react';
 import {loadFont} from '@remotion/google-fonts/Amiri';
-import {AbsoluteFill} from 'remotion';
 
 import './Verse.css';
 interface props {
@@ -67,7 +66,7 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 	}, [min]);
 
 	return (
-		<AbsoluteFill
+		<div
 			className="wrapper center"
 			style={{
 				opacity: Math.min(1, frame / 50),
@@ -79,7 +78,7 @@ const Verse = ({min, frame, verse, segments, size = 'rg'}: props) => {
 				} */}
 				{segs[currentVerseIndex]}
 			</h1>
-		</AbsoluteFill>
+		</div>
 	);
 };
 
