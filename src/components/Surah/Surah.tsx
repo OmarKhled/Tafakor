@@ -1,5 +1,3 @@
-import {AbsoluteFill} from 'remotion';
-
 import './Surah.css';
 
 interface props {
@@ -11,14 +9,13 @@ interface props {
 function Surah({frame, surahNumber, size = 'rg'}: props) {
 	return (
 		<>
-			{/* <AbsoluteFill
-				className="wrapper start"
+			<div
 				style={{
 					opacity: Math.min(1, frame / 50),
 				}}
-			> */}
-			<p className={`sura-name ${size}`}>{surahNumber}</p>
-			{/* </AbsoluteFill> */}
+			>
+				<p className={`sura-name ${size}`}>{surahNumber}</p>
+			</div>
 		</>
 	);
 }

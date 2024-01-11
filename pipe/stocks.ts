@@ -116,7 +116,7 @@ const pixabayStock = async (
 	const video = closestDurationVideo(videos, duration);
 
 	// Video URL
-	const videoUrl = video.videos['medium'].url + '&download=1';
+	const videoUrl = video.videos['large'].url + '&download=1';
 
 	return {
 		url: videoUrl,
