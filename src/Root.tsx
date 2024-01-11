@@ -26,7 +26,7 @@ export const RemotionRoot: React.FC = () => {
 					ayat: [41, 42, 43, 44, 45, 46, 47],
 					footage: '',
 					random: true,
-					outputType: 'post',
+					outputType: 'reel',
 					size: {width: 1080, height: 1920},
 				}}
 				calculateMetadata={async ({props}) => {

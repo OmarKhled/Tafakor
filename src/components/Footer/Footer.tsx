@@ -10,7 +10,13 @@ interface props {
 	size: 'lg' | 'rg';
 }
 
+const micIconSizes = {
+	rg: 35,
+	lg: 50,
+};
+
 function ReciterName({frame, name, size = 'rg'}: props) {
+	const MIC_SIZE = micIconSizes[size];
 	return (
 		<div
 			className="wrapper end"
@@ -22,7 +28,7 @@ function ReciterName({frame, name, size = 'rg'}: props) {
 				<Img src={staticFile('logo.png')} className={`logo ${size}`} />
 				<div className="reciter-container">
 					<p className={`rectier ${size}`}>{`${name}`}</p>
-					<MicrophoneSolid color="#fff" width={50} height={50} />
+					<MicrophoneSolid color="#fff" width={MIC_SIZE} height={MIC_SIZE} />
 				</div>
 			</div>
 		</div>
