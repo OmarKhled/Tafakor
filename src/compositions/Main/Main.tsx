@@ -87,7 +87,7 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 			</AbsoluteFill>
 		);
 	} else {
-		return <>waiting</>;
+		return <div className="strips">waiting</div>;
 	}
 };
 

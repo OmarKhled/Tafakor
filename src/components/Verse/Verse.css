@@ -18,10 +18,11 @@
 	margin-top: 1rem;
 	font-family: "Poppins";
 	font-weight: 400;
+	text-align: center;
 }
 
 .translation.rg {
-	font-size: 52px;
+	font-size: 20px;
 }
 
 .translation.lg {

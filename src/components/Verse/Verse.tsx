@@ -26,6 +26,9 @@ const Verse = ({
 }: props) => {
 	const NUM_OF_WORDS = size === 'rg' ? 7 : 5;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
+	const [segmentsTimings, setSegmentsTimings] = useState<
+		{start: number; end: number}[]
+	>([]);
 	const [segments, setSegments] = useState<string[]>([]);
 	const [segmentsMap, setSegmentsMap] = useState<number[][]>([]);
 	const [currentSegmentTranslation, setCurrentSegmentTrnaslation] =
@@ -37,6 +40,15 @@ const Verse = ({
 				/(?:\s)?\u06de(?:\s)?|(?:\s)?\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650(?:\s)?|(?:\s)?\u06e9(?:\s)?|(?:\s)?\u06e9(?:\s)?/
 			)
 			.join('');
+
+		console.log(filteredVerseString);
+
+		const clearVerse = filteredVerseString
+			.split(/\u06da|\u06d6|\u06d7|\u06d8|\u06db/)
+			.join('')
+			.split('  ')
+			.join(' ');
+
 		let segmentsWords = filteredVerseString.split(
 			/(?:\s)?\u06da(?:\s)?|(?:\s)?\u06d6(?:\s)?|(?:\s)?\u06d7(?:\s)?|(?:\s)?\u06d8(?:\s)?|(?:\s)?\u06db(?:\s)?/
 		);
@@ -56,29 +68,134 @@ const Verse = ({
 			)
 			.flat();
 
-		setSegments(segmentsWords);
-
 		let index = 1;
-		const map: number[][] = segmentsWords.map((seg) => {
+		let map: number[][] = segmentsWords.map((seg) => {
 			let f: number[] = seg.split(' ').map((_, i) => i + index);
 			index += f.length;
 			return f;
 		});
 
-		console.log({timeSegments, map});
+		console.log({timeSegments});
+
+		console.log({before: map});
+
+		console.log({timeBefore: timeSegments});
+
+		for (let index = 0; index < timeSegments.length; index++) {
+			const element = timeSegments[index];
+			if (index > 0) {
+				if (
+					element[0] < timeSegments[index - 1][0] &&
+					element[0] + 1 !== timeSegments[index + 1][0]
+				) {
+					timeSegments.splice(index, 1);
+				}
+			}
+		}
+		console.log({timeAfter: timeSegments});
+
+		timeSegments.forEach((currentSegment, i) => {
+			if (i > 0) {
+				const prev = timeSegments[i - 1][0];
+				if (currentSegment[0] <= prev) {
+					const prevSegmentIndex = map.findIndex((segment) =>
+						segment.includes(prev)
+					);
+					const nextResume =
+						timeSegments
+							.slice(i + 1)
+							.findIndex((segment) => segment[0] == prev) +
+						(i + 1);
+					const insertedSlots = timeSegments
+						.slice(i, nextResume)
+						.map((i) => i[0]);
+
+					if (insertedSlots.length > 1) {
+						map = [
+							...map.slice(0, prevSegmentIndex),
+							map[prevSegmentIndex].slice(
+								0,
+								map[prevSegmentIndex].indexOf(prev) + 1
+							),
+							[...insertedSlots, prev],
+							map[prevSegmentIndex].slice(
+								map[prevSegmentIndex].indexOf(prev) + 1
+							),
+							...map.slice(prevSegmentIndex + 1),
+						];
+					} else {
+						console.log(
+							map[prevSegmentIndex],
+							prev,
+							map[prevSegmentIndex].indexOf(prev)
+						);
+						if (
+							map[prevSegmentIndex].indexOf(prev) ==
+							map[prevSegmentIndex].length - 1
+						) {
+							console.log('aloha');
+							map = [
+								...map.slice(0, prevSegmentIndex + 1),
+								[prev, ...map[prevSegmentIndex + 1]],
+								...map.slice(prevSegmentIndex + 2),
+							];
+						} else {
+							map = [
+								...map.slice(0, prevSegmentIndex),
+								map[prevSegmentIndex].slice(
+									0,
+									map[prevSegmentIndex].indexOf(prev) + 1
+								),
+								map[prevSegmentIndex].slice(
+									map[prevSegmentIndex].indexOf(prev)
+								),
+								...map.slice(prevSegmentIndex + 1),
+							];
+						}
+					}
+				}
+			}
+		});
+
+		console.log({after: map});
+
+		let counter = -1;
+		const segmentsTimings = map.map((segment, i) => {
+			const prevCounter = counter == -1 ? 0 : counter;
+			counter += segment.length;
+			return {
+				start:
+					prevCounter == 0
+						? timeSegments[prevCounter][1]
+						: timeSegments[prevCounter + 1][1],
+				end: timeSegments[counter][2],
+			};
+		});
+
+		setSegmentsTimings(segmentsTimings);
+
+		// console.log({segmentsTimings});
+
+		setSegments(
+			map.map((segment) =>
+				segment.map((i) => clearVerse.split(' ')[i - 1]).join(' ')
+			)
+		);
 
 		setSegmentsMap(map);
 	}, [verse]);
 
 	useEffect(() => {
 		try {
-			let newSectionIndex = currentVerseIndex;
-			const foundSegment = timeSegments.find((segment) => min < segment[2]);
-			if (foundSegment) {
-				newSectionIndex = segmentsMap.findIndex((section) =>
-					section.includes((foundSegment as number[])[0])
-				);
-			}
+			let newSectionIndex = segmentsTimings.findIndex(
+				(segment) => min < segment.end
+			);
+			// const foundSegment = timeSegments.find((segment) => min < segment[2]);
+			// if (foundSegment) {
+			// 	newSectionIndex = segmentsMap.findIndex((section) =>
+			// 		section.includes((foundSegment as number[])[0])
+			// 	);
+			// }
 
 			if (segmentsMap[newSectionIndex]) {
 				const segmentTranslation = segmentsMap[newSectionIndex]
@@ -102,7 +219,7 @@ const Verse = ({
 		<div
 			className="center"
 			style={{
-				opacity: Math.min(1, frame / 50),
+				opacity: frame < 52 ? Math.min(1, frame / 50) : 1,
 			}}
 		>
 			<h1 className={`ayah ${size}`}>{segments[currentVerseIndex]}</h1>
