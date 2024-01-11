@@ -72,6 +72,7 @@ const s3 = new S3Client({
 		console.log('Chosen theme:', theme);
 
 		const video = await getStock(theme, verse.duration, stockVideosProvider);
+		console.log(video);
 		url = video.url;
 		videoId = video.id;
 		console.log(`${stockVideosProvider} Video: ${url}, videoId ${videoId}`);
