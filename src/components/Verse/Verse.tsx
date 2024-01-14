@@ -37,11 +37,9 @@ const Verse = ({
 	useEffect(() => {
 		const filteredVerseString = verse
 			.split(
-				/(?:\s)?\u06de(?:\s)?|(?:\s)?\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650(?:\s)?|(?:\s)?\u06e9(?:\s)?|(?:\s)?\u06e9(?:\s)?/
+				/(?:\s)?\u06de(?:\s)?|\u0628\u0650\u0633\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0645\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u064a\u0645\u0650 |(?:\s)?\u06e9(?:\s)?|(?:\s)?\u06e9(?:\s)?/
 			)
 			.join('');
-
-		console.log(filteredVerseString);
 
 		const clearVerse = filteredVerseString
 			.split(/\u06da|\u06d6|\u06d7|\u06d8|\u06db/)
@@ -75,12 +73,6 @@ const Verse = ({
 			return f;
 		});
 
-		console.log({timeSegments});
-
-		console.log({before: map});
-
-		console.log({timeBefore: timeSegments});
-
 		for (let index = 0; index < timeSegments.length; index++) {
 			const element = timeSegments[index];
 			if (index > 0) {
@@ -92,7 +84,6 @@ const Verse = ({
 				}
 			}
 		}
-		console.log({timeAfter: timeSegments});
 
 		timeSegments.forEach((currentSegment, i) => {
 			if (i > 0) {
@@ -124,16 +115,10 @@ const Verse = ({
 							...map.slice(prevSegmentIndex + 1),
 						];
 					} else {
-						console.log(
-							map[prevSegmentIndex],
-							prev,
-							map[prevSegmentIndex].indexOf(prev)
-						);
 						if (
 							map[prevSegmentIndex].indexOf(prev) ==
 							map[prevSegmentIndex].length - 1
 						) {
-							console.log('aloha');
 							map = [
 								...map.slice(0, prevSegmentIndex + 1),
 								[prev, ...map[prevSegmentIndex + 1]],
@@ -157,8 +142,6 @@ const Verse = ({
 			}
 		});
 
-		console.log({after: map});
-
 		let counter = -1;
 		const segmentsTimings = map.map((segment, i) => {
 			const prevCounter = counter == -1 ? 0 : counter;
@@ -174,8 +157,6 @@ const Verse = ({
 
 		setSegmentsTimings(segmentsTimings);
 
-		// console.log({segmentsTimings});
-
 		setSegments(
 			map.map((segment) =>
 				segment.map((i) => clearVerse.split(' ')[i - 1]).join(' ')
@@ -190,12 +171,6 @@ const Verse = ({
 			let newSectionIndex = segmentsTimings.findIndex(
 				(segment) => min < segment.end
 			);
-			// const foundSegment = timeSegments.find((segment) => min < segment[2]);
-			// if (foundSegment) {
-			// 	newSectionIndex = segmentsMap.findIndex((section) =>
-			// 		section.includes((foundSegment as number[])[0])
-			// 	);
-			// }
 
 			if (segmentsMap[newSectionIndex]) {
 				const segmentTranslation = segmentsMap[newSectionIndex]
