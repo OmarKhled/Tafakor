@@ -133,10 +133,11 @@ const pixabayStock = async (
 const getStock = async (
 	query: string,
 	duration: number,
-	provider: stockProvider
+	provider: stockProvider,
+	verseId: string
 ) => {
 	const usedStocks: stocks = await (
-		await fetch(`${process.env.TAFAKOR_API_ENDPOINT}/stocks`)
+		await fetch(`${process.env.TAFAKOR_API_ENDPOINT}/stocks?verseId=${verseId}`)
 	).json();
 
 	switch (provider) {
