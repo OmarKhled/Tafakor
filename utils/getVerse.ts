@@ -184,8 +184,8 @@ const getVerse = async (
 
 		// Post verse(s) data
 		surah = post.surah_number;
-		from = post.from;
-		to = post.to;
+		from = post.from === 0 ? 1 : post.from;
+		to = post.to === 0 ? 1 : post.to;
 	}
 
 	// @ts-ignore
@@ -205,6 +205,7 @@ const getVerse = async (
 		from: verses[0],
 		to: verses[verses.length - 1],
 		surah: surah,
+		// @ts-ignore
 		id: post?.id,
 		verse: verseText,
 		duration:
@@ -233,6 +234,10 @@ export const getVerseText = async (surah: number, verses: number[]) => {
 				{method: 'GET'}
 			)
 		).json();
+
+		if (res.code === 404) {
+			throw new Error('Invalid Ayah');
+		}
 
 		versesTexts.push(res.data.text);
 	}

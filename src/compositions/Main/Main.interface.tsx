@@ -55,10 +55,14 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 			if (footageUrl == null || footageUrl.length == 0) {
 				console.log('No Media');
 				const query = themes[Math.floor(Math.random() * themes.length)];
-				const stockVideosProvider =
-					STOCKS[Math.floor(Math.random() * STOCKS.length)];
+				const stockVideosProvider = 'PEXELS';
 				footageUrl = (
-					await getStock(query, verse.durationInMins * 60, stockVideosProvider)
+					await getStock(
+						query,
+						verse.durationInMins * 60,
+						stockVideosProvider,
+						'null'
+					)
 				).url as string;
 			}
 
