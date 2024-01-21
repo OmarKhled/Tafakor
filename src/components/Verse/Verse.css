@@ -29,3 +29,23 @@
 .translation.lg {
 	font-size: 30px;
 }
+
+
+
+@keyframes fading {
+  0% {
+		opacity: 0;
+  }
+
+  50% {
+		opacity: 1;
+  }
+  100% {
+		opacity: 0;
+  }
+}
+
+
+.fade {
+    animation: 3500ms linear fading;
+}

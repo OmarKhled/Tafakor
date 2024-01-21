@@ -1,4 +1,4 @@
-import {AbsoluteFill, Audio, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Audio, staticFile, useCurrentFrame} from 'remotion';
 import {z} from 'zod';
 
 import Verse from '../../components/Verse';
@@ -19,6 +19,7 @@ export const schema = z.object({
 	scale: z.number(),
 	outputType: z.union([z.literal('reel'), z.literal('post')]),
 	englishWords: z.array(z.string()),
+	footageType: z.string(),
 });
 
 const Main: React.FC<z.infer<typeof schema>> = ({
@@ -34,6 +35,7 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 	scale,
 	outputType,
 	englishWords,
+	footageType,
 }) => {
 	const frame = useCurrentFrame();
 	const min = frame / 30 / 60;
@@ -42,7 +44,11 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 		return (
 			<AbsoluteFill>
 				{/* BackgroundFill (Video) */}
-				<BackgroundFill footageUrl={footageUrl} scale={scale} />
+				<BackgroundFill
+					footageType={footageType}
+					footageUrl={footageUrl}
+					scale={scale}
+				/>
 
 				<AbsoluteFill
 					style={{
@@ -79,9 +85,9 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 
 					{/* Recitation Audio */}
 					<Audio
-						src={url}
-						startFrom={30 * 60 * from}
-						endAt={30 * 60 * to}
+						src={staticFile('sabran.wav')}
+						// startFrom={30 * 60 * from}
+						// endAt={30 * 60 * to}
 					></Audio>
 				</AbsoluteFill>
 			</AbsoluteFill>

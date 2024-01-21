@@ -37,9 +37,11 @@ const Verse = ({
 	useEffect(() => {
 		const filteredVerseString = verse
 			.split(
-				/(?:\s)?\u06de(?:\s)?|\u0628\u0650\u0633\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0645\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u064a\u0645\u0650 |(?:\s)?\u06e9(?:\s)?|(?:\s)?\u06e9(?:\s)?/
+				/(?:\s)?\u06de(?:\s)?|\u0628\u0650\u0633\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0645\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u064a\u0645\u0650 |(?:\s)?\u06e9(?:\s)?|(?:\s)?\u06e9(?:\s)?|(?:\s)?\u06d9/
 			)
 			.join('');
+
+		console.log(filteredVerseString);
 
 		const clearVerse = filteredVerseString
 			.split(/\u06da|\u06d6|\u06d7|\u06d8|\u06db/)
@@ -66,6 +68,14 @@ const Verse = ({
 			)
 			.flat();
 
+		console.log(
+			segmentsWords
+				.map((seg) => {
+					return seg.split(' ');
+				})
+				.flat()
+		);
+
 		let index = 1;
 		let map: number[][] = segmentsWords.map((seg) => {
 			let f: number[] = seg.split(' ').map((_, i) => i + index);
@@ -81,6 +91,21 @@ const Verse = ({
 					element[0] + 1 !== timeSegments[index + 1][0]
 				) {
 					timeSegments.splice(index, 1);
+				}
+
+				if (
+					element[0] > timeSegments[index - 1][0] &&
+					element[0] - 1 !== timeSegments[index - 1][0] &&
+					timeSegments
+						.slice(index)
+						.find((segment) => segment[0] === element[0] - 1)
+				) {
+					const foundItem =
+						timeSegments
+							.slice(index)
+							.findIndex((segment) => segment[0] === element[0] - 1) + index;
+					console.log();
+					timeSegments.splice(index, foundItem - index);
 				}
 			}
 		}
@@ -101,6 +126,8 @@ const Verse = ({
 						.slice(i, nextResume)
 						.map((i) => i[0]);
 
+					console.log({insertedSlots});
+
 					if (insertedSlots.length > 1) {
 						map = [
 							...map.slice(0, prevSegmentIndex),
@@ -119,23 +146,41 @@ const Verse = ({
 							map[prevSegmentIndex].indexOf(prev) ==
 							map[prevSegmentIndex].length - 1
 						) {
+							console.log('hello');
 							map = [
 								...map.slice(0, prevSegmentIndex + 1),
 								[prev, ...map[prevSegmentIndex + 1]],
 								...map.slice(prevSegmentIndex + 2),
 							];
 						} else {
+							console.log({
+								prevSegmentIndex,
+								prev,
+								map,
+								1: map[prevSegmentIndex].slice(
+									0,
+									map[prevSegmentIndex].indexOf(prev) + 1
+								),
+								2: map[prevSegmentIndex].slice(
+									map[prevSegmentIndex].indexOf(prev)
+								),
+							});
 							map = [
 								...map.slice(0, prevSegmentIndex),
 								map[prevSegmentIndex].slice(
 									0,
 									map[prevSegmentIndex].indexOf(prev) + 1
 								),
-								map[prevSegmentIndex].slice(
-									map[prevSegmentIndex].indexOf(prev)
-								),
+								[
+									...insertedSlots,
+									...map[prevSegmentIndex].slice(
+										map[prevSegmentIndex].indexOf(prev)
+									),
+								],
+								// insertedSlots,
 								...map.slice(prevSegmentIndex + 1),
 							];
+							console.log({map});
 						}
 					}
 				}
@@ -143,9 +188,12 @@ const Verse = ({
 		});
 
 		let counter = -1;
+		console.log(timeSegments);
 		const segmentsTimings = map.map((segment, i) => {
 			const prevCounter = counter == -1 ? 0 : counter;
+			console.log({prevCounter});
 			counter += segment.length;
+			console.log({counter});
 			return {
 				start:
 					prevCounter == 0
