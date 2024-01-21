@@ -4,7 +4,7 @@
   "description": "My Remotion video",
   "scripts": {
     "start": "remotion studio",
-    "pipe": "npx tsx ./pipe/index.ts",
+    "pipe": "bun ./pipe/index.ts",
     "upgrade": "remotion upgrade",
     "test": "eslint src --ext ts,tsx,js,jsx && tsc"
   },
