@@ -20,11 +20,12 @@ interface props {
 }
 
 function BackgroundFill({footageUrl, scale, footageType}: props) {
-	const [duration, setDuration] = useState<number>(0);
+	const [duration, setDuration] = useState<number | null>(null);
 	const [handle] = useState(() => delayRender());
 	const {fps} = useVideoConfig();
 
 	useEffect(() => {
+		console.log({footageType});
 		if (footageType === 'video') {
 			getVideoMetadata(footageUrl)
 				.then(({durationInSeconds}) => {
@@ -47,6 +48,7 @@ function BackgroundFill({footageUrl, scale, footageType}: props) {
 		<>
 			{footageType === 'video' ? (
 				<div className="videoContainer">
+					{/* @ts-ignore */}
 					<Loop durationInFrames={Math.floor(fps * duration)}>
 						<OffthreadVideo
 							src={footageUrl}
