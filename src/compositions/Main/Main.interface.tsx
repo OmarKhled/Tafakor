@@ -97,6 +97,8 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 
 			console.log({footageMetadata});
 
+			console.log({footageMetadata});
+
 			const dimension =
 				footageMetadata.width >= footageMetadata.height
 					? {value: footageMetadata.height, type: 'height'}
