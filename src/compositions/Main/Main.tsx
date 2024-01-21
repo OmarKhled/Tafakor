@@ -1,4 +1,4 @@
-import {AbsoluteFill, Audio, staticFile, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Audio, useCurrentFrame} from 'remotion';
 import {z} from 'zod';
 
 import Verse from '../../components/Verse';
