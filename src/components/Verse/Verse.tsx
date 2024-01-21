@@ -92,6 +92,21 @@ const Verse = ({
 				) {
 					timeSegments.splice(index, 1);
 				}
+
+				if (
+					element[0] > timeSegments[index - 1][0] &&
+					element[0] - 1 !== timeSegments[index - 1][0] &&
+					timeSegments
+						.slice(index)
+						.find((segment) => segment[0] === element[0] - 1)
+				) {
+					const foundItem =
+						timeSegments
+							.slice(index)
+							.findIndex((segment) => segment[0] === element[0] - 1) + index;
+					console.log();
+					timeSegments.splice(index, foundItem - index);
+				}
 			}
 		}
 
