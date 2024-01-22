@@ -92,12 +92,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				footageMetadata = await getVideoMetadata(footageUrl);
 			} else {
 				footageMetadata = await getImageMetaData(footageUrl);
-				console.log({footageMetadata, contentType});
 			}
-
-			console.log({footageMetadata});
-
-			console.log({footageMetadata});
 
 			const dimension =
 				footageMetadata.width >= footageMetadata.height
@@ -134,8 +129,8 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				continueRender(handle);
 			})
 			.catch((err) => {
-				continueRender(handle);
-				console.log(`Error fetching metadata: ${err}`);
+				// continueRender(handle);
+				throw new Error(`Error fetching metadata: ${err}`);
 			});
 	}, [handle]);
 
