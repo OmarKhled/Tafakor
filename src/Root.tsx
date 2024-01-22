@@ -8,6 +8,12 @@ import {SIZES} from '../constants/sizes';
 
 import './styles/styles.css';
 
+declare module 'react' {
+	interface CSSProperties {
+		[key: `--${string}`]: string | number;
+	}
+}
+
 export const RemotionRoot: React.FC = () => {
 	const FPS = 30;
 

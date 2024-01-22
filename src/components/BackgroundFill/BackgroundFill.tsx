@@ -8,7 +8,6 @@ import {
 	AbsoluteFill,
 	OffthreadVideo,
 	useVideoConfig,
-	Img,
 } from 'remotion';
 
 import './BackgroundFill.css';
@@ -59,11 +58,14 @@ function BackgroundFill({footageUrl, scale, footageType}: props) {
 					</Loop>
 				</div>
 			) : (
-				<Img
-					src={footageUrl}
-					className="image"
-					style={{transform: `scale(${1.02})`}}
-				/>
+				<>
+					<div
+						style={{
+							'--url': 'url(' + footageUrl + ')',
+						}}
+						className="image"
+					></div>
+				</>
 			)}
 
 			<AbsoluteFill className="backdrop"></AbsoluteFill>
