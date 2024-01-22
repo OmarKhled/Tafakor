@@ -1,52 +1,52 @@
 {
-  "name": "quran",
-  "version": "1.0.0",
-  "description": "My Remotion video",
-  "scripts": {
-    "start": "remotion studio",
-    "pipe": "tsx ./pipe/index.ts",
-    "upgrade": "remotion upgrade",
-    "test": "eslint src --ext ts,tsx,js,jsx && tsc"
-  },
-  "type": "module",
-  "repository": {},
-  "license": "MIT",
-  "dependencies": {
-    "@aws-sdk/client-s3": "^3.437.0",
-    "@opentf/cli-pbar": "^0.1.8",
-    "@remotion/bundler": "4.0.74",
-    "@remotion/cli": "4.0.74",
-    "@remotion/google-fonts": "4.0.74",
-    "@remotion/lambda": "4.0.74",
-    "@remotion/zod-types": "4.0.74",
-    "@types/uuid": "^9.0.6",
-    "aws-sdk": "^2.1483.0",
-    "dotenv": "^16.3.1",
-    "iconoir-react": "^7.3.0",
-    "node-fetch": "^3.3.2",
-    "openai": "^4.23.0",
-    "path": "^0.12.7",
-    "pexels": "^1.4.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "remotion": "4.0.74",
-    "stream": "^0.0.2",
-    "tsx": "^4.6.2",
-    "uuid": "^9.0.1",
-    "zod": "^3.21.4"
-  },
-  "devDependencies": {
-    "@remotion/eslint-config": "4.0.74",
-    "@types/react": "^18.0.26",
-    "@types/web": "^0.0.86",
-    "eslint": "^8.43.0",
-    "prettier": "^2.8.8",
-    "typescript": "^4.9.4"
-  },
-  "packageManager": "bun@1.0.2",
-  "browser": {
-    "fs": false,
-    "os": false,
-    "path": false
-  }
+	"name": "quran",
+	"version": "1.0.0",
+	"description": "My Remotion video",
+	"scripts": {
+		"start": "remotion studio",
+		"pipe": "bun ./pipe/index.ts",
+		"upgrade": "remotion upgrade",
+		"test": "eslint src --ext ts,tsx,js,jsx && tsc"
+	},
+	"type": "module",
+	"repository": {},
+	"license": "MIT",
+	"dependencies": {
+		"@aws-sdk/client-s3": "^3.437.0",
+		"@opentf/cli-pbar": "^0.1.8",
+		"@remotion/bundler": "4.0.74",
+		"@remotion/cli": "4.0.74",
+		"@remotion/google-fonts": "4.0.74",
+		"@remotion/lambda": "4.0.74",
+		"@remotion/zod-types": "4.0.74",
+		"@types/uuid": "^9.0.6",
+		"aws-sdk": "^2.1483.0",
+		"dotenv": "^16.3.1",
+		"iconoir-react": "^7.3.0",
+		"node-fetch": "^3.3.2",
+		"openai": "^4.23.0",
+		"path": "^0.12.7",
+		"pexels": "^1.4.0",
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0",
+		"remotion": "4.0.74",
+		"stream": "^0.0.2",
+		"tsx": "^4.6.2",
+		"uuid": "^9.0.1",
+		"zod": "^3.21.4"
+	},
+	"devDependencies": {
+		"@remotion/eslint-config": "4.0.74",
+		"@types/react": "^18.0.26",
+		"@types/web": "^0.0.86",
+		"eslint": "^8.43.0",
+		"prettier": "^2.8.8",
+		"typescript": "^4.9.4"
+	},
+	"packageManager": "bun@1.0.2",
+	"browser": {
+		"fs": false,
+		"os": false,
+		"path": false
+	}
 }
