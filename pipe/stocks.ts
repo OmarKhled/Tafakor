@@ -68,9 +68,13 @@ const pexelsStock = async (
 	const video = closestDurationVideo(videos, duration);
 
 	// Video URL
-	const videoUrl =
-		video.video_files.find((video: any) => video.quality === 'hd')?.link +
-		'&download=1';
+	const videoUrl = (
+		await fetch(
+			video.video_files.find((video: any) => video.quality === 'hd')?.link
+		)
+	).url;
+
+	// + '&download=1';
 
 	return {
 		url: videoUrl as string,
@@ -116,7 +120,8 @@ const pixabayStock = async (
 	const video = closestDurationVideo(videos, duration);
 
 	// Video URL
-	const videoUrl = video.videos['large'].url + '&download=1';
+	const videoUrl = (await fetch(video.videos['large'].url)).url;
+	// + '&download=1';
 
 	return {
 		url: videoUrl,

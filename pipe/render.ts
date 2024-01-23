@@ -1,6 +1,5 @@
 import {renderMedia, selectComposition} from '@remotion/renderer';
 import {v4} from 'uuid';
-import {ProgressBar} from '@opentf/cli-pbar';
 import {outputType} from './pipe';
 
 const SIZES = {
