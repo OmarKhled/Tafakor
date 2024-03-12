@@ -18,13 +18,15 @@ let props: {[key: string]: string | undefined} = {};
 
 const S3_ACCESS_KEY_ID = process.env.S3_ACCESS_KEY_ID as string;
 const S3_SECRET_ACCESS_KEY = process.env.S3_SECRET_ACCESS_KEY as string;
+const S3_REGION = process.env.S3_REGION as string;
+const S3_BUCKET = process.env.S3_BUCKET as string;
 
 const s3 = new S3Client({
 	credentials: {
 		accessKeyId: S3_ACCESS_KEY_ID,
 		secretAccessKey: S3_SECRET_ACCESS_KEY,
 	},
-	region: 'eu-north-1',
+	region: S3_REGION,
 });
 
 (async () => {
@@ -115,7 +117,7 @@ const s3 = new S3Client({
 				);
 
 				const params = {
-					Bucket: 'tafakor',
+					Bucket: S3_BUCKET,
 					Key: 'videos' + '/' + fileName,
 					Body: file,
 					ACL: ObjectCannedACL.public_read,
