@@ -65,8 +65,13 @@ const pexelsStock = async (
 			!usedStocks?.map((stock) => stock.stockid).includes(String(video.id))
 	);
 
+	console.log(videos)
+
 	const video = closestDurationVideo(videos, duration);
 
+
+	console.log(video)
+	
 	// Video URL
 	const videoUrl = (
 		await fetch(
@@ -117,8 +122,12 @@ const pixabayStock = async (
 			!usedStocks?.map((stock) => stock.stockid).includes(String(video.id))
 	);
 
+	console.log(videos)
+
 	const video = closestDurationVideo(videos, duration);
 
+	console.log(video)
+	
 	// Video URL
 	const videoUrl = (await fetch(video.videos['large'].url)).url;
 	// + '&download=1';
