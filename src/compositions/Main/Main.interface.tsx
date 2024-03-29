@@ -74,16 +74,16 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				).url as string;
 			}
 
-			let contentType = '';
+			let contentType = 'video';
 
 			contentType = (await fetch(footageUrl)).headers
 				.get('Content-Type')
 				?.split('/')[0] as 'image' | 'video';
 
+			console.log('Content Type', {contentType});
+
 			if (!['video', 'image'].includes(contentType)) {
 				throw new Error('Content Type is neither image or video');
-			} else {
-				console.log('Content Type', contentType);
 			}
 
 			let footageMetadata: {width: number; height: number};

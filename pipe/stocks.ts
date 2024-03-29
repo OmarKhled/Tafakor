@@ -65,13 +65,8 @@ const pexelsStock = async (
 			!usedStocks?.map((stock) => stock.stockid).includes(String(video.id))
 	);
 
-	console.log(videos)
-
 	const video = closestDurationVideo(videos, duration);
 
-
-	console.log(video)
-	
 	// Video URL
 	const videoUrl = (
 		await fetch(
@@ -117,19 +112,44 @@ const pixabayStock = async (
 		resLength = res.hits.length;
 	} while (resLength > 0 && page <= 3);
 
+	console.log({usedStocks});
+
 	videos = videos.filter(
 		(video) =>
 			!usedStocks?.map((stock) => stock.stockid).includes(String(video.id))
 	);
 
-	console.log(videos)
+	let validVideo = false;
+	let videoUrl = '';
+	let video: any;
 
-	const video = closestDurationVideo(videos, duration);
+	while (!validVideo) {
+		video = closestDurationVideo(videos, duration);
 
-	console.log(video)
-	
-	// Video URL
-	const videoUrl = (await fetch(video.videos['large'].url)).url;
+		const sizes = ['large', 'medium', 'small'];
+		let availableSize: null | string = null;
+		for (let index = 0; index < sizes.length; index++) {
+			const videoSize = video.videos[sizes[index]];
+			if (videoSize.url) {
+				availableSize = sizes[index];
+				break;
+			}
+		}
+		if (availableSize != null) {
+			const res = await fetch(video.videos[availableSize].url);
+			if (res.ok) {
+				videoUrl = res.url;
+				console.log({videoUrl});
+				validVideo = true;
+			} else {
+				console.log('not ok');
+				videos = videos.filter((v) => v.id != video.id);
+			}
+		} else {
+			videos = videos.filter((v) => v.id != video.id);
+		}
+	}
+
 	// + '&download=1';
 
 	return {
