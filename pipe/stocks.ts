@@ -112,8 +112,6 @@ const pixabayStock = async (
 		resLength = res.hits.length;
 	} while (resLength > 0 && page <= 3);
 
-	console.log({usedStocks});
-
 	videos = videos.filter(
 		(video) =>
 			!usedStocks?.map((stock) => stock.stockid).includes(String(video.id))
@@ -149,8 +147,6 @@ const pixabayStock = async (
 			videos = videos.filter((v) => v.id != video.id);
 		}
 	}
-
-	// + '&download=1';
 
 	return {
 		url: videoUrl,
