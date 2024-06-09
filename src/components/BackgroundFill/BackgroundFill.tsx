@@ -28,14 +28,12 @@ function BackgroundFill({footageUrl, scale, footageType}: props) {
 	const {fps, durationInFrames} = useVideoConfig();
 
 	useEffect(() => {
-		console.log({footageType});
 		if (footageType === 'video') {
 			getVideoMetadata(footageUrl)
 				.then(({durationInSeconds}) => {
 					setDuration(durationInSeconds);
 					setLoops(Math.ceil(durationInFrames / fps / durationInSeconds) + 1);
 
-					console.log(Math.ceil(durationInFrames / fps / durationInSeconds));
 					continueRender(handle);
 				})
 				.catch((err) => {
