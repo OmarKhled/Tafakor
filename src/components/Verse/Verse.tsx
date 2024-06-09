@@ -216,6 +216,7 @@ const Verse = ({
 
 	useEffect(() => {
 		try {
+			console.log({min});
 			let newSectionIndex = segmentsTimings.findIndex(
 				(segment) => min < segment.end
 			);
@@ -245,7 +246,11 @@ const Verse = ({
 				opacity: frame < 52 ? Math.min(1, frame / 50) : 1,
 			}}
 		>
-			<h1 className={`ayah ${size}`}>{segments[currentVerseIndex]}</h1>
+			<h1 className={`ayah ${size}`}>
+				<span>{'﴾='}</span>
+				{segments[currentVerseIndex]}
+				<span>{'﴿'}</span>
+			</h1>
 			<h2 className={`translation ${size}`}>{currentSegmentTranslation}</h2>
 		</div>
 	);

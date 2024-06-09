@@ -14,6 +14,8 @@ declare module 'react' {
 	}
 }
 
+const DEFAULT_OUT = 'reel';
+
 export const RemotionRoot: React.FC = () => {
 	const FPS = 30;
 
@@ -32,8 +34,8 @@ export const RemotionRoot: React.FC = () => {
 					ayat: [41, 42, 43, 44, 45, 46, 47],
 					footage: '',
 					random: true,
-					outputType: 'reel',
-					size: {width: 1080, height: 1920},
+					outputType: DEFAULT_OUT,
+					size: SIZES[DEFAULT_OUT],
 				}}
 				calculateMetadata={async ({props}) => {
 					if (props.random) {
@@ -44,6 +46,7 @@ export const RemotionRoot: React.FC = () => {
 							(e, i) => verse.from + i
 						);
 					}
+
 					const {durationInMins} = await getVerseData(
 						props.surah,
 						props.ayat,

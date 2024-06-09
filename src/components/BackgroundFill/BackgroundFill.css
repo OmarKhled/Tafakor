@@ -10,6 +10,16 @@
 	scale: 1.04;
 }
 
+div:has(.videoContainer) {
+  justify-content: center;
+}
+
+.videoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .videoContainer > div {
   justify-content: center;
   align-items: center;
@@ -22,4 +32,11 @@
   width: 100%;
   height: 100%;
   background-position: center;
+  transform: scale(1.03);
+}
+
+
+.backdrop {
+  backdrop-filter: brightness(80%);
+  transform: scale(1.1);
 }

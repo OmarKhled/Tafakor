@@ -18,6 +18,7 @@
 		"@remotion/cli": "4.0.74",
 		"@remotion/google-fonts": "4.0.74",
 		"@remotion/lambda": "4.0.74",
+		"@remotion/transitions": "4.0.74",
 		"@remotion/zod-types": "4.0.74",
 		"@types/uuid": "^9.0.6",
 		"aws-sdk": "^2.1483.0",

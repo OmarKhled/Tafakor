@@ -3,10 +3,21 @@
   font-family: Amiri;
 	text-align: center;
 	margin: 0;
+
+	display: flex;
+	gap: 2rem;
+	justify-content: center;
+	align-items: center;
 }
 
 .ayah.rg {
 	font-size: 52px;
+}
+
+.ayah span {
+	color: rgb(255, 255, 255);
+
+	font-size: 1.2em;
 }
 
 .ayah.lg {
@@ -27,7 +38,7 @@
 }
 
 .translation.lg {
-	font-size: 30px;
+	font-size: 28px;
 }
 
 
