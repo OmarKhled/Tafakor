@@ -61,7 +61,7 @@ const renderVideo = async (
 			inputProps,
 			timeoutInMilliseconds: 300000,
 			logLevel: 'verbose',
-			// concurrency: 8,
+			concurrency: 8,
 			onProgress: ({progress, encodedFrames, renderedFrames}) => {
 				console.log(
 					'Rendering Porgress:',

@@ -21,6 +21,10 @@ const reciters = [
 		name: 'هانى الرفاعي',
 		id: 5,
 	},
+	{
+		name: 'عبد الباسط عبد الصمد',
+		id: 2,
+	},
 ];
 
 interface versePostReponse {

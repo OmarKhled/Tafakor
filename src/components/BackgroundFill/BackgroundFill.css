@@ -37,6 +37,6 @@ div:has(.videoContainer) {
 
 
 .backdrop {
-  backdrop-filter: brightness(80%);
+  backdrop-filter: blur(3px) brightness(70%);
   transform: scale(1.1);
 }

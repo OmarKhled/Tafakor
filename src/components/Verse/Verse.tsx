@@ -24,7 +24,7 @@ const Verse = ({
 	size = 'rg',
 	englishWords,
 }: props) => {
-	const NUM_OF_WORDS = size === 'rg' ? 7 : 5;
+	const NUM_OF_WORDS = size === 'rg' ? 6 : 5;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 	const [segmentsTimings, setSegmentsTimings] = useState<
 		{start: number; end: number}[]
@@ -41,7 +41,7 @@ const Verse = ({
 			)
 			.join('');
 
-		console.log(filteredVerseString);
+		// console.log(filteredVerseString);
 
 		const clearVerse = filteredVerseString
 			.split(/\u06da|\u06d6|\u06d7|\u06d8|\u06db/)
@@ -67,14 +67,6 @@ const Verse = ({
 					: c
 			)
 			.flat();
-
-		console.log(
-			segmentsWords
-				.map((seg) => {
-					return seg.split(' ');
-				})
-				.flat()
-		);
 
 		let index = 1;
 		let map: number[][] = segmentsWords.map((seg) => {
@@ -104,7 +96,6 @@ const Verse = ({
 						timeSegments
 							.slice(index)
 							.findIndex((segment) => segment[0] === element[0] - 1) + index;
-					console.log();
 					timeSegments.splice(index, foundItem - index);
 				}
 			}
@@ -126,8 +117,6 @@ const Verse = ({
 						.slice(i, nextResume)
 						.map((i) => i[0]);
 
-					console.log({insertedSlots});
-
 					if (insertedSlots.length > 1) {
 						map = [
 							...map.slice(0, prevSegmentIndex),
@@ -146,25 +135,12 @@ const Verse = ({
 							map[prevSegmentIndex].indexOf(prev) ==
 							map[prevSegmentIndex].length - 1
 						) {
-							console.log('hello');
 							map = [
 								...map.slice(0, prevSegmentIndex + 1),
 								[prev, ...map[prevSegmentIndex + 1]],
 								...map.slice(prevSegmentIndex + 2),
 							];
 						} else {
-							console.log({
-								prevSegmentIndex,
-								prev,
-								map,
-								1: map[prevSegmentIndex].slice(
-									0,
-									map[prevSegmentIndex].indexOf(prev) + 1
-								),
-								2: map[prevSegmentIndex].slice(
-									map[prevSegmentIndex].indexOf(prev)
-								),
-							});
 							map = [
 								...map.slice(0, prevSegmentIndex),
 								map[prevSegmentIndex].slice(
@@ -180,7 +156,6 @@ const Verse = ({
 								// insertedSlots,
 								...map.slice(prevSegmentIndex + 1),
 							];
-							console.log({map});
 						}
 					}
 				}
@@ -188,12 +163,9 @@ const Verse = ({
 		});
 
 		let counter = -1;
-		console.log(timeSegments);
 		const segmentsTimings = map.map((segment, i) => {
 			const prevCounter = counter == -1 ? 0 : counter;
-			console.log({prevCounter});
 			counter += segment.length;
-			console.log({counter});
 			return {
 				start:
 					prevCounter == 0
@@ -216,7 +188,6 @@ const Verse = ({
 
 	useEffect(() => {
 		try {
-			console.log({min});
 			let newSectionIndex = segmentsTimings.findIndex(
 				(segment) => min < segment.end
 			);
@@ -247,7 +218,7 @@ const Verse = ({
 			}}
 		>
 			<h1 className={`ayah ${size}`}>
-				<span>{'﴾='}</span>
+				<span>{'﴾'}</span>
 				{segments[currentVerseIndex]}
 				<span>{'﴿'}</span>
 			</h1>
