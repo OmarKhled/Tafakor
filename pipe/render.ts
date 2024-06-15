@@ -60,7 +60,7 @@ const renderVideo = async (
 			outputLocation: `out/${compositionId}-${ID}.mp4`,
 			inputProps,
 			timeoutInMilliseconds: 300000,
-			logLevel: 'verbose',
+			logLevel: 'info',
 			// concurrency: 8,
 			onProgress: ({progress, encodedFrames, renderedFrames}) => {
 				console.log(

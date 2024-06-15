@@ -81,10 +81,9 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 			let contentType = 'video';
 
 			contentType =
-				contentType ||
 				((await fetch(footageUrl)).headers
 					.get('Content-Type')
-					?.split('/')[0] as 'image' | 'video');
+					?.split('/')[0] as 'image' | 'video') || contentType;
 
 			console.log('Content Type', {contentType});
 

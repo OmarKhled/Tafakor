@@ -24,7 +24,7 @@ const Verse = ({
 	size = 'rg',
 	englishWords,
 }: props) => {
-	const NUM_OF_WORDS = size === 'rg' ? 6 : 5;
+	const NUM_OF_WORDS = size === 'rg' ? 6 : 6;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 	const [segmentsTimings, setSegmentsTimings] = useState<
 		{start: number; end: number}[]
