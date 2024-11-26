@@ -26,7 +26,7 @@ const getTheme = async (verse: string): Promise<string> => {
 						},
 						{role: 'user', content: verse},
 					],
-					model: 'gpt-3.5-turbo',
+					model: 'gpt-4o-mini',
 					temperature: 1,
 					max_tokens: 256,
 					top_p: 1,
