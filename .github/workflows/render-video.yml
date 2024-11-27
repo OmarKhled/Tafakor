@@ -37,7 +37,9 @@ jobs:
           libxdamage1 \
           libgbm-dev \
           libatk-bridge2.0-0 \
-          dbus
+          dbus \
+          chromium-browser
+
 
       # sudo service dbus start
 
