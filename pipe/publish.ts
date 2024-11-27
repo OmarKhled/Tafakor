@@ -93,6 +93,15 @@ const submitPosting = async (
 	stockId: string,
 	stockProvider: string
 ) => {
+	console.log(
+		JSON.stringify({
+			reel_url: reelUrl,
+			post_url: postUrl,
+			verse_id: verseId,
+			stock_id: stockId,
+			stock_provider: stockProvider,
+		})
+	);
 	const res: boolean = await (
 		await fetch(`${process.env.TAFAKOR_API_ENDPOINT}/publish`, {
 			method: 'POST',
