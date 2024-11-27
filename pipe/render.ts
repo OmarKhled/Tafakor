@@ -60,9 +60,9 @@ const renderVideo = async (
 			outputLocation: `out/${compositionId}-${ID}.mp4`,
 			inputProps,
 			timeoutInMilliseconds: 300000,
-			logLevel: 'info',
+			logLevel: 'verbose',
 			concurrency: 8,
-			browserExecutable: '/usr/bin/g-chrome',
+			// browserExecutable: '/usr/bin/g-chrome',
 			onProgress: ({progress, encodedFrames, renderedFrames}) => {
 				console.log(
 					'Rendering Porgress:',
