@@ -1,38 +1,58 @@
 name: Tafakor Video
 on:
   workflow_dispatch
+
 jobs:
   render:
-    name: Render video
+    name: Render Video
     runs-on: ubuntu-latest
     steps:
+      # Checkout the repository
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@main
+
+      # Setup Node.js environment
+      - uses: actions/setup-node@v3
+
+      # Setup Bun (JavaScript runtime)
       - uses: oven-sh/setup-bun@v1
-      - uses: browser-actions/setup-chrome@v1
         with:
           bun-version: latest
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - name: Emit input props
-        run: echo $WORKFLOW_INPUT | tee input-props.json | jq -C '.'
-        env:
-          WORKFLOW_INPUT: ${{ toJson(github.event.inputs) }}
 
-      - name: Dependencies Install
-        run: bun i
-      - name: Emit Enviroment Variables
-        run: touch .env &&
+      # Install system dependencies
+      - name: Install System Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+            libnss3 libnspr4 libatk1.0-0 libatk-bridge2.0-0 libcups2 \
+            libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 \
+            libxrandr2 libgbm1 libasound2
+
+      # Setup Chrome for rendering
+      - uses: browser-actions/setup-chrome@v1
+
+      - name: Configure Chrome
+        run: |
+          which chrome && PATH="$PATH:$(which chrome)"
+          alias google-chrome='chrome'
+          sudo cp $(which chrome) /usr/bin/g-chrome
+
+      # Install project dependencies
+      - name: Install Dependencies
+        run: bun install
+
+      # Set environment variables
+      - name: Set Environment Variables
+        run: |
+          touch .env
           echo "${{ secrets.ENV }}" > .env
-      - name: Fetching latest chrome version
-        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - name: Installing Chrome
-        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-      - name: Rendering Video
+
+      # Render the video
+      - name: Render Video
         run: npm run pipe
-      - name: Upload video
+
+      # Upload the rendered video as an artifact
+      - name: Upload Rendered Video
         uses: actions/upload-artifact@v3
         with:
-          name: out
+          name: rendered-video
           path: out/*.mp4
