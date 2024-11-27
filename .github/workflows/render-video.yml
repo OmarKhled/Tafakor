@@ -31,6 +31,9 @@ jobs:
             libxrandr2 libgbm1 dbus-x11 dbus && sudo apt -y install systemd
           sudo service dbus start
 
+      - name: Disable Dbus
+        run: DBUS_SESSION_BUS_ADDRESS=/dev/null
+
 
       # Setup Chrome for rendering
       # - uses: browser-actions/setup-chrome@v1
