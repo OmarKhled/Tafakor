@@ -18,23 +18,27 @@ jobs:
         run: echo $WORKFLOW_INPUT | tee input-props.json | jq -C '.'
         env:
           WORKFLOW_INPUT: ${{ toJson(github.event.inputs) }}
-
       - name: Dependencies Install
         run: bun i
       - name: Install System Dependencies
-        run: sudo apt-get update -y
-      # - if: inputs.video == ''
-      #   name: Python Dependencies
-      #   run: pip install g4f
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y xvfb libxss1 libappindicator1 libindicator7 fonts-liberation
       - name: Emit Enviroment Variables
         run: touch .env &&
           echo "${{ secrets.ENV }}" > .env
       - name: Fetching latest chrome version
         run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
       - name: Installing Chrome
-        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
+        run: sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get install -f -y
+      - name: Start Virtual Display
+        run: |
+          Xvfb :99 -screen 0 1920x1080x16 &
+          export DISPLAY=:99
       - name: Rendering Video
         run: npm run pipe
+        env:
+          DISPLAY: :99
       - name: Upload video
         uses: actions/upload-artifact@v3
         with:
