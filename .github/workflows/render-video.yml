@@ -38,7 +38,6 @@ jobs:
           libgbm-dev \
           libatk-bridge2.0-0 \
           dbus
-          dbus-launch
 
       # sudo service dbus start
 
