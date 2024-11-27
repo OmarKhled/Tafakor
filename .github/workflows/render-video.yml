@@ -21,6 +21,8 @@ jobs:
 
       - name: Dependencies Install
         run: bun i
+      - name: Install System Dependencies
+        run: sudo apt-get update -y
       # - if: inputs.video == ''
       #   name: Python Dependencies
       #   run: pip install g4f
