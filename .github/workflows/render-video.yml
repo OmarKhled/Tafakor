@@ -5,7 +5,7 @@ on:
 jobs:
   render:
     name: Render Video
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       # Checkout the repository
       - uses: actions/checkout@v3
