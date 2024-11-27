@@ -27,6 +27,10 @@ jobs:
       - name: Emit Enviroment Variables
         run: touch .env &&
           echo "${{ secrets.ENV }}" > .env
+      - name: Fetching latest chrome version
+        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      - name: Installing Chrome
+        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
       - name: Rendering Video
         run: npm run pipe
       - name: Upload video
