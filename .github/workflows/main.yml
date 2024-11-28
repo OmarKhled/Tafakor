@@ -1,4 +1,4 @@
-name: Tafakor Video
+name: Scheduled Posts
 on:
   schedule:
   - cron: "0 9 * * *"
