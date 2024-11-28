@@ -40,22 +40,6 @@ jobs:
           dbus \
           chromium-browser
 
-
-      # sudo service dbus start
-
-      # - name: Disable Dbus
-      #   run: DBUS_SESSION_BUS_ADDRESS="autolaunch:"
-
-
-      # Setup Chrome for rendering
-      # - uses: browser-actions/setup-chrome@v1
-
-      # - name: Configure Chrome
-      #   run: |
-      #     which chrome && PATH="$PATH:$(which chrome)"
-      #     alias google-chrome='chrome'
-      #     sudo cp $(which chrome) /usr/bin/g-chrome
-
       # Install project dependencies
       - name: Install Dependencies
         run: bun install

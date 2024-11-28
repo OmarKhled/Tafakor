@@ -1,38 +1,61 @@
-name: Scheduled Posts
+name: Tafakor Video
 on:
   schedule:
   - cron: "0 9 * * *"
   - cron: "0 18 * * *"
+
 jobs:
   render:
-    name: Render video
-    runs-on: ubuntu-latest
+    name: Scheduled Posts
+    runs-on: ubuntu-22.04
     steps:
+      # Checkout the repository
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@main
+
+      # Setup Node.js environment
+      - uses: actions/setup-node@v3
+
+      # Setup Bun (JavaScript runtime)
       - uses: oven-sh/setup-bun@v1
         with:
           bun-version: latest
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
 
-      - name: Dependencies Install
-        run: bun i
-      # - if: inputs.video == ''
-      #   name: Python Dependencies
-      #   run: pip install g4f
-      - name: Emit Enviroment Variables
-        run: touch .env &&
+      # Install system dependencies
+      - name: Install System Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+          libnss3 \
+          libdbus-1-3 \
+          libatk1.0-0 \
+          liboss4-salsa-asound2 \
+          libxrandr2 \
+          libxkbcommon-dev \
+          libxfixes3 \
+          libxcomposite1 \
+          libxdamage1 \
+          libgbm-dev \
+          libatk-bridge2.0-0 \
+          dbus \
+          chromium-browser
+
+      # Install project dependencies
+      - name: Install Dependencies
+        run: bun install
+
+      # Set environment variables
+      - name: Set Environment Variables
+        run: |
+          touch .env
           echo "${{ secrets.ENV }}" > .env
-      - name: Fetching latest chrome version
-        run: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-      - name: Installing Chrome
-        run: sudo dpkg -i google-chrome-stable_current_amd64.deb
-      - name: Rendering Video
+
+      # Render the video
+      - name: Render Video
         run: npm run pipe
-      - name: Upload video
+
+      # Upload the rendered video as an artifact
+      - name: Upload Rendered Video
         uses: actions/upload-artifact@v3
         with:
-          name: out
+          name: rendered-video
           path: out/*.mp4
