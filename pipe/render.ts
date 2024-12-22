@@ -62,7 +62,7 @@ const renderVideo = async (
 			timeoutInMilliseconds: 300000,
 			logLevel: 'verbose',
 			// concurrency: 8,
-			// browserExecutable: '/usr/bin/g-chrome',
+			browserExecutable: '/usr/bin/chromium-browser',
 			onProgress: ({progress, encodedFrames, renderedFrames}) => {
 				console.log(
 					'Rendering Porgress:',

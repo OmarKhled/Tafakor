@@ -1,5 +1,5 @@
 import {Img, staticFile} from 'remotion';
-import {loadFont} from '@remotion/google-fonts/Cairo';
+import {loadFont} from '@remotion/google-fonts/Tajawal';
 import {MicrophoneSolid} from 'iconoir-react';
 import './Footer.css';
 

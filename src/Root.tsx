@@ -47,11 +47,13 @@ export const RemotionRoot: React.FC = () => {
 						);
 					}
 
-					const {durationInMins} = await getVerseData(
-						props.surah,
-						props.ayat,
-						props.reciterId
-					);
+					// const {durationInMins} = await getVerseData(
+					// 	props.surah,
+					// 	props.ayat,
+					// 	props.reciterId
+					// );
+
+					const durationInMins = 27.8 / 60;
 
 					props.size = SIZES[props.outputType];
 

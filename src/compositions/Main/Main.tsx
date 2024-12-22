@@ -1,4 +1,4 @@
-import {AbsoluteFill, Audio, useCurrentFrame} from 'remotion';
+import {AbsoluteFill, Audio, staticFile, useCurrentFrame} from 'remotion';
 import {z} from 'zod';
 
 import Verse from '../../components/Verse';
@@ -85,9 +85,9 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 
 					{/* Recitation Audio */}
 					<Audio
-						src={url}
-						startFrom={30 * 60 * from}
-						endAt={30 * 60 * to}
+						src={staticFile('h.wav')}
+						// startFrom={30 * 60 * from}
+						// endAt={30 * 60 * to}
 					></Audio>
 				</AbsoluteFill>
 			</AbsoluteFill>

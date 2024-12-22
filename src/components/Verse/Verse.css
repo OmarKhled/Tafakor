@@ -1,6 +1,6 @@
 .ayah {
-	color: #fff;
-  font-family: Amiri;
+	color: #a5c4ed;
+  font-family: "Lalezar";
 	text-align: center;
 	margin: 0;
 
@@ -8,6 +8,8 @@
 	gap: 2rem;
 	justify-content: center;
 	align-items: center;
+	font-weight: 500;
+
 }
 
 .ayah.rg {
@@ -21,7 +23,7 @@
 }
 
 .ayah.lg {
-	font-size: 62px;
+	font-size: 80px;
 }
 
 .translation {
@@ -38,7 +40,7 @@
 }
 
 .translation.lg {
-	font-size: 28px;
+	font-size: 30px;
 }
 
 

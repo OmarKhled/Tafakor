@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {loadFont} from '@remotion/google-fonts/Amiri';
+import {loadFont} from '@remotion/google-fonts/Lalezar';
 import {loadFont as loadPoppinsFont} from '@remotion/google-fonts/Poppins';
 
 import './Verse.css';
@@ -24,7 +24,7 @@ const Verse = ({
 	size = 'rg',
 	englishWords,
 }: props) => {
-	const NUM_OF_WORDS = size === 'rg' ? 6 : 6;
+	const NUM_OF_WORDS = size === 'rg' ? 3 : 3;
 	const [currentVerseIndex, setCurrentVerseIndex] = useState(1);
 	const [segmentsTimings, setSegmentsTimings] = useState<
 		{start: number; end: number}[]
@@ -218,9 +218,9 @@ const Verse = ({
 			}}
 		>
 			<h1 className={`ayah ${size}`}>
-				<span>{'﴾'}</span>
+				{/* <span>{'﴾'}</span> */}
 				{segments[currentVerseIndex]}
-				<span>{'﴿'}</span>
+				{/* <span>{'﴿'}</span> */}
 			</h1>
 			<h2 className={`translation ${size}`}>{currentSegmentTranslation}</h2>
 		</div>
