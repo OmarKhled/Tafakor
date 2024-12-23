@@ -5,7 +5,7 @@ import {
 	continueRender,
 	delayRender,
 	AbsoluteFill,
-	OffthreadVideo,
+	Video,
 	useVideoConfig,
 } from 'remotion';
 import {linearTiming, TransitionSeries} from '@remotion/transitions';
