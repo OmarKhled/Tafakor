@@ -63,12 +63,12 @@ function BackgroundFill({footageUrl, scale, footageType}: props) {
 										durationInFrames={(duration as number) * fps}
 									>
 										<div className="videoContainer">
-											<OffthreadVideo
+											<Video
 												src={footageUrl}
 												className="video"
 												style={{transform: `scale(${scale})`}}
 												muted
-											></OffthreadVideo>
+											></Video>
 										</div>
 									</TransitionSeries.Sequence>
 									<TransitionSeries.Transition
