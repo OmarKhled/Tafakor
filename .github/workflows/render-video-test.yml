@@ -1,0 +1,62 @@
+name: Tafakor Video
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - test
+
+jobs:
+  render:
+    name: Render Video
+    runs-on: ubuntu-22.04
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+
+      # Setup Node.js environment
+      - uses: actions/setup-node@v3
+
+      # Setup Bun (JavaScript runtime)
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      # Install system dependencies
+      - name: Install System Dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y \
+          libnss3 \
+          libdbus-1-3 \
+          libatk1.0-0 \
+          liboss4-salsa-asound2 \
+          libxrandr2 \
+          libxkbcommon-dev \
+          libxfixes3 \
+          libxcomposite1 \
+          libxdamage1 \
+          libgbm-dev \
+          libatk-bridge2.0-0 \
+          dbus \
+          chromium-browser
+
+      # Install project dependencies
+      - name: Install Dependencies
+        run: bun install
+
+      # Set environment variables
+      - name: Set Environment Variables
+        run: |
+          touch .env
+          echo "${{ secrets.ENV }}" > .env
+
+      # Render the video
+      - name: Render Video
+        run: npm run pipe
+
+      # Upload the rendered video as an artifact
+      - name: Upload Rendered Video
+        uses: actions/upload-artifact@v3
+        with:
+          name: rendered-video
+          path: out/*.mp4

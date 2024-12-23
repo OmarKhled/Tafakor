@@ -53,6 +53,8 @@ const Verse = ({
 			/(?:\s)?\u06da(?:\s)?|(?:\s)?\u06d6(?:\s)?|(?:\s)?\u06d7(?:\s)?|(?:\s)?\u06d8(?:\s)?|(?:\s)?\u06db(?:\s)?/
 		);
 
+		console.log(segmentsWords);
+
 		segmentsWords = segmentsWords
 			.map((c) =>
 				c.split(' ').length > NUM_OF_WORDS
@@ -68,6 +70,7 @@ const Verse = ({
 			)
 			.flat();
 
+		console.log({segmentsWords});
 		let index = 1;
 		let map: number[][] = segmentsWords.map((seg) => {
 			let f: number[] = seg.split(' ').map((_, i) => i + index);
@@ -163,9 +166,20 @@ const Verse = ({
 		});
 
 		let counter = -1;
+		console.log(map);
 		const segmentsTimings = map.map((segment, i) => {
 			const prevCounter = counter == -1 ? 0 : counter;
 			counter += segment.length;
+
+			console.log(segment);
+
+			console.log({
+				counter,
+				timeSegments,
+				prevCounter,
+				h: timeSegments[prevCounter + 1],
+				f: timeSegments[counter],
+			});
 			return {
 				start:
 					prevCounter == 0
