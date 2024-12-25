@@ -1,6 +1,10 @@
+.ayah-container {
+	flex-direction: column;
+}
+
 .ayah {
 	color: #dfbf8f;
-  font-family: "Lalezar";
+  font-family: "Maidan";
 	text-align: center;
 	margin: 0;
 
@@ -8,7 +12,7 @@
 	gap: 2rem;
 	justify-content: center;
 	align-items: center;
-	font-weight: 500;
+	font-weight: 100;
 
 }
 
@@ -28,11 +32,11 @@
 
 .translation {
 	color: #fff;
-	margin-top: 1rem;
 	font-family: "Poppins";
 	font-weight: 400;
 	text-align: center;
 	margin: 0;
+	margin-top: 1rem;
 }
 
 .translation.rg {

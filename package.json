@@ -16,6 +16,7 @@
 		"@opentf/cli-pbar": "^0.1.8",
 		"@remotion/bundler": "4.0.74",
 		"@remotion/cli": "4.0.74",
+		"@remotion/fonts": "^4.0.243",
 		"@remotion/google-fonts": "4.0.74",
 		"@remotion/lambda": "4.0.74",
 		"@remotion/transitions": "4.0.74",
