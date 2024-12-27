@@ -74,7 +74,7 @@ function BackgroundFill({footageUrl, scale, footageType}: props) {
 									<TransitionSeries.Transition
 										presentation={fade()}
 										key={i + 'trans'}
-										timing={linearTiming({durationInFrames: 30})}
+										timing={linearTiming({durationInFrames: 20})}
 									/>
 								</Fragment>
 							))}
