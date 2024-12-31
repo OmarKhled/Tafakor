@@ -27,7 +27,12 @@ export const getVerseSegments = (
 	englishTranslationWords: string[],
 	displayCounts: number[] = [3]
 ) => {
+	console.log(timeSegments);
+	timeSegments = timeSegments.map((i) => [i[0] + 12, i[1], i[2]]);
+
 	const indexToToken: {[key: number]: string} = {};
+
+	console.log(indexToToken);
 
 	// filtering out filter words
 	filterChars.forEach((filterChar) => {
@@ -53,9 +58,13 @@ export const getVerseSegments = (
 		const [index] = segment;
 
 		let previousIndex = -1;
-		if (index > 0) {
+		if (index - 12 > 0) {
+			console.log(indexToToken[index], index - 12, segmentIndex);
+
 			[previousIndex] = timeSegments[segmentIndex - 1];
 		}
+
+		console.log(segmentIndex, timeSegments[segmentIndex]);
 
 		// console.log(index, indexToToken[index]);
 

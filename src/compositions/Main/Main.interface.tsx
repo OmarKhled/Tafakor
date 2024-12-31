@@ -164,7 +164,7 @@ const Composition: React.FC<z.infer<typeof schema>> = ({
 				englishWords: verse.englishWords,
 				surahNumber: ('00' + verse.surahNumber).slice(-3),
 				active: true,
-				reciter: 'شريف مصطفى',
+				reciter: 'إبراهيم ادريس',
 				scale,
 				outputType,
 				footageType: contentType,
