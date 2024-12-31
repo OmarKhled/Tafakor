@@ -67,7 +67,6 @@ function BackgroundFill({footageUrl, scale, footageType}: props) {
 												src={footageUrl}
 												className="video"
 												style={{transform: `scale(${scale})`}}
-												playbackRate={0.5}
 												muted
 											></Video>
 										</div>

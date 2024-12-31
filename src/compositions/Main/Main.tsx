@@ -85,7 +85,7 @@ const Main: React.FC<z.infer<typeof schema>> = ({
 
 					{/* Recitation Audio */}
 					<Audio
-						src={staticFile('9.wav')}
+						src={staticFile('ibi.wav')}
 						// startFrom={30 * 60 * from}
 						// endAt={30 * 60 * to}
 					></Audio>

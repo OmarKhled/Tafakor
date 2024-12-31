@@ -53,7 +53,7 @@ export const RemotionRoot: React.FC = () => {
 					// 	props.reciterId
 					// );
 
-					const durationInMins = 24.3 / 60;
+					const durationInMins = 44 / 60;
 
 					props.size = SIZES[props.outputType];
 
