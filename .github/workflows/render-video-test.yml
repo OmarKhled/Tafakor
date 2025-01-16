@@ -53,10 +53,3 @@ jobs:
       # Render the video
       - name: Render Video
         run: npm run pipe
-
-      # Upload the rendered video as an artifact
-      - name: Upload Rendered Video
-        uses: actions/upload-artifact@v3
-        with:
-          name: rendered-video
-          path: out/*.mp4
